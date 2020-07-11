@@ -1,10 +1,10 @@
 import React from 'react'
-
-import { ExampleComponent } from 'react-lib-doc'
-import 'react-lib-doc/dist/index.css'
+import { Card } from 'react-lib-doc'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <div>
+    <Card></Card>
+  </div>
 }
 
 export default App

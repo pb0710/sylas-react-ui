@@ -1,5 +1,5 @@
 {
-  "name": "react-lib-doc-example",
+  "name": "sylas-react-ui-example",
   "homepage": ".",
   "version": "0.0.0",
   "private": true,
@@ -21,7 +21,7 @@
     "normalize.css": "^8.0.1",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
-    "react-lib-doc": "link:..",
+    "sylas-react-ui": "link:..",
     "react-scripts": "link:../node_modules/react-scripts",
     "typescript": "link:../node_modules/typescript"
   },

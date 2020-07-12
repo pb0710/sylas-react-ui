@@ -1,8 +1,8 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
-import { useTransition, ITransitionOpts } from 'common/hooks'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { useTransition, ITransitionOpts } from '../../common/hooks'
 
 export interface IRippleProps extends ITransitionOpts {
 	rippleX: number

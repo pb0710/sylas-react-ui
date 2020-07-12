@@ -26,7 +26,7 @@ import {
 	Tag,
 	Select,
 	Form
-} from 'react-lib-doc'
+} from 'sylas-react-ui'
 
 interface IAppProps {}
 

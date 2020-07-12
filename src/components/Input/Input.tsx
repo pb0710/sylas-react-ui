@@ -1,8 +1,8 @@
 import React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { hex2Rgba } from 'utils'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { hex2Rgba } from '../../utils'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import { InputBase } from './baseComponents'
 import SearchBtn from './SearchBtn'
 

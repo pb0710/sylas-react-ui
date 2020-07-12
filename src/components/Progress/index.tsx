@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 
 interface IStyleProps {
 	fixedTop: boolean

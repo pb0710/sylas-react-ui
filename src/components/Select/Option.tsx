@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import { ISelectOption } from './Select'
 
 interface IOptionProps extends React.HTMLAttributes<HTMLElement> {

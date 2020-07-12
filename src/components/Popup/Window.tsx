@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { useTransition, ITransitionOpts } from 'common/hooks'
+import { useTransition, ITransitionOpts } from '../../common/hooks'
 import Paper from '../Paper'
 
 export interface IWindowProps extends ITransitionOpts {

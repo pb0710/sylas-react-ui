@@ -1,8 +1,8 @@
 import React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { hex2Rgba } from 'utils'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { hex2Rgba } from '../../utils'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import { TextAreaBase } from './baseComponents'
 
 export interface ITextAreaProps extends React.HTMLAttributes<HTMLElement> {

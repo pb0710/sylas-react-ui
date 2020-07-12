@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { NavLink } from 'react-router-dom'
 import TouchRipple from '../TouchRipple'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 
 export interface IListItemProps extends React.LiHTMLAttributes<HTMLElement> {
 	className?: string

@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { DownOutlined } from '@ant-design/icons'
 import { TransitionGroup } from 'react-transition-group'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import DropList from './DropList'
 
 export interface ISelectOption {

@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { ThemeNames, IColors, selectColor } from 'common/themeColors'
+import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import ButtonBase from './ButtonBase'
 import TouchRipple from '../TouchRipple'
 

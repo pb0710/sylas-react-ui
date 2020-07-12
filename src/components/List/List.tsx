@@ -37,5 +37,6 @@ const _List: React.FC<IListProps> = props => {
 }
 
 const List = React.memo(_List)
+List.displayName = 'List'
 
 export default List

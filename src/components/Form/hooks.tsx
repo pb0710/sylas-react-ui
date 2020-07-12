@@ -87,8 +87,8 @@ export const useForm = (): IForm => {
 		setErrors(prev => {
 			if (prev.length) {
 				// 数组去重，筛除 name 相同的 error
-				const noRepeatPrev = prev.filter(item => item.name !== error.name)
-				return [...noRepeatPrev, error]
+				const dedupePrev = prev.filter(item => item.name !== error.name)
+				return [...dedupePrev, error]
 			} else {
 				return [error]
 			}

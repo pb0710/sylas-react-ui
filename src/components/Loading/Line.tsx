@@ -62,5 +62,6 @@ const _Line: React.FC<ILineProps> = props => {
 }
 
 const Line = React.memo(_Line)
+Line.displayName = 'Line'
 
 export default Line

@@ -60,5 +60,6 @@ const _Bounce: React.FC<IBounceProps> = props => {
 }
 
 const Bounce = React.memo(_Bounce)
+Bounce.displayName = 'Bounce'
 
 export default Bounce

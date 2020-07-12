@@ -31,3 +31,5 @@ export { default as Select } from './components/Select'
 export { default as TouchRipple } from './components/TouchRipple'
 
 export { default as Form } from './components/Form'
+
+export { default as Menu } from './components/Menu'

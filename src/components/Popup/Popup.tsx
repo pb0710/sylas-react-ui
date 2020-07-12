@@ -20,5 +20,6 @@ const _Popup: React.ForwardRefRenderFunction<unknown, IPopupProps> = (props, ref
 }
 
 const Popup = React.memo(React.forwardRef<unknown, IPopupProps>(_Popup))
+Popup.displayName = 'Popup'
 
 export default Popup

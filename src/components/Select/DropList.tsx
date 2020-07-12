@@ -97,5 +97,6 @@ const _DropList: React.FC<IDropListProps> = props => {
 }
 
 const DropList = React.memo(_DropList)
+DropList.displayName = 'SelectDropList'
 
 export default DropList

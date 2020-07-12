@@ -7,5 +7,6 @@ const _Loading: React.FC<ILoadingProps> = props => {
 }
 
 const Loading = React.memo(_Loading)
+Loading.displayName = 'Loading'
 
 export default Loading

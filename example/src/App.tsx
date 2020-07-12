@@ -25,8 +25,10 @@ import {
 	Switch,
 	Tag,
 	Select,
-	Form
+	Form,
+	Menu
 } from 'sylas-react-ui'
+import { Link } from 'react-router-dom'
 
 interface IAppProps {}
 
@@ -299,12 +301,12 @@ const App: React.FC<IAppProps> = () => {
 				<NavMenu menuOptions={navMap} color="primary" onSelect={hanldeSearch} />
 			</div> */}
 
-			<Select defaultValue="warning" onChange={hanldeSearch}>
+			{/* <Select defaultValue="warning" onChange={hanldeSearch}>
 				<Select.Option value="primary">湛蓝</Select.Option>
 				<Select.Option value="success">碧绿</Select.Option>
 				<Select.Option value="error">粉红</Select.Option>
 				<Select.Option value="warning">橙黄</Select.Option>
-			</Select>
+			</Select> */}
 
 			{/* <Form
 				className={classes.form}
@@ -338,6 +340,12 @@ const App: React.FC<IAppProps> = () => {
 					</div>
 				</Form.Item>
 			</Form> */}
+
+			<Menu color="success" onClick={() => console.log(11111)}>
+				<Menu.Item>导航1</Menu.Item>
+				<Menu.Item>导航2</Menu.Item>
+				<Menu.Item>导航3</Menu.Item>
+			</Menu>
 		</div>
 	)
 }

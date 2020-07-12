@@ -115,5 +115,6 @@ const _ListItem: React.FC<IListItemProps> = props => {
 }
 
 const ListItem = React.memo(_ListItem)
+ListItem.displayName = 'ListItem'
 
 export default ListItem

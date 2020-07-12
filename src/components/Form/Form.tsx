@@ -97,5 +97,6 @@ const _Form: React.FC<IFormProps> = props => {
 }
 
 const Form = React.memo(_Form)
+Form.displayName = 'Form'
 
 export default Form

@@ -105,5 +105,6 @@ const _Ripple: React.FC<IRippleProps> = props => {
 }
 
 const Ripple = React.memo(_Ripple)
+Ripple.displayName = 'Ripple'
 
 export default Ripple

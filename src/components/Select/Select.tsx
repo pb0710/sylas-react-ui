@@ -156,5 +156,6 @@ const _Select: React.FC<ISelectProps> = props => {
 }
 
 const Select = React.memo(_Select)
+Select.displayName = 'Select'
 
 export default Select

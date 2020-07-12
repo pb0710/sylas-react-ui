@@ -73,7 +73,7 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 	const classes = useStyles(stylesProps)
 
 	const customClick = React.useCallback(
-		(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+		(e: React.MouseEvent<HTMLElement>) => {
 			onClick && onClick(e)
 			if (htmlType === IHtmlType.SUBMIT) {
 				submit()

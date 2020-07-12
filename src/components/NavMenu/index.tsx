@@ -199,23 +199,21 @@ const NavMenu: React.FC<INavMenuProps> = props => {
 	}, [])
 
 	return (
-		<Router>
-			<List className={classes.root}>
-				{menuOptions.map((item: IMenuOptions) => {
-					const { id = 0, childs } = item
-					const opened = childOpenStatus[id]
-					const superItem: ISuperItem = { ...item, opened }
-					const subItem: ISubItem = { ...item, opened, superId: id }
+		<List className={classes.root}>
+			{menuOptions.map((item: IMenuOptions) => {
+				const { id = 0, childs } = item
+				const opened = childOpenStatus[id]
+				const superItem: ISuperItem = { ...item, opened }
+				const subItem: ISubItem = { ...item, opened, superId: id }
 
-					return (
-						<React.Fragment key={id}>
-							{renderSuperMenu(superItem)}
-							{childs && renderSubMenu(subItem)}
-						</React.Fragment>
-					)
-				})}
-			</List>
-		</Router>
+				return (
+					<React.Fragment key={id}>
+						{renderSuperMenu(superItem)}
+						{childs && renderSubMenu(subItem)}
+					</React.Fragment>
+				)
+			})}
+		</List>
 	)
 }
 

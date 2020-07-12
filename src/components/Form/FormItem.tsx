@@ -93,5 +93,6 @@ const _FormItem: React.FC<IFormItemProps> = props => {
 }
 
 const FormItem = React.memo(_FormItem)
+FormItem.displayName = 'FormItem'
 
 export default FormItem

@@ -108,5 +108,6 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, ITouchRippleProps> =
 }
 
 const TouchRipple = React.memo(React.forwardRef<unknown, ITouchRippleProps>(_TouchRipple))
+TouchRipple.displayName = 'TouchRipple'
 
 export default TouchRipple

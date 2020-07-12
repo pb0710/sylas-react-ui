@@ -1,7 +1,7 @@
 {
   "name": "sylas-react-ui",
-  "version": "1.0.0",
-  "description": "A React UI libary base on function components and hooks",
+  "version": "1.0.1",
+  "description": "A React UI libary base on typescript,function component and hooks api",
   "author": "pb0710",
   "license": "MIT",
   "main": "dist/index.js",

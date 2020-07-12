@@ -274,7 +274,7 @@ const App: React.FC<IAppProps> = () => {
 				}}
 			/> */}
 
-			<Button.Icon onClick={handleShowPopup}>
+			{/* <Button.Icon onClick={handleShowPopup}>
 				<UserOutlined />
 			</Button.Icon>
 			<Popup ref={popupRef} visible={visible} direction="right-top">
@@ -282,7 +282,7 @@ const App: React.FC<IAppProps> = () => {
 				<Button ref={triggerRef} onClick={handleHidePopup}>
 					按钮
 				</Button>
-			</Popup>
+			</Popup> */}
 
 			{/* <Progress percent={precent} color="error" fixedTop /> */}
 
@@ -299,12 +299,12 @@ const App: React.FC<IAppProps> = () => {
 				<NavMenu menuOptions={navMap} color="primary" onSelect={hanldeSearch} />
 			</div> */}
 
-			{/* <Select defaultValue="warning" onChange={hanldeSearch}>
+			<Select defaultValue="warning" onChange={hanldeSearch}>
 				<Select.Option value="primary">湛蓝</Select.Option>
 				<Select.Option value="success">碧绿</Select.Option>
 				<Select.Option value="error">粉红</Select.Option>
 				<Select.Option value="warning">橙黄</Select.Option>
-			</Select> */}
+			</Select>
 
 			{/* <Form
 				className={classes.form}

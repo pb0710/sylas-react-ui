@@ -4,8 +4,29 @@ import clsx from 'clsx'
 import { useTransition, ITransitionOpts } from '../../common/hooks'
 import Paper from '../Paper'
 
+export enum Direction {
+	CENTER = 'center',
+	TOP = 'top',
+	RIGHT = 'right',
+	BOTTOM = 'bottom',
+	LEFT = 'left',
+	LEFT_TOP = 'left-top',
+	LEFT_BOTTOM = 'left-bottom',
+	RIGHT_TOP = 'right-top',
+	RIGHT_BOTTOM = 'right-bottom',
+	BOTTOM_LEFT = 'bottom-left',
+	BOTTOM_RIGHT = 'bottom-right',
+	TOP_LEFT = 'top-left',
+	TOP_RIGHT = 'top-right'
+}
+
 export interface IWindowProps extends ITransitionOpts {
 	className?: string
+	direction?: Direction
+}
+
+export interface IStyleProps {
+	direction: string
 }
 
 const useStyles = makeStyles(
@@ -17,36 +38,34 @@ const useStyles = makeStyles(
 			color: '#303133',
 			boxShadow: '0 4px 24px rgba(26,26,26,.14)',
 			position: 'fixed',
-			userSelect: 'none'
+			userSelect: 'none',
+			transformOrigin: ({ direction }: IStyleProps) => direction?.replace('-', ' '),
+			zIndex: 999
 		},
 		enter: {
-			animation: '$enter 200ms ease-out forwards'
+			animation: '$kf_enter 200ms ease-out forwards'
 		},
 		leave: {
-			animation: '$leave 150ms ease-out forwards'
+			animation: '$kf_leave 150ms ease-out forwards'
 		},
-		'@keyframes enter': {
+		'@keyframes kf_enter': {
 			'0%': {
-				zIndex: -1,
 				opacity: 0,
-				transform: 'translateY(32px)'
+				transform: 'scale(.9)'
 			},
 			'100%': {
-				zIndex: 999,
 				opacity: 1,
-				transform: 'translateY(0)'
+				transform: 'scale(1)'
 			}
 		},
-		'@keyframes leave': {
-			from: {
-				zIndex: 999,
+		'@keyframes kf_leave': {
+			'0%': {
 				opacity: 1,
-				transform: 'translateY(0)'
+				transform: 'scale(1)'
 			},
-			to: {
-				zIndex: -1,
+			'100%': {
 				opacity: 0,
-				transform: 'translateY(32px)'
+				transform: 'scale(.9)'
 			}
 		}
 	})
@@ -56,13 +75,14 @@ const _Window: React.ForwardRefRenderFunction<unknown, IWindowProps> = (props, r
 	const {
 		children,
 		className,
+		direction = Direction.CENTER,
 		timeout = 150,
 		in: inProp,
 		onExited = () => {},
 		...restProps
 	} = props
 
-	const classes = useStyles()
+	const classes = useStyles({ direction } as IStyleProps)
 
 	useTransition({ in: inProp, onExited, timeout })
 

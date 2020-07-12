@@ -140,13 +140,13 @@ const App: React.FC<IAppProps> = () => {
 
 	const form = Form.useForm()
 
-	// const {
-	// 	triggerRef,
-	// 	popupRef,
-	// 	visible,
-	// 	handleShowPopup,
-	// 	handleHidePopup
-	// } = Popup.usePopupVisible()
+	const {
+		triggerRef,
+		popupRef,
+		visible,
+		handleShowPopup,
+		handleHidePopup
+	} = Popup.usePopupVisible()
 
 	// const [visible, setVisible] = useState<boolean>(false)
 
@@ -274,15 +274,15 @@ const App: React.FC<IAppProps> = () => {
 				}}
 			/> */}
 
-			{/* <Button.Icon onClick={handleShowPopup}>
+			<Button.Icon onClick={handleShowPopup}>
 				<UserOutlined />
 			</Button.Icon>
-			<Popup ref={popupRef} visible={visible}>
+			<Popup ref={popupRef} visible={visible} direction="right-top">
 				test
 				<Button ref={triggerRef} onClick={handleHidePopup}>
 					按钮
 				</Button>
-			</Popup> */}
+			</Popup>
 
 			{/* <Progress percent={precent} color="error" fixedTop /> */}
 
@@ -306,7 +306,7 @@ const App: React.FC<IAppProps> = () => {
 				<Select.Option value="warning">橙黄</Select.Option>
 			</Select> */}
 
-			<Form
+			{/* <Form
 				className={classes.form}
 				form={form}
 				initialValues={{ input: 'Test form set value' }}
@@ -337,7 +337,7 @@ const App: React.FC<IAppProps> = () => {
 						</Button>
 					</div>
 				</Form.Item>
-			</Form>
+			</Form> */}
 		</div>
 	)
 }

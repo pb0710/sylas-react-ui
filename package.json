@@ -61,6 +61,10 @@
     "dist"
   ],
   "dependencies": {
-    "@material-ui/styles": "^4.10.0"
+    "@ant-design/icons": "^4.2.1",
+    "@material-ui/styles": "^4.10.0",
+    "clsx": "^1.1.1",
+    "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1"
   }
 }

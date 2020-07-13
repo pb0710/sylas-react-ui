@@ -9,7 +9,7 @@ interface ITagProps extends React.HTMLAttributes<HTMLElement> {
 	color?: string
 	bordered?: boolean
 	closeable?: boolean
-	onClose?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
+	onClose?: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 interface IStyleProps {
@@ -31,22 +31,22 @@ const useStyles = makeStyles(
 			padding: '0 4px',
 			border: bordered ? `1px solid ${color.bright}` : 0,
 			borderRadius: 4,
-			cursor: 'default',
+			cursor: 'default'
+		}),
+		close: {
+			display: 'flex',
+			alignItems: 'center',
+			height: '100%',
+			fontSize: 10,
+			marginLeft: 4,
+			outline: 0,
+			cursor: 'pointer',
+			transition: 'color 250ms',
 
-			'&>i': {
-				display: 'flex',
-				alignItems: 'center',
-				height: '100%',
-				fontSize: 10,
-				marginLeft: 4,
-				cursor: 'pointer',
-				transition: 'color 250ms',
-
-				'&:hover': {
-					color: color.dim
-				}
+			'&:hover': {
+				color: ({ color }: IStyleProps) => color.dim
 			}
-		})
+		}
 	})
 )
 
@@ -70,11 +70,7 @@ const _Tag: React.FC<ITagProps> = props => {
 	return (
 		<div className={tagCls}>
 			{children}
-			{closeable && (
-				<i onClick={onClose}>
-					<CloseOutlined />
-				</i>
-			)}
+			{closeable && <CloseOutlined className={classes.close} onClick={onClose} />}
 		</div>
 	)
 }

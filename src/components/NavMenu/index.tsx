@@ -5,7 +5,6 @@ import { CaretDownFilled } from '@ant-design/icons'
 import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import Collapse from '../Collapse'
 import List from '../List'
-import { BrowserRouter as Router } from 'react-router-dom'
 
 interface INavMenuProps {
 	color?: string

@@ -9,9 +9,9 @@ export interface IListItemProps extends React.LiHTMLAttributes<HTMLElement> {
 	className?: string
 	activeClassName?: string
 	bordered?: boolean
-	rippleMuted?: boolean
+	ripple?: boolean
 	hovered?: boolean
-	onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void | null
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void | null
 	color?: string
 	textColor?: string
 	to?: string
@@ -69,7 +69,7 @@ const _ListItem: React.FC<IListItemProps> = props => {
 		className,
 		activeClassName = '',
 		bordered = true,
-		rippleMuted = false,
+		ripple = false,
 		hovered = false,
 		onClick = null,
 		color = ThemeNames.DEFAULT,
@@ -86,7 +86,7 @@ const _ListItem: React.FC<IListItemProps> = props => {
 	}
 	const classes = useStyles(styleProps)
 
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(rippleMuted)
+	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(!ripple)
 
 	// 公用props
 	const commonProps = {

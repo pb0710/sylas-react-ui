@@ -29,6 +29,21 @@ import {
 	Menu
 } from 'sylas-react-ui'
 import { Link } from 'react-router-dom'
+export enum ScaleOrigin {
+	CENTER = 'center',
+	TOP = 'top',
+	RIGHT = 'right',
+	BOTTOM = 'bottom',
+	LEFT = 'left',
+	LEFT_TOP = 'left-top',
+	LEFT_BOTTOM = 'left-bottom',
+	RIGHT_TOP = 'right-top',
+	RIGHT_BOTTOM = 'right-bottom',
+	BOTTOM_LEFT = 'bottom-left',
+	BOTTOM_RIGHT = 'bottom-right',
+	TOP_LEFT = 'top-left',
+	TOP_RIGHT = 'top-right'
+}
 
 interface IAppProps {}
 
@@ -279,7 +294,7 @@ const App: React.FC<IAppProps> = () => {
 			{/* <Button.Icon onClick={handleShowPopup}>
 				<UserOutlined />
 			</Button.Icon>
-			<Popup ref={popupRef} visible={visible} direction="right-top">
+			<Popup ref={popupRef} visible={visible} scaleOrigin="right-top">
 				test
 				<Button ref={triggerRef} onClick={handleHidePopup}>
 					按钮
@@ -341,11 +356,19 @@ const App: React.FC<IAppProps> = () => {
 				</Form.Item>
 			</Form> */}
 
-			<Menu color="success" onClick={() => console.log(11111)}>
+			{/* <Menu color="success" onClick={() => console.log(11111)}>
 				<Menu.Item>导航1</Menu.Item>
 				<Menu.Item>导航2</Menu.Item>
 				<Menu.Item>导航3</Menu.Item>
-			</Menu>
+			</Menu> */}
+
+			{/* <Input.Search placeholder="123123" />
+			<Input.Password placeholder="66666" />
+			<Input.TextArea /> */}
+
+			{/* <Tag bordered closeable onClose={() => console.log(123)}>
+				标签测试
+			</Tag> */}
 		</div>
 	)
 }

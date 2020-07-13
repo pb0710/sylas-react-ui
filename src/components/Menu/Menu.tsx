@@ -8,7 +8,7 @@ export interface IMenuProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
 	paddingLeft?: number
-	onSelected?: (id?: string) => void
+	onSelected?: (id?: string) => void | null
 }
 
 export interface IStyleProps {}
@@ -26,18 +26,12 @@ const useStyles = makeStyles(
 )
 
 const _Menu: React.FC<IMenuProps> = props => {
-	const {
-		children,
-		className,
-		color = ThemeNames.PRIMARY,
-		onSelected = () => {},
-		...restProps
-	} = props
+	const { children, className, color = ThemeNames.PRIMARY, onSelected = null, ...restProps } = props
 
 	const classes = useStyles()
 
 	const handleSelect = (e: React.MouseEvent<HTMLElement>) => {
-		onSelected()
+		onSelected && onSelected()
 		console.log(e.target)
 	}
 

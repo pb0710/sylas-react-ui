@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { useTransition, ITransitionOpts } from '../../common/hooks'
 import Paper from '../Paper'
 
-export enum Direction {
+export enum ScaleOrigin {
 	CENTER = 'center',
 	TOP = 'top',
 	RIGHT = 'right',
@@ -22,11 +22,11 @@ export enum Direction {
 
 export interface IWindowProps extends ITransitionOpts {
 	className?: string
-	direction?: Direction
+	scaleOrigin?: ScaleOrigin
 }
 
 export interface IStyleProps {
-	direction: string
+	scaleOrigin: string
 }
 
 const useStyles = makeStyles(
@@ -37,9 +37,9 @@ const useStyles = makeStyles(
 			fontSize: 14,
 			color: '#303133',
 			boxShadow: '0 4px 24px rgba(26,26,26,.14)',
+			transformOrigin: ({ scaleOrigin }: IStyleProps) => scaleOrigin?.replace('-', ' '),
 			position: 'fixed',
 			userSelect: 'none',
-			transformOrigin: ({ direction }: IStyleProps) => direction?.replace('-', ' '),
 			zIndex: 999
 		},
 		enter: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles(
 		'@keyframes kf_enter': {
 			'0%': {
 				opacity: 0,
-				transform: 'scale(.9)'
+				transform: 'scale(.8)'
 			},
 			'100%': {
 				opacity: 1,
@@ -65,7 +65,7 @@ const useStyles = makeStyles(
 			},
 			'100%': {
 				opacity: 0,
-				transform: 'scale(.9)'
+				transform: 'scale(.8)'
 			}
 		}
 	})
@@ -75,14 +75,14 @@ const _Window: React.ForwardRefRenderFunction<unknown, IWindowProps> = (props, r
 	const {
 		children,
 		className,
-		direction = Direction.CENTER,
+		scaleOrigin = ScaleOrigin.CENTER,
 		timeout = 150,
 		in: inProp,
 		onExited = () => {},
 		...restProps
 	} = props
 
-	const classes = useStyles({ direction } as IStyleProps)
+	const classes = useStyles({ scaleOrigin } as IStyleProps)
 
 	useTransition({ in: inProp, onExited, timeout })
 

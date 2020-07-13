@@ -7,7 +7,7 @@ import List from '../List'
 export interface IMenuItemProps extends React.LiHTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
-	handleSelect?: (e: React.MouseEvent<HTMLElement>) => void
+	onSelect?: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 export interface IStyleProps {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(
 )
 
 const _MenuItem: React.FC<IMenuItemProps> = props => {
-	const { children, className, color = ThemeNames.PRIMARY, handleSelect } = props
+	const { children, className, color = ThemeNames.PRIMARY, onSelect } = props
 
 	const styleProps: IStyleProps = { color: selectColor(color) }
 	const classes = useStyles(styleProps)
@@ -35,7 +35,7 @@ const _MenuItem: React.FC<IMenuItemProps> = props => {
 	const menuItemCls = clsx(classes.root, className)
 
 	return (
-		<List.Item className={menuItemCls} hovered bordered={false} onClick={handleSelect}>
+		<List.Item className={menuItemCls} hovered ripple bordered={false} onClick={onSelect}>
 			{children}
 		</List.Item>
 	)

@@ -14,7 +14,7 @@ const baseStyles: any = {
 	border: `1px solid #d9d9d9`,
 	transition: 'box-shadow 250ms ease-out, border 250ms ease-out',
 	'&::placeholder': {
-		color: '#aaa'
+		color: '#909399'
 	}
 }
 

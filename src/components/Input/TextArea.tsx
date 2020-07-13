@@ -51,7 +51,7 @@ const useStyles = makeStyles(
 		textarea: ({ color, focus, disabled }: IStyleProps) => ({
 			paddingRight: 8,
 			border: `1px solid ${focus ? color.main : '#e5e5e5'}`,
-			boxShadow: `0 0 0 ${focus ? '2px' : '6px'} ${hex2Rgba(color.main, focus ? 0.7 : 0)}`,
+			boxShadow: `0 0 0 ${focus ? 2 : 8}px ${hex2Rgba(color.main, focus ? 0.7 : 0)}`,
 			opacity: disabled ? 0.5 : 1,
 			cursor: disabled ? 'not-allowed' : 'default'
 		})

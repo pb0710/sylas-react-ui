@@ -1,10 +1,11 @@
 import React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 import { hex2Rgba } from '../../utils'
 import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
 import { InputBase } from './baseComponents'
-import SearchBtn from './SearchBtn'
+import SuffixBtn from './SuffixBtn'
 
 export interface IInputProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
@@ -33,7 +34,7 @@ interface IFocus {
 	(event: React.FocusEvent<HTMLElement>): void
 }
 
-enum InputTypes {
+export enum InputTypes {
 	TEXT = 'text',
 	PASSWORD = 'password',
 	SEARCH = 'search'
@@ -53,12 +54,12 @@ const useStyles = makeStyles(
 		input: ({ color, focus, disabled, error, type }: IStyleProps) => {
 			const errorColor = selectColor(ThemeNames.ERROR)
 			const bdColor = error ? errorColor.main : focus ? color.main : '#d9d9d9'
-			const bdWidth = focus ? '2px' : '6px'
+			const bxsWidth = focus ? 2 : 8
 			const bxsColor = hex2Rgba(error ? errorColor.main : color.main, focus ? 0.7 : 0)
 			return {
 				paddingRight: type === InputTypes.SEARCH ? 32 : 8,
 				border: `1px solid ${bdColor}`,
-				boxShadow: `0 0 0 ${bdWidth} ${bxsColor}`,
+				boxShadow: `0 0 0 ${bxsWidth}px ${bxsColor}`,
 				opacity: disabled ? 0.5 : 1,
 				cursor: disabled ? 'not-allowed' : 'default'
 			}
@@ -86,6 +87,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 
 	const [inputVal, setInputVal] = React.useState<string>('')
 	const [focus, setFocus] = React.useState<boolean>(false)
+	const [invisible, setInvisible] = React.useState<boolean>(true)
 
 	const styleProps: IStyleProps = { type, focus, disabled, error, color: selectColor(color) }
 	const classes = useStyles(styleProps)
@@ -128,13 +130,31 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 		[inputVal, onSearch]
 	)
 
+	const handleTogglePrivate = () => {
+		setInvisible(prev => !prev)
+	}
+
 	React.useEffect(() => {
 		setInputVal(value)
 	}, [value])
 
-	const suffix = type === InputTypes.SEARCH && (
-		<SearchBtn onSearch={handleSearch} enterButton={enterButton} />
-	)
+	const renderSuffix = () => {
+		switch (type) {
+			case InputTypes.SEARCH:
+				return <SuffixBtn onClick={handleSearch}>{enterButton}</SuffixBtn>
+			case InputTypes.PASSWORD:
+				return (
+					<SuffixBtn onClick={handleTogglePrivate}>
+						{invisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+					</SuffixBtn>
+				)
+			default:
+				return
+		}
+	}
+
+	const inputType =
+		type === InputTypes.PASSWORD ? (invisible ? type : InputTypes.TEXT) : InputTypes.TEXT
 
 	const containerCls = clsx(classes.root, className)
 	const inputCls = clsx(classes.input, inputClassName)
@@ -144,7 +164,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 			<InputBase
 				{...restProps}
 				className={inputCls}
-				type={type === InputTypes.PASSWORD ? type : InputTypes.TEXT}
+				type={inputType}
 				onFocus={handleInputFocus}
 				onBlur={handleInputBlur}
 				onKeyDown={handleKeyDown}
@@ -154,7 +174,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 				disabled={disabled}
 				placeholder={placeholder}
 			/>
-			{suffix}
+			{renderSuffix()}
 		</div>
 	)
 }

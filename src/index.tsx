@@ -16,8 +16,6 @@ export { default as Paper } from './components/Paper'
 
 export { default as GroundGlass } from './components/GroundGlass'
 
-export { default as Link } from './components/Link'
-
 export { default as Popup } from './components/Popup'
 
 export { default as Progress } from './components/Progress'

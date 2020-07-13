@@ -1,11 +1,11 @@
 import React from 'react'
 import { TransitionGroup } from 'react-transition-group'
 import _ from 'lodash'
-import Window, { Direction } from './Window'
+import Window from './Window'
 
 export interface IPopupProps extends React.RefAttributes<HTMLElement> {
 	visible?: boolean
-	direction?: Direction
+	scaleOrigin?: string
 }
 
 const _Popup: React.ForwardRefRenderFunction<unknown, IPopupProps> = (props, ref) => {

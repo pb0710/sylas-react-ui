@@ -1,15 +1,15 @@
 import React from 'react'
 import _Button, { IButtonProps } from './Button'
-import _IconButton from './IconButton'
+import IconButton from './IconButton'
 
 interface IButtonExports
 	extends React.MemoExoticComponent<
 		React.ForwardRefExoticComponent<IButtonProps & React.RefAttributes<HTMLElement>>
 	> {
-	Icon: typeof _IconButton
+	Icon: typeof IconButton
 }
 
 const Button = _Button as IButtonExports
-Button.Icon = _IconButton
+Button.Icon = IconButton
 
 export default Button

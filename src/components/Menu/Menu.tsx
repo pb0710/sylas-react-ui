@@ -13,38 +13,78 @@ export interface IMenuProps extends React.HTMLAttributes<HTMLElement> {
 
 export interface IStyleProps {}
 
+export interface IItems {
+	[key: string]: boolean
+}
+
+export interface IMenuCtx {
+	syncMenuItem: (id: string) => void
+	onSelected: (id: string) => void
+	items: IItems
+}
+
 const useStyles = makeStyles(
 	createStyles({
 		root: {
 			width: '100%',
 			fontSize: 14,
-			overflowY: 'auto',
 			cursor: 'pointer',
 			userSelect: 'none'
 		}
 	})
 )
 
+const defaultCtx: IMenuCtx = {
+	syncMenuItem(id) {},
+	onSelected(id) {},
+	items: {}
+}
+
+export const MenuContext = React.createContext(defaultCtx)
+
 const _Menu: React.FC<IMenuProps> = props => {
-	const { children, className, color = ThemeNames.PRIMARY, onSelected = null, ...restProps } = props
+	const {
+		children,
+		className,
+		color = ThemeNames.PRIMARY,
+		onSelected = () => {},
+		...restProps
+	} = props
+
+	const [items, setItems] = React.useState<IItems>({})
 
 	const classes = useStyles()
 
-	const handleSelect = (e: React.MouseEvent<HTMLElement>) => {
-		onSelected && onSelected()
-		console.log(e.target)
+	const syncMenuItem = (id: string) => {
+		id && setItems(prev => ({ ...prev, [id]: false }))
 	}
+
+	const onCustomSelected = React.useCallback(
+		id => {
+			onSelected(id)
+			setItems(prev => {
+				const res = {}
+				for (const key in prev) {
+					if (prev.hasOwnProperty(key)) {
+						res[key] = key === id
+					}
+				}
+				return res
+			})
+		},
+		[onSelected]
+	)
+
+	const menuCtx = { color, syncMenuItem, items, onSelected: onCustomSelected }
 
 	const menuCls = clsx(classes.root, className)
 
 	return (
-		<List {...restProps} className={menuCls}>
-			{React.Children.map(children, (child: JSX.Element) =>
-				child?.type?.displayName === 'MenuItem'
-					? React.cloneElement(child, { color, handleSelect })
-					: child
-			)}
-		</List>
+		<MenuContext.Provider value={menuCtx}>
+			<List {...restProps} className={menuCls}>
+				{children}
+			</List>
+		</MenuContext.Provider>
 	)
 }
 

@@ -10,8 +10,6 @@ export { default as List } from './components/List'
 
 export { default as Loading } from './components/Loading'
 
-export { default as NavMenu } from './components/NavMenu'
-
 export { default as Paper } from './components/Paper'
 
 export { default as GroundGlass } from './components/GroundGlass'

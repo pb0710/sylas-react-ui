@@ -8,17 +8,26 @@ interface ICollpaseProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 interface IStyleProps {
-	containerHeight: string | number
+	visible: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
-			height: ({ containerHeight }: IStyleProps) => containerHeight,
-			minHeight: 0,
-			transition: 'height 250ms ease-out',
-			overflow: 'hidden'
-		},
+		root: ({ visible }: IStyleProps) => ({
+			overflow: 'hidden',
+			transition: 'max-height .4s cubic-bezier(0, 1, 0, 1) -.1s',
+			// 因为 height 的 auto 到 0 不会触发transition，所以用 max-height 代替，需动态调整 cubic-bezier
+			...(visible
+				? {
+						// 确保高度不超过 1600px 即可
+						maxHeight: 1600,
+						transitionTimingFunction: 'cubic-bezier(0.5, 0, 1, 0)',
+						transitionDelay: '0s'
+				  }
+				: {
+						maxHeight: 0
+				  })
+		}),
 		wrapper: {
 			paddingTop: 8,
 			paddingBottom: 8
@@ -29,32 +38,12 @@ const useStyles = makeStyles(
 const _Collapse: React.FC<ICollpaseProps> = props => {
 	const { children, className, visible = false, ...restProps } = props
 
-	const containerRef = React.useRef<any>()
-	const [initialHeight, setinitialHeight] = React.useState<number>(0)
-
-	const containerHeight = React.useMemo(() => (visible ? initialHeight : 0), [
-		visible,
-		initialHeight
-	])
-
-	React.useEffect(() => {
-		const element = containerRef.current
-		const firstChild = element?.children?.[0]
-
-		if (firstChild) {
-			// 获取collapse子元素高度
-			const childHeight: number = firstChild.offsetHeight
-			setinitialHeight(childHeight)
-		}
-	}, [])
-
-	const styleProps: IStyleProps = { containerHeight }
-	const classes = useStyles(styleProps)
+	const classes = useStyles({ visible } as IStyleProps)
 
 	const containerCls = clsx(classes.root, className)
 
 	return (
-		<div {...restProps} ref={containerRef as any} className={containerCls}>
+		<div {...restProps} className={containerCls}>
 			<div className={classes.wrapper}>{children}</div>
 		</div>
 	)

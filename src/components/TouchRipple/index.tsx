@@ -11,6 +11,4 @@ interface ITouchRippleExports
 const TouchRipple = _TouchRipple as ITouchRippleExports
 TouchRipple.useRipple = useRipple
 
-TouchRipple.displayName = 'TouchRipple'
-
 export default TouchRipple

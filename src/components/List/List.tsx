@@ -30,10 +30,14 @@ const useStyles = makeStyles(
 )
 
 const _List: React.FC<IListProps> = props => {
-	const { children, className, bordered = false } = props
+	const { children, className, bordered = false, ...restProps } = props
 	const classes = useStyles({ bordered })
 	const ulCls = clsx(classes.list, className)
-	return <ul className={ulCls}>{children}</ul>
+	return (
+		<ul {...restProps} className={ulCls}>
+			{children}
+		</ul>
+	)
 }
 
 const List = React.memo(_List)

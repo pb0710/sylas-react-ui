@@ -92,6 +92,6 @@ const _Option: React.FC<IOptionProps> = props => {
 }
 
 const Option = React.memo(_Option)
-Option.displayName = 'SelectOption'
+Option.displayName = 'Option'
 
 export default Option

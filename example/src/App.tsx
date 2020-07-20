@@ -18,7 +18,6 @@ import {
 	Input,
 	Divider,
 	Loading,
-	NavMenu,
 	Collapse,
 	Progress,
 	Popup,
@@ -28,7 +27,7 @@ import {
 	Form,
 	Menu
 } from 'sylas-react-ui'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 export enum ScaleOrigin {
 	CENTER = 'center',
 	TOP = 'top',
@@ -52,7 +51,7 @@ const useStyles = makeStyles(
 		app: {
 			display: 'flex',
 			justifyContent: 'center',
-			alignItems: 'center',
+			// alignItems: 'center',
 			width: '100vw',
 			height: '100vh'
 		},
@@ -157,15 +156,15 @@ const App: React.FC<IAppProps> = () => {
 
 	const form = Form.useForm()
 
-	const {
-		triggerRef,
-		popupRef,
-		visible,
-		handleShowPopup,
-		handleHidePopup
-	} = Popup.usePopupVisible()
+	// const {
+	// 	triggerRef,
+	// 	popupRef,
+	// 	visible,
+	// 	handleShowPopup,
+	// 	handleHidePopup
+	// } = Popup.usePopupVisible()
 
-	// const [visible, setVisible] = useState<boolean>(false)
+	const [visible, setVisible] = React.useState<boolean>(false)
 
 	const handleConsole = () => {
 		console.log('Hello')
@@ -204,9 +203,9 @@ const App: React.FC<IAppProps> = () => {
 	// 	}, 1000)
 	// }, [])
 
-	// const handleToggleCollapse = () => {
-	// 	setVisible(prev => !prev)
-	// }
+	const handleToggleCollapse = () => {
+		setVisible(prev => !prev)
+	}
 
 	const handleFinished = values => {
 		console.log('handleFinished: ', values)
@@ -356,11 +355,27 @@ const App: React.FC<IAppProps> = () => {
 				</Form.Item>
 			</Form> */}
 
-			{/* <Menu color="success" onClick={() => console.log(11111)}>
-				<Menu.Item>导航1</Menu.Item>
-				<Menu.Item>导航2</Menu.Item>
-				<Menu.Item>导航3</Menu.Item>
-			</Menu> */}
+			<Menu color="success" onSelected={console.log}>
+				<Link to="/">
+					<Menu.Item id="0">导航0</Menu.Item>
+				</Link>
+				<Menu.Item id="1">导航1</Menu.Item>
+				<Menu.SubMenu title="子菜单1">
+					<Link to="/">
+						<Menu.Item id="2">导航2</Menu.Item>
+					</Link>
+					<Menu.Item id="3">导航3</Menu.Item>
+					<Menu.Item id="4">导航4</Menu.Item>
+					<Menu.SubMenu title="子菜单2">
+						<Menu.Item id="5">导航5</Menu.Item>
+						<Menu.Item id="6">导航6</Menu.Item>
+						<Menu.Item id="7">导航7</Menu.Item>
+					</Menu.SubMenu>
+				</Menu.SubMenu>
+				<Menu.Item id="8">导航8</Menu.Item>
+				<Menu.Item id="9">导航9</Menu.Item>
+				<Menu.Item id="10">导航10</Menu.Item>
+			</Menu>
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

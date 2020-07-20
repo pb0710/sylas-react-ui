@@ -1,11 +1,11 @@
 import _List, { IListProps } from './List'
-import _ListItem from './ListItem'
+import ListItem from './ListItem'
 
 interface IListExports extends React.MemoExoticComponent<React.FC<IListProps>> {
-	Item: typeof _ListItem
+	Item: typeof ListItem
 }
 
 const List = _List as IListExports
-List.Item = _ListItem
+List.Item = ListItem
 
 export default List

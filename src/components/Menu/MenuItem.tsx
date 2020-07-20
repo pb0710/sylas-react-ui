@@ -1,41 +1,59 @@
 import React from 'react'
-import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import clsx from 'clsx'
 import List from '../List'
+import { IListItemProps } from '../List/ListItem'
+import { MenuContext } from './Menu'
+import { selectColor, ThemeNames, IColors } from '../../common/themeColors'
 
-export interface IMenuItemProps extends React.LiHTMLAttributes<HTMLElement> {
+export interface IMenuItemProps extends IListItemProps {
 	className?: string
+	id: string
 	color?: string
-	onSelect?: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-export interface IStyleProps {
+interface IStyleProps {
+	selected: boolean
 	color: IColors
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
-			width: '100%',
-			fontSize: 14,
-			overflowY: 'auto',
-			cursor: 'pointer',
-			userSelect: 'none'
+		root: ({ color, selected }: IStyleProps) => {
+			const textColor = selected ? color.main : '#303133'
+			return {
+				color: textColor,
+
+				'&:hover': {
+					color: textColor
+				}
+			}
 		}
 	})
 )
 
 const _MenuItem: React.FC<IMenuItemProps> = props => {
-	const { children, className, color = ThemeNames.PRIMARY, onSelect } = props
+	const { children, className, id, color = ThemeNames.PRIMARY } = props
 
-	const styleProps: IStyleProps = { color: selectColor(color) }
+	const ctxProps = React.useContext(MenuContext)
+	const { syncMenuItem, onSelected, items } = ctxProps
+
+	const selected: boolean = items[id]
+
+	const styleProps: IStyleProps = { selected, color: selectColor(color) }
 	const classes = useStyles(styleProps)
+
+	const handleSelect = () => (id && onSelected ? onSelected(id) : null)
+
+	React.useEffect(() => {
+		syncMenuItem(id)
+		// context state 不必放入 deps
+	}, [])
 
 	const menuItemCls = clsx(classes.root, className)
 
 	return (
-		<List.Item className={menuItemCls} hovered ripple bordered={false} onClick={onSelect}>
+		<List.Item className={menuItemCls} hovered ripple bordered={false} onClick={handleSelect}>
 			{children}
 		</List.Item>
 	)

@@ -407,20 +407,6 @@ const App: React.FC<IAppProps> = () => {
 					导航10
 				</Menu.Item>
 			</Menu>
-			<List bordered>
-				<List.Item hovered ripple>
-					sdfdsff
-				</List.Item>
-				<List.Item hovered ripple>
-					sdfdsff
-				</List.Item>
-				<List.Item hovered ripple>
-					sdfdsff
-				</List.Item>
-				<List.Item hovered ripple>
-					sdfdsff
-				</List.Item>
-			</List>
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

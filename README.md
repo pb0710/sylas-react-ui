@@ -20,6 +20,28 @@ yarn add sylas-react-ui
 
 ## Usage
 
+At first, used JSSBaseline to wrap your root App component up.
+JSSBaseline had provided normalize css,and jss inject first -- it is necessary for customize className overwirte.
+
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+import App from './App'
+import { JSSBaseline } from 'sylas-react-ui'
+
+ReactDOM.render(
+	<React.StrictMode>
+		<JSSBaseline>
+			<App />
+		</JSSBaseline>
+	</React.StrictMode>,
+	document.getElementById('root')
+)
+```
+
+then, you can import some Components from sylas-react-ui
+
 ```tsx
 import React, { Component } from 'react'
 
@@ -46,6 +68,7 @@ function Example() {
 
 ### components list
 
+- JSSBaseline
 - Button
 - Button.Icon
 - Collapse
@@ -61,6 +84,7 @@ function Example() {
 - Loading.Bounce
 - Loading.Line
 - Menu
+- Menu.SubMenu
 - Menu.Item
 - Paper
 - Popup
@@ -70,6 +94,11 @@ function Example() {
 - Switch
 - Tag
 - TouchRipple
+
+### props api
+
+It will be added later...
+Currently recommended to view the source code
 
 ### hooks api
 

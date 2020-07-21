@@ -165,15 +165,15 @@ const App: React.FC<IAppProps> = () => {
 
 	const form = Form.useForm()
 
-	// const {
-	// 	triggerRef,
-	// 	popupRef,
-	// 	visible,
-	// 	handleShowPopup,
-	// 	handleHidePopup
-	// } = Popup.usePopupVisible()
+	const {
+		triggerRef,
+		popupRef,
+		visible,
+		handleShowPopup,
+		handleHidePopup
+	} = Popup.usePopupVisible()
 
-	const [visible, setVisible] = React.useState<boolean>(false)
+	// const [visible, setVisible] = React.useState<boolean>(false)
 
 	const handleConsole = () => {
 		console.log('Hello')
@@ -212,9 +212,9 @@ const App: React.FC<IAppProps> = () => {
 	// 	}, 1000)
 	// }, [])
 
-	const handleToggleCollapse = () => {
-		setVisible(prev => !prev)
-	}
+	// const handleToggleCollapse = () => {
+	// 	setVisible(prev => !prev)
+	// }
 
 	const handleFinished = values => {
 		console.log('handleFinished: ', values)
@@ -299,7 +299,7 @@ const App: React.FC<IAppProps> = () => {
 				}}
 			/> */}
 
-			{/* <Button.Icon onClick={handleShowPopup}>
+			<Button.Icon onClick={handleShowPopup}>
 				<UserOutlined />
 			</Button.Icon>
 			<Popup ref={popupRef} visible={visible} scaleOrigin="right-top">
@@ -307,7 +307,7 @@ const App: React.FC<IAppProps> = () => {
 				<Button ref={triggerRef} onClick={handleHidePopup}>
 					按钮
 				</Button>
-			</Popup> */}
+			</Popup>
 
 			{/* <Progress percent={precent} color="error" fixedTop /> */}
 
@@ -363,7 +363,7 @@ const App: React.FC<IAppProps> = () => {
 					</div>
 				</Form.Item>
 			</Form> */}
-
+			{/* 
 			<Menu color="success" onSelected={console.log}>
 				<Link to="/">
 					<Menu.Item className={classes.menu1} id="0">
@@ -406,7 +406,7 @@ const App: React.FC<IAppProps> = () => {
 				<Menu.Item className={classes.menu1} id="10">
 					导航10
 				</Menu.Item>
-			</Menu>
+			</Menu> */}
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

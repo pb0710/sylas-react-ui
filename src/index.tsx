@@ -1,4 +1,4 @@
-export { default as StylesProvider } from './components/StylesProvider'
+export { default as JSSBaseline } from './components/JSSBaseline'
 
 export { default as Button } from './components/Button'
 

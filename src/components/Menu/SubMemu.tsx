@@ -29,7 +29,7 @@ const useStyles = makeStyles(
 			top: 0,
 			right: 16,
 			transform: ({ subMenuOpened }: IStyleProps) => `rotate(${subMenuOpened ? 180 : 0}deg)`,
-			transition: 'transform 250ms ease-out'
+			transition: 'transform 300ms ease-out'
 		}
 	})
 )

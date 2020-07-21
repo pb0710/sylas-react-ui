@@ -21,7 +21,7 @@ const useStyles = makeStyles(
 		container: ({ height, timeout }: IStyleProps) => ({
 			minHeight: 0,
 			height,
-			transition: `height ${timeout}ms`,
+			transition: `height ${timeout}ms ease-out`,
 			overflow: 'hidden'
 		}),
 		entered: {

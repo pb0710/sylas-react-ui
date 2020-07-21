@@ -4,15 +4,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
 import App from './App'
-import { StylesProvider } from 'sylas-react-ui'
+import { JSSBaseline } from 'sylas-react-ui'
 
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			{/* JSS 样式优先级较高，若要使用自定义样式覆盖，需将 style 前置插入 */}
-			<StylesProvider injectFirst>
+			<JSSBaseline>
 				<Route path="/" exact component={App} />
-			</StylesProvider>
+			</JSSBaseline>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')

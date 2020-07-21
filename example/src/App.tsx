@@ -363,7 +363,7 @@ const App: React.FC<IAppProps> = () => {
 					</div>
 				</Form.Item>
 			</Form> */}
-
+			{/* 
 			<Menu color="success" onSelected={console.log}>
 				<Link to="/">
 					<Menu.Item className={classes.menu1} id="0">
@@ -406,7 +406,7 @@ const App: React.FC<IAppProps> = () => {
 				<Menu.Item className={classes.menu1} id="10">
 					导航10
 				</Menu.Item>
-			</Menu>
+			</Menu> */}
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

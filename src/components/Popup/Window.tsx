@@ -51,7 +51,7 @@ const useStyles = makeStyles(
 		'@keyframes kf_enter': {
 			'0%': {
 				opacity: 0,
-				transform: 'scale(.8)'
+				transform: 'scale(.7)'
 			},
 			'100%': {
 				opacity: 1,
@@ -65,7 +65,7 @@ const useStyles = makeStyles(
 			},
 			'100%': {
 				opacity: 0,
-				transform: 'scale(.8)'
+				transform: 'scale(.7)'
 			}
 		}
 	})

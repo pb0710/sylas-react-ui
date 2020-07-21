@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import GroundGlass from '../GroundGlass'
 import { ISelectOption } from './Select'
-import { useTransition, ITransitionOpts } from '../../common/hooks'
+import { useTransition, ITransitionOpts } from '../../utils/hooks'
 
 export interface IDropListProps extends ITransitionOpts {
 	children: React.ReactNode

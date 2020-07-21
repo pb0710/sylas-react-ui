@@ -40,14 +40,16 @@ const useStyles = makeStyles(
 			borderRadius: bordered ? 0 : 4,
 			textDecoration: 'none',
 			color: '#303133',
-			transition: 'all .15s ease-out',
+			transition: 'background .15s ease-out,color .15s ease-out',
 
-			'&:hover': hovered
+			...(hovered
 				? {
-						color: '#303133',
-						background: 'rgba(160, 160, 160, .1)'
+						'&:hover': {
+							color: '#303133',
+							background: 'rgba(160, 160, 160, .1)'
+						}
 				  }
-				: undefined,
+				: {}),
 
 			'&:first-child': {
 				borderTopLeftRadius: 4,

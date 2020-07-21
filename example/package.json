@@ -21,8 +21,8 @@
     "normalize.css": "^8.0.1",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
-    "sylas-react-ui": "link:..",
     "react-scripts": "link:../node_modules/react-scripts",
+    "sylas-react-ui": "link:..",
     "typescript": "link:../node_modules/typescript"
   },
   "devDependencies": {

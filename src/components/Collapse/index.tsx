@@ -1,34 +1,42 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
+import { Transition } from 'react-transition-group'
+
+type typeHeight = number | string
 
 interface ICollpaseProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
-	visible?: boolean
+	in?: boolean
+	timeout?: number
 }
 
 interface IStyleProps {
-	visible: boolean
+	timeout: number
+	height: typeHeight
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ visible }: IStyleProps) => ({
-			overflow: 'hidden',
-			transition: 'max-height .4s cubic-bezier(0, 1, 0, 1) -.1s',
-			// 因为 height 的 auto 到 0 不会触发transition，所以用 max-height 代替，需动态调整 cubic-bezier
-			...(visible
-				? {
-						// 确保高度不超过 1600px 即可
-						maxHeight: 1600,
-						transitionTimingFunction: 'cubic-bezier(0.5, 0, 1, 0)',
-						transitionDelay: '0s'
-				  }
-				: {
-						maxHeight: 0
-				  })
+		container: ({ height, timeout }: IStyleProps) => ({
+			minHeight: 0,
+			height,
+			transition: `height ${timeout}ms`,
+			overflow: 'hidden'
 		}),
+		entered: {
+			height: 'auto',
+			overflow: 'visible'
+		},
+		hidden: {
+			visibility: 'hidden'
+		},
 		wrapper: {
+			display: 'flex',
+			width: '100%'
+		},
+		inner: {
+			width: '100%',
 			paddingTop: 8,
 			paddingBottom: 8
 		}
@@ -36,16 +44,76 @@ const useStyles = makeStyles(
 )
 
 const _Collapse: React.FC<ICollpaseProps> = props => {
-	const { children, className, visible = false, ...restProps } = props
+	const { children, className, in: inProp = false, timeout = 300, ...restProps } = props
 
-	const classes = useStyles({ visible } as IStyleProps)
+	const nodeRef = React.useRef<any>()
+	const wrapperRef = React.useRef<any>()
 
-	const containerCls = clsx(classes.root, className)
+	const [height, setHeight] = React.useState<typeHeight>(0)
+
+	const styleProps: IStyleProps = { height, timeout }
+	const classes = useStyles(styleProps)
+
+	/**
+	 * css height属性 0 到 auto 间切换无法触发 transition
+	 * 解决方案：
+	 * 1、先通过 ref 获取 wrapper 的 height
+	 * 2、入场动画 从 0 设置 height 触发过渡动画，transition 结束时设置为 auto；
+	 * 3、退场动画 反之从 auto 到 height 再到 0
+	 */
+	const wrapperHeight: typeHeight = wrapperRef.current ? wrapperRef.current?.clientHeight : 0
+
+	const handleEnter = () => {
+		setHeight(0)
+	}
+
+	const handleEntering = () => {
+		setHeight(wrapperHeight)
+	}
+
+	const handleEntered = () => {
+		setHeight('auto')
+	}
+
+	const handleExit = () => {
+		setHeight(wrapperHeight)
+	}
+
+	const handleExiting = () => {
+		setHeight(0)
+	}
 
 	return (
-		<div {...restProps} className={containerCls}>
-			<div className={classes.wrapper}>{children}</div>
-		</div>
+		<Transition
+			in={inProp}
+			onEnter={handleEnter}
+			onEntered={handleEntered}
+			onEntering={handleEntering}
+			onExit={handleExit}
+			onExiting={handleExiting}
+			nodeRef={nodeRef}
+			timeout={timeout}
+			{...restProps}
+		>
+			{(state: string, childProps) => (
+				<div
+					className={clsx(
+						classes.container,
+						{
+							[classes.entered]: state === 'entered',
+							[classes.hidden]: state === 'exited' && !inProp
+						},
+						className
+					)}
+					ref={nodeRef}
+					{...childProps}
+				>
+					<div className={classes.wrapper} ref={wrapperRef}>
+						<div className={classes.inner}>{children}</div>
+					</div>
+				</div>
+			)}
+		</Transition>
 	)
 }
 

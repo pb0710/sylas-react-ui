@@ -1,3 +1,5 @@
+export { default as StylesProvider } from './components/StylesProvider'
+
 export { default as Button } from './components/Button'
 
 export { default as Collapse } from './components/Collapse'

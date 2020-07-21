@@ -65,6 +65,15 @@ const useStyles = makeStyles(
 		},
 		select: {
 			minWidth: 100
+		},
+		menu1: {
+			fontWeight: 'bolder'
+		},
+		menu2: {
+			paddingLeft: 48
+		},
+		menu3: {
+			paddingLeft: 72
 		}
 	})
 )
@@ -357,24 +366,46 @@ const App: React.FC<IAppProps> = () => {
 
 			<Menu color="success" onSelected={console.log}>
 				<Link to="/">
-					<Menu.Item id="0">导航0</Menu.Item>
+					<Menu.Item className={classes.menu1} id="0">
+						导航0
+					</Menu.Item>
 				</Link>
-				<Menu.Item id="1">导航1</Menu.Item>
-				<Menu.SubMenu title="子菜单1">
+				<Menu.Item className={classes.menu1} id="1">
+					导航1
+				</Menu.Item>
+				<Menu.SubMenu className={classes.menu1} title="子菜单1">
 					<Link to="/">
-						<Menu.Item id="2">导航2</Menu.Item>
+						<Menu.Item className={classes.menu2} id="2">
+							导航2
+						</Menu.Item>
 					</Link>
-					<Menu.Item id="3">导航3</Menu.Item>
-					<Menu.Item id="4">导航4</Menu.Item>
-					<Menu.SubMenu title="子菜单2">
-						<Menu.Item id="5">导航5</Menu.Item>
-						<Menu.Item id="6">导航6</Menu.Item>
-						<Menu.Item id="7">导航7</Menu.Item>
+					<Menu.Item className={classes.menu2} id="3">
+						导航3
+					</Menu.Item>
+					<Menu.Item className={classes.menu2} id="4">
+						导航4
+					</Menu.Item>
+					<Menu.SubMenu className={classes.menu2} title="子菜单2">
+						<Menu.Item className={classes.menu3} id="5">
+							导航5
+						</Menu.Item>
+						<Menu.Item className={classes.menu3} id="6">
+							导航6
+						</Menu.Item>
+						<Menu.Item className={classes.menu3} id="7">
+							导航7
+						</Menu.Item>
 					</Menu.SubMenu>
 				</Menu.SubMenu>
-				<Menu.Item id="8">导航8</Menu.Item>
-				<Menu.Item id="9">导航9</Menu.Item>
-				<Menu.Item id="10">导航10</Menu.Item>
+				<Menu.Item className={classes.menu1} id="8">
+					导航8
+				</Menu.Item>
+				<Menu.Item className={classes.menu1} id="9">
+					导航9
+				</Menu.Item>
+				<Menu.Item className={classes.menu1} id="10">
+					导航10
+				</Menu.Item>
 			</Menu>
 
 			{/* <Input.Search placeholder="123123" />

@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import clsx from 'clsx'
 import { CaretDownFilled } from '@ant-design/icons'
 import List from '../List'
 import Collapse from '../Collapse'
@@ -50,17 +49,15 @@ const _SubMenu: React.FC<ISubMenuProps> = props => {
 		setSubMenuOpened(opened)
 	}, [opened])
 
-	const subMenuCls = clsx(classes.root, className)
-
 	return (
-		<List className={subMenuCls}>
-			<List.Item ripple hovered bordered={false} onClick={handleSelect}>
+		<List className={classes.root}>
+			<List.Item className={className} ripple hovered bordered={false} onClick={handleSelect}>
 				{title}
 				<div className={classes.openIcon}>
 					<CaretDownFilled />
 				</div>
 			</List.Item>
-			<Collapse visible={subMenuOpened}>{children}</Collapse>
+			<Collapse in={subMenuOpened}>{children}</Collapse>
 		</List>
 	)
 }

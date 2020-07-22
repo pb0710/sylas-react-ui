@@ -11,7 +11,7 @@ interface ISubMenuProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export interface IStyleProps {
-	subMenuOpened: boolean
+	listOpened: boolean
 }
 
 const useStyles = makeStyles(
@@ -27,8 +27,8 @@ const useStyles = makeStyles(
 			fontSize: 10,
 			position: 'absolute',
 			top: 0,
-			right: 16,
-			transform: ({ subMenuOpened }: IStyleProps) => `rotate(${subMenuOpened ? 180 : 0}deg)`,
+			right: 20,
+			transform: ({ listOpened }: IStyleProps) => `rotate(${listOpened ? 180 : 0}deg)`,
 			transition: 'transform 300ms ease-out'
 		}
 	})
@@ -37,16 +37,17 @@ const useStyles = makeStyles(
 const _SubMenu: React.FC<ISubMenuProps> = props => {
 	const { children, className, title, opened = false } = props
 
-	const [subMenuOpened, setSubMenuOpened] = React.useState<boolean>(opened)
+	const [listOpened, setlistOpened] = React.useState<boolean>(opened)
 
-	const classes = useStyles({ subMenuOpened } as IStyleProps)
+	const classes = useStyles({ listOpened } as IStyleProps)
 
 	const handleSelect = () => {
-		setSubMenuOpened(prev => !prev)
+		setlistOpened(prev => !prev)
 	}
 
+	// props 同步内部 state
 	React.useEffect(() => {
-		setSubMenuOpened(opened)
+		setlistOpened(opened)
 	}, [opened])
 
 	return (
@@ -57,7 +58,7 @@ const _SubMenu: React.FC<ISubMenuProps> = props => {
 					<CaretDownFilled />
 				</div>
 			</List.Item>
-			<Collapse in={subMenuOpened}>{children}</Collapse>
+			<Collapse in={listOpened}>{children}</Collapse>
 		</List>
 	)
 }

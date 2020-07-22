@@ -16,8 +16,8 @@ export interface ITextAreaProps extends React.HTMLAttributes<HTMLElement> {
 	color?: string
 	disabled?: boolean
 	enterButton?: React.ReactNode | null
-	onChange?: (event: React.FormEvent<HTMLElement>) => void
-	onPressEnter?: (value: string) => void
+	onChange?(event: React.FormEvent<HTMLElement>): void
+	onPressEnter?(value: string): void
 }
 
 interface IStyleProps {

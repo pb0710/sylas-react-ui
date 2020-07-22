@@ -13,7 +13,7 @@ export const html = {
 export const body = {
 	fontSize: 14,
 	color: '#303133',
-	background: 'fafafa'
+	background: '#fff'
 }
 
 export const styles = createStyles({

@@ -10,7 +10,7 @@ interface IOptionProps extends React.HTMLAttributes<HTMLElement> {
 	timeout?: number
 	value?: string
 	isCurrent?: boolean
-	handleChange?: (option?: ISelectOption) => void
+	handleChange?(option?: ISelectOption): void
 }
 
 interface IStyleProps {

@@ -3,24 +3,21 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import List from '../List'
 import { ThemeNames } from '../../common/themeColors'
+import { IMenu, IIds, IIdEffect, useMenu } from './hooks'
 
 export interface IMenuProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
-	paddingLeft?: number
-	onSelected?: (id?: string) => void | null
+	menu?: IMenu
+	onSelected?(id?: string): void | null
 }
 
 export interface IStyleProps {}
 
-export interface IItems {
-	[key: string]: boolean
-}
-
 export interface IMenuCtx {
-	syncMenuItem: (id: string) => void
-	onSelected: (id: string) => void
-	items: IItems
+	syncMenuId: IIdEffect
+	onSelected: IIdEffect
+	ids: IIds
 }
 
 const useStyles = makeStyles(
@@ -35,9 +32,9 @@ const useStyles = makeStyles(
 )
 
 const defaultCtx: IMenuCtx = {
-	syncMenuItem(id) {},
+	syncMenuId(id) {},
 	onSelected(id) {},
-	items: {}
+	ids: {}
 }
 
 export const MenuContext = React.createContext(defaultCtx)
@@ -47,35 +44,20 @@ const _Menu: React.FC<IMenuProps> = props => {
 		children,
 		className,
 		color = ThemeNames.PRIMARY,
+		// menu 不传时默认创建
+		menu = useMenu(),
 		onSelected = () => {},
 		...restProps
 	} = props
 
-	const [items, setItems] = React.useState<IItems>({})
-
 	const classes = useStyles()
 
-	const syncMenuItem = (id: string) => {
-		id && setItems(prev => ({ ...prev, [id]: false }))
+	const onCustomSelect: IIdEffect = id => {
+		onSelected(id)
+		menu?.setCurrentKey(id)
 	}
 
-	const onCustomSelected = React.useCallback(
-		id => {
-			onSelected(id)
-			setItems(prev => {
-				const res = {}
-				for (const key in prev) {
-					if (prev.hasOwnProperty(key)) {
-						res[key] = key === id
-					}
-				}
-				return res
-			})
-		},
-		[onSelected]
-	)
-
-	const menuCtx = { color, syncMenuItem, items, onSelected: onCustomSelected }
+	const menuCtx = { color, ...menu, onSelected: onCustomSelect }
 
 	const menuCls = clsx(classes.root, className)
 

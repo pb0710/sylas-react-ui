@@ -19,7 +19,7 @@ export interface ISelectProps {
 	defaultValue?: string
 	value?: string
 	error?: boolean
-	onChange?: (value?: string, name?: string) => void
+	onChange?(value?: string, name?: string): void
 }
 
 interface IStyleProps {

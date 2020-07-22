@@ -3,8 +3,8 @@ import React from 'react'
 export interface ITransitionOpts {
 	in?: boolean
 	timeout?: number
-	onExited?: () => void
-	callback?: () => void
+	onExited?(): void
+	callback?(): void
 }
 
 export const useTransition = (options: ITransitionOpts) => {

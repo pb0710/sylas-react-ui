@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/styles'
 import { SearchOutlined } from '@ant-design/icons'
 
 export interface ISuffixBtnProps extends React.ButtonHTMLAttributes<HTMLElement> {
-	onClick: (event: React.MouseEvent<HTMLElement>) => void
+	onClick(event: React.MouseEvent<HTMLElement>): void
 }
 
 const useStyles = makeStyles(

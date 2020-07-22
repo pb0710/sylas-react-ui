@@ -11,9 +11,9 @@ export interface IFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 	className?: string
 	form?: IForm
 	initialValues?: IValues
-	onValuesChange?: (values?: IValues) => void
-	onFinished?: (values: IValues) => void
-	onFailed?: () => void
+	onValuesChange?(values?: IValues): void
+	onFinished?(values: IValues): void
+	onFailed?(): void
 }
 
 const useStyles = makeStyles(
@@ -42,14 +42,12 @@ const defaultCtx: IForm = {
 export const FormContext = React.createContext<IForm>(defaultCtx)
 
 const _Form: React.FC<IFormProps> = props => {
-	// form 不传时自动创建
-	const defaultForm = useForm()
-
 	const {
 		children,
 		className,
 		initialValues = {},
-		form = defaultForm,
+		// form 不传时自动创建
+		form = useForm(),
 		onValuesChange = () => {},
 		onFinished = () => {},
 		onFailed = () => {},

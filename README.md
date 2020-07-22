@@ -78,6 +78,7 @@ function Example() {
 - GroundGlass
 - Input
 - Input.Group
+- Input.Password
 - Input.Search
 - List
 - List.Item
@@ -103,6 +104,7 @@ Currently recommended to view the source code
 ### hooks api
 
 - Form.useForm
+- Menu.useMenu
 - TouchRipple.useRipple
 - Popup.usePopupVisible
 

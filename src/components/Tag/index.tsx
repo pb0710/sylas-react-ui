@@ -9,7 +9,7 @@ interface ITagProps extends React.HTMLAttributes<HTMLElement> {
 	color?: string
 	bordered?: boolean
 	closeable?: boolean
-	onClose?: (event: React.MouseEvent<HTMLElement>) => void
+	onClose?(event: React.MouseEvent<HTMLElement>): void
 }
 
 interface IStyleProps {

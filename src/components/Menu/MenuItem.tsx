@@ -36,9 +36,9 @@ const _MenuItem: React.FC<IMenuItemProps> = props => {
 	const { children, className, id, color = ThemeNames.PRIMARY } = props
 
 	const ctxProps = React.useContext(MenuContext)
-	const { syncMenuItem, onSelected, items } = ctxProps
+	const { syncMenuId, onSelected, ids } = ctxProps
 
-	const selected: boolean = items[id]
+	const selected: boolean = ids[id]
 
 	const styleProps: IStyleProps = { selected, color: selectColor(color) }
 	const classes = useStyles(styleProps)
@@ -46,7 +46,7 @@ const _MenuItem: React.FC<IMenuItemProps> = props => {
 	const handleSelect = () => (id && onSelected ? onSelected(id) : null)
 
 	React.useEffect(() => {
-		syncMenuItem(id)
+		id && syncMenuId(id)
 		// context state 不必放入 deps
 	}, [])
 

@@ -13,7 +13,7 @@ interface ISwitchProps {
 	name?: string
 	value?: boolean
 	error?: boolean
-	onChange?: (checked?: boolean, name?: string) => void
+	onChange?(checked?: boolean, name?: string): void
 }
 
 interface IStyleProps {

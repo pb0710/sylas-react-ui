@@ -191,11 +191,7 @@ export const useForm = (): IForm => {
 		(...names) =>
 			new Promise((resolve, reject) => {
 				const receiveResult = (res: validateState) => {
-					if (res === validateState.REJECTED) {
-						reject(res)
-					} else {
-						resolve(res)
-					}
+					res === validateState.REJECTED ? reject(res) : resolve(res)
 				}
 
 				// 区分参数，names不传即校验全部

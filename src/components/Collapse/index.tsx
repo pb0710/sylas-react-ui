@@ -49,7 +49,8 @@ const _Collapse: React.FC<ICollpaseProps> = props => {
 	const nodeRef = React.useRef<any>()
 	const wrapperRef = React.useRef<any>()
 
-	const [height, setHeight] = React.useState<typeHeight>(0)
+	const defaultHeight: typeHeight = inProp ? 'auto' : 0
+	const [height, setHeight] = React.useState<typeHeight>(defaultHeight)
 
 	const styleProps: IStyleProps = { height, timeout }
 	const classes = useStyles(styleProps)

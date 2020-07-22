@@ -28,21 +28,6 @@ import {
 	Menu
 } from 'sylas-react-ui'
 import { Link, NavLink } from 'react-router-dom'
-export enum ScaleOrigin {
-	CENTER = 'center',
-	TOP = 'top',
-	RIGHT = 'right',
-	BOTTOM = 'bottom',
-	LEFT = 'left',
-	LEFT_TOP = 'left-top',
-	LEFT_BOTTOM = 'left-bottom',
-	RIGHT_TOP = 'right-top',
-	RIGHT_BOTTOM = 'right-bottom',
-	BOTTOM_LEFT = 'bottom-left',
-	BOTTOM_RIGHT = 'bottom-right',
-	TOP_LEFT = 'top-left',
-	TOP_RIGHT = 'top-right'
-}
 
 interface IAppProps {}
 
@@ -165,6 +150,8 @@ const App: React.FC<IAppProps> = () => {
 
 	const form = Form.useForm()
 
+	const menu = Menu.useMenu()
+
 	const {
 		triggerRef,
 		popupRef,
@@ -258,8 +245,10 @@ const App: React.FC<IAppProps> = () => {
 			// 	// form.setFieldsValue({ input: '', password: 'password', select: 'female', switch: true })
 			// 	form.validateFields('password')
 			// form.setFieldsValue({ input: '', password: '' })
+			menu.setCurrentKey('3')
 		}, 4000)
 		// form.validateFields('password')
+		menu.setCurrentKey('0')
 	}, [])
 
 	return (
@@ -299,7 +288,7 @@ const App: React.FC<IAppProps> = () => {
 				}}
 			/> */}
 
-			<Button.Icon onClick={handleShowPopup}>
+			{/* <Button.Icon onClick={handleShowPopup}>
 				<UserOutlined />
 			</Button.Icon>
 			<Popup ref={popupRef} visible={visible} scaleOrigin="right-top">
@@ -307,7 +296,7 @@ const App: React.FC<IAppProps> = () => {
 				<Button ref={triggerRef} onClick={handleHidePopup}>
 					按钮
 				</Button>
-			</Popup>
+			</Popup> */}
 
 			{/* <Progress percent={precent} color="error" fixedTop /> */}
 
@@ -320,9 +309,6 @@ const App: React.FC<IAppProps> = () => {
 					<List.Item>sdfdsff</List.Item>
 				</List>
 			</Collapse> */}
-			{/* <div className={classes.menu}>
-				<NavMenu menuOptions={navMap} color="primary" onSelect={hanldeSearch} />
-			</div> */}
 
 			{/* <Select defaultValue="warning" onChange={hanldeSearch}>
 				<Select.Option value="primary">湛蓝</Select.Option>
@@ -363,8 +349,8 @@ const App: React.FC<IAppProps> = () => {
 					</div>
 				</Form.Item>
 			</Form> */}
-			{/* 
-			<Menu color="success" onSelected={console.log}>
+
+			<Menu menu={menu} color="success" onSelected={console.log}>
 				<Link to="/">
 					<Menu.Item className={classes.menu1} id="0">
 						导航0
@@ -373,7 +359,7 @@ const App: React.FC<IAppProps> = () => {
 				<Menu.Item className={classes.menu1} id="1">
 					导航1
 				</Menu.Item>
-				<Menu.SubMenu className={classes.menu1} title="子菜单1">
+				<Menu.SubMenu className={classes.menu1} title="子菜单1" opened>
 					<Link to="/">
 						<Menu.Item className={classes.menu2} id="2">
 							导航2
@@ -406,7 +392,7 @@ const App: React.FC<IAppProps> = () => {
 				<Menu.Item className={classes.menu1} id="10">
 					导航10
 				</Menu.Item>
-			</Menu> */}
+			</Menu>
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

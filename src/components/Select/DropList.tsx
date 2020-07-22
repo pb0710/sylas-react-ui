@@ -8,7 +8,7 @@ import { useTransition, ITransitionOpts } from '../../utils/hooks'
 export interface IDropListProps extends ITransitionOpts {
 	children: React.ReactNode
 	selected?: ISelectOption
-	handleChange: (option: ISelectOption) => void
+	handleChange(option: ISelectOption): void
 }
 
 interface IStyleProps {

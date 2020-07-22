@@ -6,8 +6,8 @@ export interface IUseRipple {
 
 export interface IUseRippleReturn {
 	rippleRef: React.RefObject<any>
-	handleStart: (event: React.MouseEvent<HTMLElement>) => void | null
-	handleStop: () => void | null
+	handleStart(event: React.MouseEvent<HTMLElement>): void | null
+	handleStop(): void | null
 }
 
 /**

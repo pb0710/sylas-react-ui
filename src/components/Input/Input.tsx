@@ -49,6 +49,8 @@ const useStyles = makeStyles(
 			height: 32,
 			minWidth: 200,
 			minHeight: 32,
+			background: '#fdfdfd',
+			borderRadius: 4,
 			position: 'relative'
 		},
 		input: ({ color, focus, disabled, error, type }: IStyleProps) => {

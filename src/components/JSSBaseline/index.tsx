@@ -12,8 +12,7 @@ export const html = {
 
 export const body = {
 	fontSize: 14,
-	color: '#303133',
-	background: '#fff'
+	color: '#303133'
 }
 
 export const styles = createStyles({

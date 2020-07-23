@@ -18,7 +18,6 @@ const useStyles = makeStyles(
 			position: 'relative',
 			width: '100%',
 			minWidth: 200,
-			minHeight: 40,
 			fontSize: 14,
 			color: '#303133',
 			margin: 0,

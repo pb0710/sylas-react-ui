@@ -6,7 +6,6 @@ const baseStyles: any = {
 	height: '100%',
 	fontSize: 14,
 	color: '#303133',
-	background: '#fdfdfd',
 	paddingLeft: 8,
 	paddingRight: 8,
 	borderRadius: 4,

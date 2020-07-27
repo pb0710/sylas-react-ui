@@ -56,7 +56,7 @@ const _IconButton: React.ForwardRefRenderFunction<unknown, IIconButtonProps> = (
 	} = props
 	const stylesProps: IStyleProps = { color: selectColor(color), focus, disabled }
 	const classes = useStyles(stylesProps)
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple()
+	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 	const btnCls = clsx(classes.iconBtn, className)
 
 	return (

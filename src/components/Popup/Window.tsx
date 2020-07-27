@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 			animation: '$kf_enter 200ms ease-out forwards'
 		},
 		leave: {
-			animation: '$kf_leave 150ms ease-out forwards'
+			animation: '$kf_leave 200ms ease-out forwards'
 		},
 		'@keyframes kf_enter': {
 			'0%': {

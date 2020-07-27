@@ -10,6 +10,7 @@ import SuffixBtn from './SuffixBtn'
 export interface IInputProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	inputClassName?: string
+	Component?: any
 	name?: string
 	value?: string
 	error?: boolean
@@ -73,6 +74,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 	const {
 		className,
 		inputClassName,
+		Component = InputBase,
 		name,
 		value = '',
 		error = false,
@@ -163,7 +165,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 
 	return (
 		<div ref={ref as any} className={containerCls}>
-			<InputBase
+			<Component
 				{...restProps}
 				className={inputCls}
 				type={inputType}

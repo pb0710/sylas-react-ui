@@ -38,8 +38,8 @@ export interface ISubmit {
 	(): Promise<IValues | IErrors> | any
 }
 
-export interface IGetFieldsValue {
-	(name?: string): IValue | void
+export interface IGetFieldValue {
+	(name: string): IValue | void
 }
 
 export interface ISetFieldsValue {
@@ -68,7 +68,7 @@ export interface IForm {
 	submit: ISubmit
 	onChange: IOnChange
 	syncFormItem: ISyncFormItem
-	getFieldValue: IGetFieldsValue
+	getFieldValue: IGetFieldValue
 	setFieldsValue: ISetFieldsValue
 	validateFields: IValidateFields
 }
@@ -81,7 +81,7 @@ export const useForm = (): IForm => {
 	const [items, setItems] = React.useState<IItem[]>([])
 
 	// 触发表单值改变的 name
-	const [origin, setOrigin] = React.useState<string>()
+	const [origin, setOrigin] = React.useState<string | undefined>()
 
 	const _setFieldError: ISetFieldsError = error => {
 		setErrors(prev => {
@@ -145,6 +145,7 @@ export const useForm = (): IForm => {
 	}
 
 	const onChange: IOnChange = (value, name) => {
+		setOrigin(undefined)
 		if (name) {
 			setValues(prev => ({
 				...prev,
@@ -162,24 +163,16 @@ export const useForm = (): IForm => {
 			setItems(prev => [...prev, newItem])
 		}
 	}
-
-	const getFieldValue: IGetFieldsValue = React.useCallback(
-		name => {
-			if (name) {
-				const copyed = { ...values }
-				return copyed[name]
-			}
-		},
-		[values]
-	)
+	const getFieldValue: IGetFieldValue = name => values[name]
 
 	const setFieldsValue: ISetFieldsValue = nextValues => {
+		setOrigin(undefined)
 		setValues(prev => ({
 			...prev,
 			...nextValues
 		}))
 		for (const name in nextValues) {
-			if (nextValues.hasOwnProperty(name)) {
+			if (Object.prototype.hasOwnProperty.call(nextValues, name)) {
 				const value = nextValues[name]
 				_mergeItems(name, value)
 				setOrigin(name)

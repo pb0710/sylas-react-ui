@@ -10,7 +10,6 @@ export interface ICallback {
 export interface IFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 	className?: string
 	form?: IForm
-	initialValues?: IValues
 	onValuesChange?(values?: IValues): void
 	onFinished?(values: IValues): void
 	onFailed?(): void
@@ -45,7 +44,6 @@ const _Form: React.FC<IFormProps> = props => {
 	const {
 		children,
 		className,
-		initialValues = {},
 		// form 不传时自动创建
 		form = useForm(),
 		onValuesChange = () => {},
@@ -58,7 +56,7 @@ const _Form: React.FC<IFormProps> = props => {
 		() =>
 			form.submit().then(
 				(res: IValues) => {
-					onFinished(res as IValues)
+					onFinished(res)
 					return res
 				},
 				(err: string) => {
@@ -70,12 +68,6 @@ const _Form: React.FC<IFormProps> = props => {
 	)
 
 	const classes = useStyles()
-
-	React.useEffect(() => {
-		if (form.setFieldsValue) {
-			form.setFieldsValue(initialValues)
-		}
-	}, [])
 
 	React.useEffect(() => {
 		onValuesChange(form.values)

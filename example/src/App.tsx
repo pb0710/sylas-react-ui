@@ -326,7 +326,7 @@ const App: React.FC<IAppProps> = () => {
 				onFailed={handleFailed}
 			>
 				<Form.Item name="input" label="用户名" validator={validateRequred}>
-					<Input />
+					<Input.TextArea />
 				</Form.Item>
 				<Form.Item name="password" label="密码" initialValue="" validator={validateRequred}>
 					<Input />
@@ -350,7 +350,7 @@ const App: React.FC<IAppProps> = () => {
 				</Form.Item>
 			</Form> */}
 
-			<Menu menu={menu} color="success" onSelected={console.log}>
+			{/* <Menu menu={menu} color="success" onSelected={console.log}>
 				<Link to="/">
 					<Menu.Item className={classes.menu1} id="0">
 						导航0
@@ -392,7 +392,7 @@ const App: React.FC<IAppProps> = () => {
 				<Menu.Item className={classes.menu1} id="10">
 					导航10
 				</Menu.Item>
-			</Menu>
+			</Menu> */}
 
 			{/* <Input.Search placeholder="123123" />
 			<Input.Password placeholder="66666" />

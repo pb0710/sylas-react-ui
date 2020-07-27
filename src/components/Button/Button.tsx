@@ -67,7 +67,7 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 	const ctxProps = React.useContext(FormContext)
 	const { submit } = ctxProps
 
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple()
+	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 
 	const stylesProps: IStyleProps = { color: selectColor(color), disabled }
 	const classes = useStyles(stylesProps)

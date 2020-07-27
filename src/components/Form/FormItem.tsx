@@ -61,11 +61,14 @@ const _FormItem: React.FC<IFormItemProps> = props => {
 	const error = errors?.find(err => err.name === name)
 	const isError = error !== undefined
 
+	const inputList = ['Input', 'Password', 'TextArea']
+
 	React.useEffect(
 		() => {
 			if (name) {
 				syncFormItem(name, validator)
-				setFieldsValue({ [name]: initialValue })
+				// 考虑到 Switch 或 Checkbox 的 boolean 值，只过滤 null or undefined
+				initialValue != null && setFieldsValue({ [name]: initialValue })
 			}
 		},
 		// contextProps 不要放到 deps 里
@@ -82,7 +85,7 @@ const _FormItem: React.FC<IFormItemProps> = props => {
 			<div>
 				{React.Children.map(children as any, (child: JSX.Element) => {
 					const baseProps = { name, value, onChange }
-					return child?.type?.displayName === 'Input'
+					return inputList.some(input => input === child?.type?.displayName)
 						? React.cloneElement(child, { ...baseProps, error: isError })
 						: React.cloneElement(child, baseProps)
 				})}

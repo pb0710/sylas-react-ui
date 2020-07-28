@@ -21,7 +21,7 @@ const useStyles = makeStyles(
 			marginBottom: 24
 		},
 		inner: {
-			width: ({ col }: IStyleProps) => `calc(100% - ${col * 8 - 4}px)`,
+			width: ({ col, label }: IStyleProps) => `calc(100% - ${label ? col * 8 - 4 : 0}px)`,
 			position: 'relative'
 		},
 		label: ({ col, textAlign }: IStyleProps) => ({
@@ -64,6 +64,7 @@ interface IFormItemProps extends React.HTMLAttributes<HTMLLabelElement> {
 interface IStyleProps {
 	col: number
 	textAlign: TextAlign
+	label?: string
 }
 
 const _FormItem: React.FC<IFormItemProps> = props => {
@@ -102,7 +103,7 @@ const _FormItem: React.FC<IFormItemProps> = props => {
 
 	const baseProps = { name, value, onFieldValueChange }
 
-	const classes = useStyles({ col, textAlign } as IStyleProps)
+	const classes = useStyles({ col, textAlign, label } as IStyleProps)
 
 	const formItemCls = clsx(classes.root, className)
 

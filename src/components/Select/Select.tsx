@@ -31,8 +31,7 @@ interface IStyleProps {
 const useStyles = makeStyles(
 	createStyles({
 		root: {
-			minWidth: 104,
-			maxWidth: 160,
+			width: 120,
 			height: 32,
 			fontSize: 14,
 			color: '#303133',

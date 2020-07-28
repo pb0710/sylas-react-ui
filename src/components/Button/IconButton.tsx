@@ -38,9 +38,13 @@ const useStyles = makeStyles(
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			transition: 'all 0.25s ease-out',
 
-			'&:hover': {
-				background: disabled ? '' : color.dim
-			}
+			...(disabled
+				? {}
+				: {
+						'&:hover': {
+							background: 'rgba(120,120,120,.1)'
+						}
+				  })
 		})
 	})
 )

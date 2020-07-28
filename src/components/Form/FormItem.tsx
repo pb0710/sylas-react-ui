@@ -2,7 +2,13 @@ import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { FormContext } from './Form'
-import { ICallback } from './hooks'
+import { ICallback, IValues } from './hooks'
+
+enum TextAlign {
+	LEFT = 'left',
+	RIGHT = 'right',
+	CENTER = 'center'
+}
 
 const useStyles = makeStyles(
 	createStyles({
@@ -12,17 +18,19 @@ const useStyles = makeStyles(
 			alignItems: 'center',
 			width: '100%',
 			padding: 0,
-			marginBottom: 24,
-
-			'&>div': {
-				position: 'relative'
-			}
+			marginBottom: 24
 		},
-		labelText: {
+		inner: {
+			width: ({ col }: IStyleProps) => `calc(100% - ${col * 8 - 4}px)`,
+			position: 'relative'
+		},
+		label: ({ col, textAlign }: IStyleProps) => ({
 			fontSize: 14,
 			color: '#303133',
+			textAlign,
+			width: col * 8,
 			marginRight: 4
-		},
+		}),
 		tip: {
 			display: 'flex',
 			alignItems: 'center',
@@ -40,28 +48,45 @@ const useStyles = makeStyles(
 )
 
 export interface IValidator {
-	(value?: string | boolean, callback?: ICallback): Promise<void>
+	(value?: string | boolean, callback?: ICallback, values?: IValues): Promise<void>
 }
 
 interface IFormItemProps extends React.HTMLAttributes<HTMLLabelElement> {
 	className?: string
 	label?: string
+	textAlign?: string
+	col?: number
 	name?: string
 	initialValue?: string | boolean
 	validator?: IValidator
 }
 
+interface IStyleProps {
+	col: number
+	textAlign: TextAlign
+}
+
 const _FormItem: React.FC<IFormItemProps> = props => {
-	const { children, className, label, name, initialValue, validator } = props
+	const {
+		children,
+		className,
+		label,
+		textAlign = TextAlign.RIGHT,
+		col = 10,
+		name,
+		initialValue,
+		validator
+	} = props
 
 	const ctxProps = React.useContext(FormContext)
-	const { values, errors, onChange, setFieldsValue, syncFormItem } = ctxProps
+	const { values, errors, onFieldValueChange, setFieldsValue, syncFormItem } = ctxProps
 
 	const value = name && values?.[name]
 	const error = errors?.find(err => err.name === name)
 	const isError = error !== undefined
 
-	const inputList = ['Input', 'Password', 'TextArea']
+	// 拥有错误提示特殊样式的组件列表
+	const specialErrorList = ['Input', 'Password', 'TextArea']
 
 	React.useEffect(
 		() => {
@@ -71,24 +96,25 @@ const _FormItem: React.FC<IFormItemProps> = props => {
 				initialValue != null && setFieldsValue({ [name]: initialValue })
 			}
 		},
-		// contextProps 不要放到 deps 里
+		// contextProps 不放到 deps 里
 		[]
 	)
 
-	const classes = useStyles()
+	const baseProps = { name, value, onFieldValueChange }
+
+	const classes = useStyles({ col, textAlign } as IStyleProps)
 
 	const formItemCls = clsx(classes.root, className)
 
 	return (
 		<div className={formItemCls}>
-			{label && <label className={classes.labelText}>{label}：</label>}
-			<div>
-				{React.Children.map(children as any, (child: JSX.Element) => {
-					const baseProps = { name, value, onChange }
-					return inputList.some(input => input === child?.type?.displayName)
+			{label && <label className={classes.label}>{label}：</label>}
+			<div className={classes.inner}>
+				{React.Children.map(children as any, (child: JSX.Element) =>
+					specialErrorList.some(input => input === child?.type?.displayName)
 						? React.cloneElement(child, { ...baseProps, error: isError })
 						: React.cloneElement(child, baseProps)
-				})}
+				)}
 				<span className={classes.tip}>{error?.desc}</span>
 			</div>
 		</div>

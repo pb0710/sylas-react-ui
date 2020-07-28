@@ -19,7 +19,8 @@ export interface ISelectProps {
 	defaultValue?: string
 	value?: string
 	error?: boolean
-	onChange?(value?: string, name?: string): void
+	onChange?(value: string): void
+	onFieldValueChange?(value?: string, name?: string): void
 }
 
 interface IStyleProps {
@@ -31,6 +32,7 @@ const useStyles = makeStyles(
 	createStyles({
 		root: {
 			minWidth: 104,
+			maxWidth: 160,
 			height: 32,
 			fontSize: 14,
 			color: '#303133',
@@ -72,7 +74,8 @@ const _Select: React.FC<ISelectProps> = props => {
 		defaultValue = '',
 		color = ThemeNames.PRIMARY,
 		value = defaultValue,
-		onChange = () => {}
+		onChange = () => {},
+		onFieldValueChange = () => {}
 	} = props
 
 	const defaultOption = { desc: '', value: '' }
@@ -90,10 +93,11 @@ const _Select: React.FC<ISelectProps> = props => {
 	const handleChange = React.useCallback(
 		(option: ISelectOption) => {
 			setSelected(option)
-			onChange && onChange(option.value, name)
+			onChange && onChange(option.value)
+			onFieldValueChange && onFieldValueChange(option.value, name)
 			handleHideDrop()
 		},
-		[onChange, handleHideDrop, name]
+		[onChange, onFieldValueChange, handleHideDrop, name]
 	)
 
 	const styleProps: IStyleProps = {

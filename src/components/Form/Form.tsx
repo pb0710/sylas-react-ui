@@ -23,6 +23,7 @@ const useStyles = makeStyles(
 			alignItems: 'center',
 			justifyContent: 'space-around',
 			width: '100%',
+			height: '100%',
 			minHeight: 120,
 			padding: 8
 		}
@@ -31,7 +32,7 @@ const useStyles = makeStyles(
 
 const defaultCtx: IForm = {
 	submit: () => ({} as any),
-	onChange() {},
+	onFieldValueChange() {},
 	syncFormItem() {},
 	getFieldValue() {},
 	setFieldsValue() {},

@@ -19,7 +19,8 @@ export interface IInputProps extends React.HTMLAttributes<HTMLElement> {
 	color?: string
 	disabled?: boolean
 	enterButton?: React.ReactNode | null
-	onChange?(event: React.FormEvent<HTMLElement>, name?: string): void
+	onChange?(event: React.FormEvent<HTMLElement>): void
+	onFieldValueChange?(value: string, name?: string): void
 	onSearch?(value: string): void
 }
 
@@ -83,6 +84,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 		color = ThemeNames.PRIMARY,
 		disabled = false,
 		enterButton = null,
+		onFieldValueChange = () => {},
 		onChange = () => {},
 		onSearch = () => {},
 		...restProps
@@ -116,9 +118,10 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 		e => {
 			const keywords = e.target.value
 			setInputVal(keywords)
-			onChange && onChange(keywords, name)
+			onFieldValueChange && onFieldValueChange(keywords, name)
+			onChange && onChange(keywords)
 		},
-		[onChange, name]
+		[onFieldValueChange, onChange, name]
 	)
 
 	const handleSearch = React.useCallback(() => {

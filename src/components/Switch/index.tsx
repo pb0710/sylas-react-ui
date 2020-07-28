@@ -13,7 +13,8 @@ interface ISwitchProps {
 	name?: string
 	value?: boolean
 	error?: boolean
-	onChange?(checked?: boolean, name?: string): void
+	onChange?(checked: boolean): void
+	onFieldValueChange?(checked?: boolean, name?: string): void
 }
 
 interface IStyleProps {
@@ -68,6 +69,7 @@ const _Switch: React.FC<ISwitchProps> = props => {
 		value = false,
 		error = false,
 		onChange = () => {},
+		onFieldValueChange = () => {},
 		...restProps
 	} = props
 
@@ -82,12 +84,11 @@ const _Switch: React.FC<ISwitchProps> = props => {
 
 	const handleToggle = React.useCallback(() => {
 		if (!disabled) {
-			onChange(!checked, name)
-			setChecked(prev => {
-				return !prev
-			})
+			onChange(!checked)
+			onFieldValueChange(!checked, name)
+			setChecked(prev => !prev)
 		}
-	}, [disabled, onChange, checked, name])
+	}, [disabled, onChange, onFieldValueChange, checked, name])
 
 	React.useEffect(() => {
 		setChecked(value)

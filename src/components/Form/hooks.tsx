@@ -30,7 +30,7 @@ export interface ICallback {
 	(desc: string): void
 }
 
-export interface IOnChange {
+export interface IOnFieldValueChange {
 	(value?: string, name?: string): void
 }
 
@@ -66,7 +66,7 @@ export interface IForm {
 	values?: IValues
 	errors?: IErrors
 	submit: ISubmit
-	onChange: IOnChange
+	onFieldValueChange: IOnFieldValueChange
 	syncFormItem: ISyncFormItem
 	getFieldValue: IGetFieldValue
 	setFieldsValue: ISetFieldsValue
@@ -118,11 +118,11 @@ export const useForm = (): IForm => {
 						_cleanFieldError(name)
 					}
 				}
-				await validator(value, callback)
+				await validator(value, callback, values)
 			}
 			return result
 		},
-		[_setFieldError, _cleanFieldError]
+		[_setFieldError, _cleanFieldError, values]
 	)
 
 	/**
@@ -144,7 +144,7 @@ export const useForm = (): IForm => {
 		setItems(prev => prev.map(item => (item.name === name ? { ...item, value } : item)))
 	}
 
-	const onChange: IOnChange = (value, name) => {
+	const onFieldValueChange: IOnFieldValueChange = (value, name) => {
 		setOrigin(undefined)
 		if (name) {
 			setValues(prev => ({
@@ -231,7 +231,7 @@ export const useForm = (): IForm => {
 	)
 
 	return {
-		onChange,
+		onFieldValueChange,
 		values,
 		errors,
 		submit,

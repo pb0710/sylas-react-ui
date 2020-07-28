@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 			borderRight: '1px solid #f1f1f1'
 		},
 		form: {
-			maxWidth: 400
+			// maxWidth: 400
 		},
 		select: {
 			minWidth: 100
@@ -59,6 +59,9 @@ const useStyles = makeStyles(
 		},
 		menu3: {
 			paddingLeft: 72
+		},
+		input: {
+			width: '100%'
 		}
 	})
 )
@@ -317,19 +320,18 @@ const App: React.FC<IAppProps> = () => {
 				<Select.Option value="warning">橙黄</Select.Option>
 			</Select> */}
 
-			{/* <Form
+			<Form
 				className={classes.form}
 				form={form}
-				initialValues={{ input: 'Test form set value' }}
 				onValuesChange={handleFormChange}
 				onFinished={handleFinished}
 				onFailed={handleFailed}
 			>
 				<Form.Item name="input" label="用户名" validator={validateRequred}>
-					<Input.TextArea />
+					<Input />
 				</Form.Item>
 				<Form.Item name="password" label="密码" initialValue="" validator={validateRequred}>
-					<Input />
+					<Input className={classes.input} />
 				</Form.Item>
 				<Form.Item name="switch" label="护眼模式" initialValue={true}>
 					<Switch />
@@ -348,7 +350,7 @@ const App: React.FC<IAppProps> = () => {
 						</Button>
 					</div>
 				</Form.Item>
-			</Form> */}
+			</Form>
 
 			{/* <Menu menu={menu} color="success" onSelected={console.log}>
 				<Link to="/">

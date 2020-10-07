@@ -79,7 +79,7 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 				submit()
 			}
 		},
-		[submit]
+		[submit, onClick, htmlType]
 	)
 
 	const btnCls = clsx(classes.btn, className)

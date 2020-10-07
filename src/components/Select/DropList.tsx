@@ -35,7 +35,7 @@ const useStyles = makeStyles(
 			transformOrigin: 'center 0',
 			cursor: 'pointer',
 			// 为何不直接 auto？因为 hidden 时右边距多了1px的 bug
-			overflowY: childCount > 5 ? 'auto' : 'unset',
+			overflowY: childCount >= 5 ? 'auto' : 'unset',
 			animationDuration: `${timeout}ms`
 		}),
 		enter: {

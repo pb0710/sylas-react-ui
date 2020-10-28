@@ -28,7 +28,7 @@ export const usePopupVisible = ({ clickPopupHide = false, blurHide = true } = {}
 	const handlePopupBlur = React.useCallback(
 		e => {
 			const targetElement: React.ReactNode = e.target
-			let nextVisible: boolean = true
+			let nextVisible = true
 
 			if (clickPopupHide) {
 				nextVisible = false

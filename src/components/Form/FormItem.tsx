@@ -68,16 +68,7 @@ interface StyleProps {
 }
 
 const _FormItem: React.FC<FormItemProps> = props => {
-	const {
-		children,
-		className,
-		label,
-		textAlign = TextAlign.RIGHT,
-		col = 10,
-		name,
-		initialValue,
-		validator
-	} = props
+	const { children, className, label, textAlign = TextAlign.RIGHT, col = 10, name, initialValue, validator } = props
 
 	const ctxProps = React.useContext(FormContext)
 	const { values, errors, onFieldValueChange, setFieldsValue, syncFormItem } = ctxProps

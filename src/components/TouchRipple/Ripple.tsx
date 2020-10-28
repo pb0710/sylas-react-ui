@@ -12,7 +12,7 @@ export interface RippleProps extends TransitionOpts {
 }
 
 interface StyleProps {
-	styles: Rect | object
+	styles: Rect
 	timeout: number
 	color: Colors
 }

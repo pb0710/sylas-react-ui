@@ -40,11 +40,7 @@ const _Group: React.FC<GroupProps> = props => {
 				} = child
 
 				const compactStyles =
-					index === 0
-						? classes.firstOne
-						: index === childNum - 1
-						? classes.lastOne
-						: classes.compact
+					index === 0 ? classes.firstOne : index === childNum - 1 ? classes.lastOne : classes.compact
 
 				return React.cloneElement(child, {
 					inputClassName: clsx(oldInputCls, compactStyles)

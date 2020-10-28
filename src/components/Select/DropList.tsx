@@ -68,14 +68,7 @@ const useStyles = makeStyles(
 )
 
 const _DropList: React.FC<DropListProps> = props => {
-	const {
-		children,
-		timeout = 150,
-		in: inProp = false,
-		onExited = () => {},
-		selected,
-		handleChange
-	} = props
+	const { children, timeout = 150, in: inProp = false, onExited = () => {}, selected, handleChange } = props
 
 	useTransition({ in: inProp, onExited, timeout })
 

@@ -12,11 +12,7 @@ const _Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref)
 	const { visible = false } = props
 	const windowProps = _.omit(props, ['visible'])
 
-	return (
-		<TransitionGroup component={null}>
-			{visible && <Window ref={ref} {...windowProps} />}
-		</TransitionGroup>
-	)
+	return <TransitionGroup component={null}>{visible && <Window ref={ref} {...windowProps} />}</TransitionGroup>
 }
 
 const Popup = React.memo(React.forwardRef<unknown, PopupProps>(_Popup))

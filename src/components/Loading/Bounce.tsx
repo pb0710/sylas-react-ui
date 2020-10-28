@@ -28,8 +28,7 @@ const useStyles = makeStyles(
 			opacity: 0.6,
 			// mixBlendMode: 'multiply',
 			animation: '$kf_ball_stretch 2s infinite ease-in-out',
-			background: ({ color }: StyleProps) =>
-				color.name === ThemeNames.DEFAULT ? '#888' : color.main
+			background: ({ color }: StyleProps) => (color.name === ThemeNames.DEFAULT ? '#888' : color.main)
 		},
 		ball1: {},
 		ball2: {

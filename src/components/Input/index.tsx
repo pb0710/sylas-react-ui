@@ -5,9 +5,7 @@ import TextArea from './TextArea'
 import Group from './Group'
 
 interface InputExport
-	extends React.MemoExoticComponent<
-		React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLElement>>
-	> {
+	extends React.MemoExoticComponent<React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLElement>>> {
 	Password: typeof Password
 	Search: typeof Search
 	TextArea: typeof TextArea

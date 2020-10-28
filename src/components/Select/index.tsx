@@ -1,8 +1,7 @@
 import _Select, { SelectProps } from './Select'
 import Option from './Option'
 
-interface SelectExports
-	extends React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLElement>> {
+interface SelectExports extends React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLElement>> {
 	Option: typeof Option
 }
 

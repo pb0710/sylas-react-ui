@@ -26,8 +26,7 @@ const useStyles = makeStyles(
 			display: 'inline-block',
 			opacity: 1,
 			animation: '$kf_dot_stretch 1.4s infinite ease-in-out both',
-			background: ({ color }: StyleProps) =>
-				color.name === ThemeNames.DEFAULT ? '#888' : color.main
+			background: ({ color }: StyleProps) => (color.name === ThemeNames.DEFAULT ? '#888' : color.main)
 		},
 		dot1: {},
 		dot2: {

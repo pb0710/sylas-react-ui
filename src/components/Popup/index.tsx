@@ -2,9 +2,7 @@ import _Popup, { PopupProps } from './Popup'
 import { usePopupVisible } from './hooks'
 
 interface PopupExports
-	extends React.MemoExoticComponent<
-		React.ForwardRefExoticComponent<PopupProps & React.HTMLAttributes<HTMLElement>>
-	> {
+	extends React.MemoExoticComponent<React.ForwardRefExoticComponent<PopupProps & React.HTMLAttributes<HTMLElement>>> {
 	usePopupVisible: typeof usePopupVisible
 }
 

@@ -151,17 +151,14 @@ const _Input: React.ForwardRefRenderFunction<unknown, InputProps> = (props, ref)
 				return <SuffixBtn onClick={handleSearch}>{enterButton}</SuffixBtn>
 			case InputTypes.PASSWORD:
 				return (
-					<SuffixBtn onClick={handleTogglePrivate}>
-						{invisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-					</SuffixBtn>
+					<SuffixBtn onClick={handleTogglePrivate}>{invisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}</SuffixBtn>
 				)
 			default:
 				return
 		}
 	}
 
-	const inputType =
-		type === InputTypes.PASSWORD ? (invisible ? type : InputTypes.TEXT) : InputTypes.TEXT
+	const inputType = type === InputTypes.PASSWORD ? (invisible ? type : InputTypes.TEXT) : InputTypes.TEXT
 
 	const containerCls = clsx(classes.root, className)
 	const inputCls = clsx(classes.input, inputClassName)

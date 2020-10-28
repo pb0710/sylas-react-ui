@@ -1,11 +1,11 @@
 import React from 'react'
-import Input, { IInputProps, InputTypes } from './Input'
+import Input, { InputProps, InputTypes } from './Input'
 
-const _Search: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref) => (
+const _Search: React.ForwardRefRenderFunction<unknown, InputProps> = (props, ref) => (
 	<Input {...props} ref={ref as any} type={InputTypes.SEARCH} />
 )
 
-const Search = React.memo(React.forwardRef<unknown, IInputProps>(_Search))
+const Search = React.memo(React.forwardRef<unknown, InputProps>(_Search))
 Search.displayName = 'Search'
 
 export default Search

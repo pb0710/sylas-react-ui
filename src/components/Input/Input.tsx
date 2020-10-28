@@ -3,11 +3,11 @@ import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 import { hex2Rgba } from '../../utils'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import { InputBase } from './baseComponents'
 import SuffixBtn from './SuffixBtn'
 
-export interface IInputProps extends React.HTMLAttributes<HTMLElement> {
+export interface InputProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	inputClassName?: string
 	Component?: any
@@ -24,15 +24,15 @@ export interface IInputProps extends React.HTMLAttributes<HTMLElement> {
 	onSearch?(value: string): void
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	focus: boolean
 	disabled: boolean
 	error: boolean
 	type: string
 }
 
-interface IFocus {
+interface Focus {
 	(event: React.FocusEvent<HTMLElement>): void
 }
 
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 	createStyles({
 		root: {
 			// Input.Group compact用到，防止box-shadow被遮挡
-			zIndex: ({ focus }: IStyleProps) => (focus ? 1 : 0),
+			zIndex: ({ focus }: StyleProps) => (focus ? 1 : 0),
 			width: 200,
 			height: 32,
 			minWidth: 200,
@@ -55,7 +55,7 @@ const useStyles = makeStyles(
 			borderRadius: 4,
 			position: 'relative'
 		},
-		input: ({ color, focus, disabled, error, type }: IStyleProps) => {
+		input: ({ color, focus, disabled, error, type }: StyleProps) => {
 			const errorColor = selectColor(ThemeNames.ERROR)
 			const bdColor = error ? errorColor.main : focus ? color.main : '#d9d9d9'
 			const bxsWidth = focus ? 2 : 8
@@ -71,7 +71,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref) => {
+const _Input: React.ForwardRefRenderFunction<unknown, InputProps> = (props, ref) => {
 	const {
 		className,
 		inputClassName,
@@ -95,10 +95,10 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 	const [focus, setFocus] = React.useState<boolean>(false)
 	const [invisible, setInvisible] = React.useState<boolean>(true)
 
-	const styleProps: IStyleProps = { type, focus, disabled, error, color: selectColor(color) }
+	const styleProps: StyleProps = { type, focus, disabled, error, color: selectColor(color) }
 	const classes = useStyles(styleProps)
 
-	const handleInputFocus: IFocus = React.useCallback(
+	const handleInputFocus: Focus = React.useCallback(
 		e => {
 			onFocus && onFocus(e)
 			setFocus(true)
@@ -106,7 +106,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 		[onFocus]
 	)
 
-	const handleInputBlur: IFocus = React.useCallback(
+	const handleInputBlur: Focus = React.useCallback(
 		e => {
 			onBlur && onBlur(e)
 			setFocus(false)
@@ -186,7 +186,7 @@ const _Input: React.ForwardRefRenderFunction<unknown, IInputProps> = (props, ref
 	)
 }
 
-const Input = React.memo(React.forwardRef<unknown, IInputProps>(_Input))
+const Input = React.memo(React.forwardRef<unknown, InputProps>(_Input))
 Input.displayName = 'Input'
 
 export default Input

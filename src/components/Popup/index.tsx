@@ -1,14 +1,14 @@
-import _Popup, { IPopupProps } from './Popup'
+import _Popup, { PopupProps } from './Popup'
 import { usePopupVisible } from './hooks'
 
-interface IPopupExports
+interface PopupExports
 	extends React.MemoExoticComponent<
-		React.ForwardRefExoticComponent<IPopupProps & React.HTMLAttributes<HTMLElement>>
+		React.ForwardRefExoticComponent<PopupProps & React.HTMLAttributes<HTMLElement>>
 	> {
 	usePopupVisible: typeof usePopupVisible
 }
 
-const Popup = _Popup as IPopupExports
+const Popup = _Popup as PopupExports
 Popup.usePopupVisible = usePopupVisible
 
 Popup.displayName = 'Popup'

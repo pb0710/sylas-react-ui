@@ -3,15 +3,15 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { DownOutlined } from '@ant-design/icons'
 import { TransitionGroup } from 'react-transition-group'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, selectColor, Colors } from '../../common/themeColors'
 import DropList from './DropList'
 
-export interface ISelectOption {
+export interface SelectOption {
 	value: string
 	desc: string
 }
 
-export interface ISelectProps {
+export interface SelectProps {
 	children: any
 	className?: string
 	name?: string
@@ -23,15 +23,15 @@ export interface ISelectProps {
 	onFieldValueChange?(value?: string, name?: string): void
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	dropVisible: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
 		root: {
-			width: 120,
+			width: 136,
 			height: 32,
 			fontSize: 14,
 			color: '#303133',
@@ -39,7 +39,7 @@ const useStyles = makeStyles(
 			cursor: 'pointer',
 			userSelect: 'none'
 		},
-		select: ({ dropVisible }: IStyleProps) => ({
+		select: ({ dropVisible }: StyleProps) => ({
 			boxSizing: 'border-box',
 			display: 'flex',
 			alignItems: 'center',
@@ -55,9 +55,12 @@ const useStyles = makeStyles(
 			transition: 'all 100ms'
 		}),
 		desc: {
-			marginRight: 16
+			marginRight: 16,
+			whiteSpace: 'nowrap',
+			textOverflow: 'ellipsis',
+			overflow: 'hidden'
 		},
-		dropDownIcon: ({ dropVisible }: IStyleProps) => ({
+		dropDownIcon: ({ dropVisible }: StyleProps) => ({
 			fontSize: 11,
 			transform: dropVisible ? 'rotate(180deg)' : 'rotate(0)',
 			transition: 'all 100ms'
@@ -65,7 +68,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Select: React.FC<ISelectProps> = props => {
+const _Select: React.FC<SelectProps> = props => {
 	const {
 		children,
 		className,
@@ -78,7 +81,7 @@ const _Select: React.FC<ISelectProps> = props => {
 	} = props
 
 	const defaultOption = { desc: '', value: '' }
-	const [selected, setSelected] = React.useState<ISelectOption>(defaultOption)
+	const [selected, setSelected] = React.useState<SelectOption>(defaultOption)
 	const [dropVisible, setDropVisible] = React.useState<boolean>(false)
 
 	const handleShowDrop = () => {
@@ -90,7 +93,7 @@ const _Select: React.FC<ISelectProps> = props => {
 	}
 
 	const handleChange = React.useCallback(
-		(option: ISelectOption) => {
+		(option: SelectOption) => {
 			setSelected(option)
 			onChange && onChange(option.value)
 			onFieldValueChange && onFieldValueChange(option.value, name)
@@ -99,7 +102,7 @@ const _Select: React.FC<ISelectProps> = props => {
 		[onChange, onFieldValueChange, handleHideDrop, name]
 	)
 
-	const styleProps: IStyleProps = {
+	const styleProps: StyleProps = {
 		dropVisible,
 		color: selectColor(color)
 	}

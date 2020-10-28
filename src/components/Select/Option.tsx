@@ -1,26 +1,26 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
-import { ISelectOption } from './Select'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import { SelectOption } from './Select'
 
-interface IOptionProps extends React.HTMLAttributes<HTMLElement> {
+interface OptionProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
 	timeout?: number
 	value?: string
 	isCurrent?: boolean
-	handleChange?(option?: ISelectOption): void
+	handleChange?(option?: SelectOption): void
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	timeout: number
 	isCurrent: boolean
 }
 
 const useStyles = makeStyles({
-	root: ({ color, isCurrent, timeout }: IStyleProps) => ({
+	root: ({ color, isCurrent, timeout }: StyleProps) => ({
 		display: 'flex',
 		alignItems: 'center',
 		width: 'inherit',
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
 	}
 })
 
-const _Option: React.FC<IOptionProps> = props => {
+const _Option: React.FC<OptionProps> = props => {
 	const {
 		className,
 		children,
@@ -67,7 +67,7 @@ const _Option: React.FC<IOptionProps> = props => {
 		...restProps
 	} = props
 
-	const styleProps: IStyleProps = {
+	const styleProps: StyleProps = {
 		color: selectColor(color),
 		timeout,
 		isCurrent
@@ -75,7 +75,7 @@ const _Option: React.FC<IOptionProps> = props => {
 	const classes = useStyles(styleProps)
 
 	const handleSelect = React.useCallback(() => {
-		const nextOption: ISelectOption = {
+		const nextOption: SelectOption = {
 			desc: children as string,
 			value
 		}

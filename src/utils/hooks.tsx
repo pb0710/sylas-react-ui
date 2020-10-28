@@ -1,13 +1,13 @@
 import React from 'react'
 
-export interface ITransitionOpts {
+export interface TransitionOpts {
 	in?: boolean
 	timeout?: number
 	onExited?(): void
 	callback?(): void
 }
 
-export const useTransition = (options: ITransitionOpts) => {
+export const useTransition = (options: TransitionOpts) => {
 	const { in: inProp = false, onExited = () => {}, timeout = 0, callback } = options
 	React.useEffect(() => {
 		if (!inProp) {

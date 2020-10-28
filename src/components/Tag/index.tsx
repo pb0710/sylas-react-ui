@@ -2,9 +2,9 @@ import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { CloseOutlined } from '@ant-design/icons'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
-interface ITagProps extends React.HTMLAttributes<HTMLElement> {
+interface TagProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
 	bordered?: boolean
@@ -12,14 +12,14 @@ interface ITagProps extends React.HTMLAttributes<HTMLElement> {
 	onClose?(event: React.MouseEvent<HTMLElement>): void
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	bordered: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ bordered, color }: IStyleProps) => ({
+		root: ({ bordered, color }: StyleProps) => ({
 			boxSizing: 'border-box',
 			display: 'flex',
 			alignItems: 'center',
@@ -44,13 +44,13 @@ const useStyles = makeStyles(
 			transition: 'color 250ms',
 
 			'&:hover': {
-				color: ({ color }: IStyleProps) => color.dim
+				color: ({ color }: StyleProps) => color.dim
 			}
 		}
 	})
 )
 
-const _Tag: React.FC<ITagProps> = props => {
+const _Tag: React.FC<TagProps> = props => {
 	const {
 		className,
 		children,
@@ -60,7 +60,7 @@ const _Tag: React.FC<ITagProps> = props => {
 		onClose = () => {}
 	} = props
 
-	const stylesProps: IStyleProps = {
+	const stylesProps: StyleProps = {
 		bordered,
 		color: selectColor(color)
 	}

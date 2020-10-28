@@ -3,12 +3,12 @@ import { TransitionGroup } from 'react-transition-group'
 import _ from 'lodash'
 import Window from './Window'
 
-export interface IPopupProps extends React.RefAttributes<HTMLElement> {
+export interface PopupProps extends React.RefAttributes<HTMLElement> {
 	visible?: boolean
 	scaleOrigin?: string
 }
 
-const _Popup: React.ForwardRefRenderFunction<unknown, IPopupProps> = (props, ref) => {
+const _Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref) => {
 	const { visible = false } = props
 	const windowProps = _.omit(props, ['visible'])
 
@@ -19,7 +19,7 @@ const _Popup: React.ForwardRefRenderFunction<unknown, IPopupProps> = (props, ref
 	)
 }
 
-const Popup = React.memo(React.forwardRef<unknown, IPopupProps>(_Popup))
+const Popup = React.memo(React.forwardRef<unknown, PopupProps>(_Popup))
 Popup.displayName = 'Popup'
 
 export default Popup

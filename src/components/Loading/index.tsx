@@ -1,14 +1,14 @@
 import React from 'react'
-import _Loading, { ILoadingProps } from './Loading'
+import _Loading, { LoadingProps } from './Loading'
 import Bounce from './Bounce'
 import Line from './Line'
 
-interface ILoadingExports extends React.MemoExoticComponent<React.FC<ILoadingProps>> {
+interface LoadingExports extends React.MemoExoticComponent<React.FC<LoadingProps>> {
 	Bounce: typeof Bounce
 	Line: typeof Line
 }
 
-const Loading = _Loading as ILoadingExports
+const Loading = _Loading as LoadingExports
 
 Loading.Bounce = Bounce
 Loading.Line = Line

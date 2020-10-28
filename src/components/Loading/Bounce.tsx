@@ -1,14 +1,14 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
-interface IBounceProps {
+interface BounceProps {
 	color?: string
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 }
 
 const useStyles = makeStyles(
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 			opacity: 0.6,
 			// mixBlendMode: 'multiply',
 			animation: '$kf_ball_stretch 2s infinite ease-in-out',
-			background: ({ color }: IStyleProps) =>
+			background: ({ color }: StyleProps) =>
 				color.name === ThemeNames.DEFAULT ? '#888' : color.main
 		},
 		ball1: {},
@@ -46,9 +46,9 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Bounce: React.FC<IBounceProps> = props => {
+const _Bounce: React.FC<BounceProps> = props => {
 	const { color = ThemeNames.PRIMARY } = props
-	const stylesProps: IStyleProps = { color: selectColor(color) }
+	const stylesProps: StyleProps = { color: selectColor(color) }
 	const classes = useStyles(stylesProps)
 
 	return (

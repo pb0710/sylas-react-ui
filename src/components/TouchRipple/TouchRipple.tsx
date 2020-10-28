@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { TransitionGroup } from 'react-transition-group'
-import Ripple, { IRippleProps } from './Ripple'
+import Ripple, { RippleProps } from './Ripple'
 
 interface Rect {
 	width: number
@@ -10,7 +10,7 @@ interface Rect {
 	top: number
 }
 
-export interface ITouchRippleProps extends React.RefAttributes<HTMLElement> {
+export interface TouchRippleProps extends React.RefAttributes<HTMLElement> {
 	centered?: boolean
 	timeout?: number
 	color?: string
@@ -31,10 +31,10 @@ const useStyles = makeStyles(
 	})
 )
 
-const _TouchRipple: React.ForwardRefRenderFunction<unknown, ITouchRippleProps> = (props, ref) => {
+const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = (props, ref) => {
 	const { centered = false, timeout = 400, color = 'default' } = props
 
-	const [ripples, setRipples] = React.useState<React.FC<IRippleProps>[]>([])
+	const [ripples, setRipples] = React.useState<React.FC<RippleProps>[]>([])
 	const key = React.useRef(0)
 	const container: React.RefObject<any> = React.useRef()
 	const classes = useStyles()
@@ -107,7 +107,7 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, ITouchRippleProps> =
 	)
 }
 
-const TouchRipple = React.memo(React.forwardRef<unknown, ITouchRippleProps>(_TouchRipple))
+const TouchRipple = React.memo(React.forwardRef<unknown, TouchRippleProps>(_TouchRipple))
 TouchRipple.displayName = 'TouchRipple'
 
 export default TouchRipple

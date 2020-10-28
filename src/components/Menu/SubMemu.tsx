@@ -4,13 +4,13 @@ import { CaretDownFilled } from '@ant-design/icons'
 import List from '../List'
 import Collapse from '../Collapse'
 
-interface ISubMenuProps extends React.HTMLAttributes<HTMLElement> {
+interface SubMenuProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	title?: any
 	opened?: boolean
 }
 
-export interface IStyleProps {
+export interface StyleProps {
 	listOpened: boolean
 }
 
@@ -28,18 +28,18 @@ const useStyles = makeStyles(
 			position: 'absolute',
 			top: 0,
 			right: 20,
-			transform: ({ listOpened }: IStyleProps) => `rotate(${listOpened ? 180 : 0}deg)`,
+			transform: ({ listOpened }: StyleProps) => `rotate(${listOpened ? 180 : 0}deg)`,
 			transition: 'transform 300ms ease-out'
 		}
 	})
 )
 
-const _SubMenu: React.FC<ISubMenuProps> = props => {
+const _SubMenu: React.FC<SubMenuProps> = props => {
 	const { children, className, title, opened = false } = props
 
 	const [listOpened, setlistOpened] = React.useState<boolean>(opened)
 
-	const classes = useStyles({ listOpened } as IStyleProps)
+	const classes = useStyles({ listOpened } as StyleProps)
 
 	const handleSelect = () => {
 		setlistOpened(prev => !prev)

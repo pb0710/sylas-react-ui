@@ -1,12 +1,12 @@
-import _Input, { IInputProps } from './Input'
+import _Input, { InputProps } from './Input'
 import Search from './Search'
 import Password from './Password'
 import TextArea from './TextArea'
 import Group from './Group'
 
-interface IInputExport
+interface InputExport
 	extends React.MemoExoticComponent<
-		React.ForwardRefExoticComponent<IInputProps & React.RefAttributes<HTMLElement>>
+		React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLElement>>
 	> {
 	Password: typeof Password
 	Search: typeof Search
@@ -14,7 +14,7 @@ interface IInputExport
 	Group: typeof Group
 }
 
-const Input = _Input as IInputExport
+const Input = _Input as InputExport
 Input.Search = Search
 Input.Password = Password
 Input.TextArea = TextArea

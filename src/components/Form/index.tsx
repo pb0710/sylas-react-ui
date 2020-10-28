@@ -1,13 +1,13 @@
-import _Form, { IFormProps } from './Form'
+import _Form, { FormProps } from './Form'
 import FormItem from './FormItem'
 import { useForm } from './hooks'
 
-interface IFormExports extends React.MemoExoticComponent<React.FC<IFormProps>> {
+interface FormExports extends React.MemoExoticComponent<React.FC<FormProps>> {
 	Item: typeof FormItem
 	useForm: typeof useForm
 }
 
-const Form = _Form as IFormExports
+const Form = _Form as FormExports
 
 Form.Item = FormItem
 Form.useForm = useForm

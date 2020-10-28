@@ -2,12 +2,12 @@ import React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
 
-interface IStyleProps {
+interface StyleProps {
 	dashed: boolean
 	titleCentered: boolean
 }
 
-interface IDividerProps extends React.HTMLAttributes<HTMLElement> {
+interface DividerProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	title?: string
 	titleCentered?: boolean
@@ -23,13 +23,13 @@ const useStyles = makeStyles(
 			width: '100%',
 			border: 0,
 			borderTopWidth: 1,
-			borderTopStyle: ({ dashed }: IStyleProps) => (dashed ? 'dashed' : 'solid'),
+			borderTopStyle: ({ dashed }: StyleProps) => (dashed ? 'dashed' : 'solid'),
 			borderTopColor: '#f1f1f1',
 			margin: '8px 0',
 			padding: 0,
 			position: 'relative'
 		},
-		title: ({ titleCentered }: IStyleProps) => ({
+		title: ({ titleCentered }: StyleProps) => ({
 			background: '#fff',
 			padding: '0 8px',
 			position: 'absolute',
@@ -38,7 +38,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Divider: React.FC<IDividerProps> = props => {
+const _Divider: React.FC<DividerProps> = props => {
 	const { children, className, dashed = false, titleCentered = true } = props
 	const classes = useStyles({ dashed, titleCentered })
 	const dividerCls = clsx(classes.root, className)

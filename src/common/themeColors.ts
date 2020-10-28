@@ -6,7 +6,7 @@ export enum ThemeNames {
 	ERROR = 'error'
 }
 
-export interface IColors {
+export interface Colors {
 	readonly name: string
 	readonly main: string
 	readonly bright: string
@@ -15,11 +15,11 @@ export interface IColors {
 	readonly ripple: string
 }
 
-export interface IThemes {
-	readonly [key: string]: IColors
+export interface Themes {
+	readonly [key: string]: Colors
 }
 
-const themeColors: IThemes = {
+const themeColors: Themes = {
 	default: {
 		name: 'default',
 		main: '#f4f4f5',
@@ -70,6 +70,6 @@ const themeColors: IThemes = {
 	}
 }
 
-export function selectColor(name: string): IColors {
+export function selectColor(name: string): Colors {
 	return themeColors[name]
 }

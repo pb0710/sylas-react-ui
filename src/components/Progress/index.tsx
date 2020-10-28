@@ -1,16 +1,16 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
-interface IStyleProps {
+interface StyleProps {
 	fixedTop: boolean
 	trailColor: string
 	percent: number
-	color: IColors
+	color: Colors
 }
 
-interface IProgressProps {
+interface ProgressProps {
 	className?: string
 	percent?: number
 	color?: string
@@ -20,7 +20,7 @@ interface IProgressProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ fixedTop, trailColor }: IStyleProps) => ({
+		root: ({ fixedTop, trailColor }: StyleProps) => ({
 			position: 'relative',
 			...(fixedTop
 				? {
@@ -34,7 +34,7 @@ const useStyles = makeStyles(
 			height: 2,
 			background: trailColor
 		}),
-		line: ({ percent, color }: IStyleProps) => ({
+		line: ({ percent, color }: StyleProps) => ({
 			width: `${percent}%`,
 			height: '100%',
 			background: color.main,
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Progress: React.FC<IProgressProps> = props => {
+const _Progress: React.FC<ProgressProps> = props => {
 	const {
 		className,
 		percent = 0,
@@ -55,7 +55,7 @@ const _Progress: React.FC<IProgressProps> = props => {
 		fixedTop = false
 	} = props
 
-	const stylesProps: IStyleProps = { color: selectColor(color), trailColor, percent, fixedTop }
+	const stylesProps: StyleProps = { color: selectColor(color), trailColor, percent, fixedTop }
 	const classes = useStyles(stylesProps)
 
 	const progressCls = clsx(classes.root, className)

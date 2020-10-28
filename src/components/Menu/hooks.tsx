@@ -1,23 +1,23 @@
 import React from 'react'
 
-export interface IIds {
+export interface Ids {
 	[key: string]: boolean
 }
 
-export interface IIdEffect {
+export interface IdEffect {
 	(id: string): void
 }
 
-export interface IMenu {
-	ids: IIds
-	syncMenuId: IIdEffect
-	setCurrentKey: IIdEffect
+export interface Menu {
+	ids: Ids
+	syncMenuId: IdEffect
+	setCurrentKey: IdEffect
 	getCurrentKey(): string | undefined
 }
 
-export function useMenu(): IMenu {
+export function useMenu(): Menu {
 	// 所有 MenuItem id 集中存放
-	const [ids, setIds] = React.useState<IIds>({})
+	const [ids, setIds] = React.useState<Ids>({})
 
 	const getCurrentKey = () => {
 		for (const key in ids) {
@@ -42,7 +42,7 @@ export function useMenu(): IMenu {
 		})
 	}
 
-	const syncMenuId: IIdEffect = (id: string) => {
+	const syncMenuId: IdEffect = (id: string) => {
 		setIds(prev => ({ ...prev, [id]: false }))
 	}
 

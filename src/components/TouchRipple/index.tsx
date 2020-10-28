@@ -1,14 +1,14 @@
-import _TouchRipple, { ITouchRippleProps } from './TouchRipple'
+import _TouchRipple, { TouchRippleProps } from './TouchRipple'
 import { useRipple } from './hooks'
 
-interface ITouchRippleExports
+interface TouchRippleExports
 	extends React.MemoExoticComponent<
-		React.ForwardRefExoticComponent<ITouchRippleProps & React.RefAttributes<HTMLElement>>
+		React.ForwardRefExoticComponent<TouchRippleProps & React.RefAttributes<HTMLElement>>
 	> {
 	useRipple: typeof useRipple
 }
 
-const TouchRipple = _TouchRipple as ITouchRippleExports
+const TouchRipple = _TouchRipple as TouchRippleExports
 TouchRipple.useRipple = useRipple
 
 export default TouchRipple

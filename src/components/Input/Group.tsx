@@ -2,7 +2,7 @@ import React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
-interface IGroupProps extends React.HTMLAttributes<HTMLElement> {
+interface GroupProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 }
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Group: React.FC<IGroupProps> = props => {
+const _Group: React.FC<GroupProps> = props => {
 	const { children, className } = props
 	const classes = useStyles()
 	const childNum = React.Children.count(children)

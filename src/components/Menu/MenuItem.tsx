@@ -2,24 +2,24 @@ import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import List from '../List'
-import { IListItemProps } from '../List/ListItem'
+import { ListItemProps } from '../List/ListItem'
 import { MenuContext } from './Menu'
-import { selectColor, ThemeNames, IColors } from '../../common/themeColors'
+import { selectColor, ThemeNames, Colors } from '../../common/themeColors'
 
-export interface IMenuItemProps extends IListItemProps {
+export interface MenuItemProps extends ListItemProps {
 	className?: string
 	id: string
 	color?: string
 }
 
-interface IStyleProps {
+interface StyleProps {
 	selected: boolean
-	color: IColors
+	color: Colors
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ color, selected }: IStyleProps) => {
+		root: ({ color, selected }: StyleProps) => {
 			const textColor = selected ? color.main : '#303133'
 			return {
 				color: textColor,
@@ -32,7 +32,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _MenuItem: React.FC<IMenuItemProps> = props => {
+const _MenuItem: React.FC<MenuItemProps> = props => {
 	const { children, className, id, color = ThemeNames.PRIMARY } = props
 
 	const ctxProps = React.useContext(MenuContext)
@@ -40,7 +40,7 @@ const _MenuItem: React.FC<IMenuItemProps> = props => {
 
 	const selected: boolean = ids[id]
 
-	const styleProps: IStyleProps = { selected, color: selectColor(color) }
+	const styleProps: StyleProps = { selected, color: selectColor(color) }
 	const classes = useStyles(styleProps)
 
 	const handleSelect = () => (id && onSelected ? onSelected(id) : null)

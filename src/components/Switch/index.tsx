@@ -1,10 +1,10 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import ButtonBase from '../Button/ButtonBase'
 
-interface ISwitchProps {
+interface SwitchProps {
 	className?: string
 	defaultChecked?: boolean
 	color?: string
@@ -17,15 +17,15 @@ interface ISwitchProps {
 	onFieldValueChange?(checked?: boolean, name?: string): void
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	disabled: boolean
 	checked: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ checked, color, disabled }: IStyleProps) => ({
+		root: ({ checked, color, disabled }: StyleProps) => ({
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
@@ -48,7 +48,7 @@ const useStyles = makeStyles(
 				height: '100%'
 			}
 		}),
-		button: ({ checked }: IStyleProps) => ({
+		button: ({ checked }: StyleProps) => ({
 			width: 12,
 			height: 12,
 			borderRadius: '50%',
@@ -59,7 +59,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Switch: React.FC<ISwitchProps> = props => {
+const _Switch: React.FC<SwitchProps> = props => {
 	const {
 		className,
 		color = ThemeNames.PRIMARY,
@@ -75,7 +75,7 @@ const _Switch: React.FC<ISwitchProps> = props => {
 
 	const [checked, setChecked] = React.useState<boolean>(defaultChecked)
 
-	const stylesProps: IStyleProps = {
+	const stylesProps: StyleProps = {
 		color: selectColor(color),
 		checked,
 		disabled

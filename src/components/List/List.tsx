@@ -2,11 +2,11 @@ import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
-interface IStyleProps {
+interface StyleProps {
 	bordered: boolean
 }
 
-export interface IListProps {
+export interface ListProps {
 	className?: string
 	bordered?: boolean
 }
@@ -22,13 +22,13 @@ const useStyles = makeStyles(
 			color: '#303133',
 			margin: 0,
 			padding: 0,
-			border: ({ bordered }: IStyleProps): string => (bordered ? '1px solid #dadce0' : '0px'),
+			border: ({ bordered }: StyleProps): string => (bordered ? '1px solid #dadce0' : '0px'),
 			borderRadius: 4
 		}
 	})
 )
 
-const _List: React.FC<IListProps> = props => {
+const _List: React.FC<ListProps> = props => {
 	const { children, className, bordered = false, ...restProps } = props
 	const classes = useStyles({ bordered })
 	const ulCls = clsx(classes.list, className)

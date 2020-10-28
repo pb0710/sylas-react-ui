@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import ButtonBase from './ButtonBase'
 import TouchRipple from '../TouchRipple'
 import { FormContext } from '../Form/Form'
@@ -10,30 +10,34 @@ enum IHtmlType {
 	SUBMIT = 'submit'
 }
 
-export interface IButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
 	disabled?: boolean
+	prefixes?: JSX.Element
+	suffixes?: JSX.Element
 	htmlType?: string
 	error?: boolean
 }
 
-interface IStyleProps {
-	color: IColors
+interface StyleProps {
+	color: Colors
 	disabled: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		btn: ({ color, disabled }: IStyleProps) => ({
+		btn: ({ color, disabled }: StyleProps) => ({
 			boxSizing: 'border-box',
-			display: 'inline-block',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
 			position: 'relative',
 			fontSize: 14,
 			fontWeight: 'bolder',
 			whiteSpace: 'nowrap',
 			textAlign: 'center',
-			minWidth: 56,
+			minWidth: 80,
 			height: 32,
 			background: color.main,
 			padding: '4px 16px',
@@ -45,6 +49,15 @@ const useStyles = makeStyles(
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			transition: 'all 0.2s ease-out',
 
+			'&>span': {
+				'&:first-child': {
+					marginRight: 8
+				},
+				'&:last-child': {
+					marginLeft: 8
+				}
+			},
+
 			'&:hover': {
 				background: disabled ? '' : color.dim
 			}
@@ -52,15 +65,17 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, ref) => {
+const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
 	const {
 		children,
 		className,
 		color = ThemeNames.DEFAULT,
 		disabled = false,
+		prefixes = null,
+		suffixes = null,
 		htmlType,
 		error = false,
-		onClick = () => {},
+		onClick = null,
 		...restProps
 	} = props
 
@@ -69,7 +84,7 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 
-	const stylesProps: IStyleProps = { color: selectColor(color), disabled }
+	const stylesProps: StyleProps = { color: selectColor(color), disabled }
 	const classes = useStyles(stylesProps)
 
 	const customClick = React.useCallback(
@@ -84,12 +99,8 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 
 	const btnCls = clsx(classes.btn, className)
 
-	const renderChildren: <T>(children: T) => T | string = children => {
-		if (
-			typeof children === 'string' &&
-			children.length === 2 &&
-			!/[^\u4e00-\u9fa5]/.test(children)
-		) {
+	const renderChildren = () => {
+		if (typeof children === 'string' && children.length === 2 && !/[^\u4e00-\u9fa5]/.test(children)) {
 			// 两字中文中间加空格
 			return children[0] + ' ' + children[1]
 		} else {
@@ -108,13 +119,15 @@ const _Button: React.ForwardRefRenderFunction<unknown, IButtonProps> = (props, r
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
 		>
+			<span>{prefixes}</span>
 			<TouchRipple ref={rippleRef} color={color} />
-			{renderChildren<React.ReactNode>(children)}
+			{renderChildren()}
+			<span>{suffixes}</span>
 		</ButtonBase>
 	)
 }
 
-const Button = React.memo(React.forwardRef<unknown, IButtonProps>(_Button))
+const Button = React.memo(React.forwardRef<unknown, ButtonProps>(_Button))
 Button.displayName = 'Button'
 
 export default Button

@@ -2,7 +2,7 @@ import React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { SearchOutlined } from '@ant-design/icons'
 
-export interface ISuffixBtnProps extends React.ButtonHTMLAttributes<HTMLElement> {
+export interface SuffixBtnProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	onClick(event: React.MouseEvent<HTMLElement>): void
 }
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _SuffixBtn: React.FC<ISuffixBtnProps> = props => {
+const _SuffixBtn: React.FC<SuffixBtnProps> = props => {
 	const { children, onClick } = props
 	const classes = useStyles()
 

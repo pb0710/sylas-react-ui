@@ -1,20 +1,20 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
-import { useTransition, ITransitionOpts } from '../../utils/hooks'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import { useTransition, TransitionOpts } from '../../utils/hooks'
 
-export interface IRippleProps extends ITransitionOpts {
+export interface RippleProps extends TransitionOpts {
 	rippleX: number
 	rippleY: number
 	rippleSize: number
 	color?: string
 }
 
-interface IStyleProps {
+interface StyleProps {
 	styles: Rect | object
 	timeout: number
-	color: IColors
+	color: Colors
 }
 
 interface Rect {
@@ -26,7 +26,7 @@ interface Rect {
 
 const useStyles = makeStyles(
 	createStyles({
-		ripple: ({ styles }: IStyleProps) => ({
+		ripple: ({ styles }: StyleProps) => ({
 			position: 'absolute',
 			...styles
 		}),
@@ -66,7 +66,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Ripple: React.FC<IRippleProps> = props => {
+const _Ripple: React.FC<RippleProps> = props => {
 	const {
 		rippleX,
 		rippleY,
@@ -85,7 +85,7 @@ const _Ripple: React.FC<IRippleProps> = props => {
 	}
 
 	const [leave, setLeave] = React.useState<boolean>(false)
-	const styleProps: IStyleProps = { styles, timeout, color: selectColor(color) }
+	const styleProps: StyleProps = { styles, timeout, color: selectColor(color) }
 	const classes = useStyles(styleProps)
 
 	useTransition({

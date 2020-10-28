@@ -1,17 +1,17 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { IForm, IValues, useForm } from './hooks'
+import { Form, Values, useForm } from './hooks'
 
-export interface ICallback {
+export interface Callback {
 	(desc: string): void
 }
 
-export interface IFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 	className?: string
-	form?: IForm
-	onValuesChange?(values?: IValues): void
-	onFinished?(values: IValues): void
+	form?: Form
+	onValuesChange?(values?: Values): void
+	onFinished?(values: Values): void
 	onFailed?(): void
 }
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const defaultCtx: IForm = {
+const defaultCtx: Form = {
 	submit: () => ({} as any),
 	onFieldValueChange() {},
 	syncFormItem() {},
@@ -39,9 +39,9 @@ const defaultCtx: IForm = {
 	validateFields: async () => 'pending'
 }
 
-export const FormContext = React.createContext<IForm>(defaultCtx)
+export const FormContext = React.createContext<Form>(defaultCtx)
 
-const _Form: React.FC<IFormProps> = props => {
+const _Form: React.FC<FormProps> = props => {
 	const {
 		children,
 		className,
@@ -56,7 +56,7 @@ const _Form: React.FC<IFormProps> = props => {
 	const customSubmit = React.useCallback(
 		() =>
 			form.submit().then(
-				(res: IValues) => {
+				(res: Values) => {
 					onFinished(res)
 					return res
 				},

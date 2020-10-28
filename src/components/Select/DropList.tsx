@@ -1,24 +1,24 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import GroundGlass from '../GroundGlass'
-import { ISelectOption } from './Select'
-import { useTransition, ITransitionOpts } from '../../utils/hooks'
+import Paper from '../Paper'
+import { SelectOption } from './Select'
+import { useTransition, TransitionOpts } from '../../utils/hooks'
 
-export interface IDropListProps extends ITransitionOpts {
+export interface DropListProps extends TransitionOpts {
 	children: React.ReactNode
-	selected?: ISelectOption
-	handleChange(option: ISelectOption): void
+	selected?: SelectOption
+	handleChange(option: SelectOption): void
 }
 
-interface IStyleProps {
+interface StyleProps {
 	timeout: number
 	childCount: number
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ timeout, childCount }: IStyleProps) => ({
+		root: ({ timeout, childCount }: StyleProps) => ({
 			zIndex: 999,
 			minWidth: '100%',
 			maxHeight: 160,
@@ -67,7 +67,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _DropList: React.FC<IDropListProps> = props => {
+const _DropList: React.FC<DropListProps> = props => {
 	const {
 		children,
 		timeout = 150,
@@ -81,18 +81,18 @@ const _DropList: React.FC<IDropListProps> = props => {
 
 	const childCount = React.Children.count(children)
 
-	const styleProps: IStyleProps = { timeout, childCount }
+	const styleProps: StyleProps = { timeout, childCount }
 	const classes = useStyles(styleProps)
 
 	const dropListCls = clsx(classes.root, inProp ? classes.enter : classes.leave)
 
 	return (
-		<GroundGlass className={dropListCls}>
+		<Paper className={dropListCls}>
 			{React.Children.map(children as any, (child: JSX.Element) => {
 				const isCurrent = child.props.value === selected?.value
 				return React.cloneElement(child, { handleChange, isCurrent })
 			})}
-		</GroundGlass>
+		</Paper>
 	)
 }
 

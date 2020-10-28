@@ -1,17 +1,17 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { ThemeNames, IColors, selectColor } from '../../common/themeColors'
+import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import ButtonBase from './ButtonBase'
 import TouchRipple from '../TouchRipple'
 
-export interface IStyleProps {
-	color: IColors
+export interface StyleProps {
+	color: Colors
 	focus: boolean
 	disabled: boolean
 }
 
-export interface IIconButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
+export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	className?: string
 	color?: string
 	focus?: boolean
@@ -20,7 +20,7 @@ export interface IIconButtonProps extends React.ButtonHTMLAttributes<HTMLElement
 
 const useStyles = makeStyles(
 	createStyles({
-		iconBtn: ({ color, focus, disabled }: IStyleProps) => ({
+		iconBtn: ({ color, focus, disabled }: StyleProps) => ({
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -49,7 +49,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _IconButton: React.ForwardRefRenderFunction<unknown, IIconButtonProps> = (props, ref) => {
+const _IconButton: React.ForwardRefRenderFunction<unknown, IconButtonProps> = (props, ref) => {
 	const {
 		children,
 		className,
@@ -58,7 +58,7 @@ const _IconButton: React.ForwardRefRenderFunction<unknown, IIconButtonProps> = (
 		focus = false,
 		...restProps
 	} = props
-	const stylesProps: IStyleProps = { color: selectColor(color), focus, disabled }
+	const stylesProps: StyleProps = { color: selectColor(color), focus, disabled }
 	const classes = useStyles(stylesProps)
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 	const btnCls = clsx(classes.iconBtn, className)
@@ -79,7 +79,7 @@ const _IconButton: React.ForwardRefRenderFunction<unknown, IIconButtonProps> = (
 	)
 }
 
-const IconButton = React.memo(React.forwardRef<unknown, IIconButtonProps>(_IconButton))
+const IconButton = React.memo(React.forwardRef<unknown, IconButtonProps>(_IconButton))
 IconButton.displayName = 'IconButton'
 
 export default IconButton

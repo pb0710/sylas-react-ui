@@ -5,20 +5,20 @@ import { Transition } from 'react-transition-group'
 
 type typeHeight = number | string
 
-interface ICollpaseProps extends React.HTMLAttributes<HTMLElement> {
+interface CollpaseProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
 	in?: boolean
 	timeout?: number
 }
 
-interface IStyleProps {
+interface StyleProps {
 	timeout: number
 	height: typeHeight
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		container: ({ height, timeout }: IStyleProps) => ({
+		container: ({ height, timeout }: StyleProps) => ({
 			minHeight: 0,
 			height,
 			transition: `height ${timeout}ms ease-out`,
@@ -43,7 +43,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Collapse: React.FC<ICollpaseProps> = props => {
+const _Collapse: React.FC<CollpaseProps> = props => {
 	const { children, className, in: inProp = false, timeout = 300, ...restProps } = props
 
 	const nodeRef = React.useRef<any>()
@@ -52,7 +52,7 @@ const _Collapse: React.FC<ICollpaseProps> = props => {
 	const defaultHeight: typeHeight = inProp ? 'auto' : 0
 	const [height, setHeight] = React.useState<typeHeight>(defaultHeight)
 
-	const styleProps: IStyleProps = { height, timeout }
+	const styleProps: StyleProps = { height, timeout }
 	const classes = useStyles(styleProps)
 
 	/**

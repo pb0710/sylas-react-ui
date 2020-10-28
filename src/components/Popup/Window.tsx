@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { useTransition, ITransitionOpts } from '../../utils/hooks'
+import { useTransition, TransitionOpts } from '../../utils/hooks'
 import Paper from '../Paper'
 
 export enum ScaleOrigin {
@@ -20,12 +20,12 @@ export enum ScaleOrigin {
 	TOP_RIGHT = 'top-right'
 }
 
-export interface IWindowProps extends ITransitionOpts {
+export interface WindowProps extends TransitionOpts {
 	className?: string
 	scaleOrigin?: ScaleOrigin
 }
 
-export interface IStyleProps {
+export interface StyleProps {
 	scaleOrigin: string
 }
 
@@ -37,7 +37,7 @@ const useStyles = makeStyles(
 			fontSize: 14,
 			color: '#303133',
 			boxShadow: '0 4px 24px rgba(26,26,26,.14)',
-			transformOrigin: ({ scaleOrigin }: IStyleProps) => scaleOrigin?.replace('-', ' '),
+			transformOrigin: ({ scaleOrigin }: StyleProps) => scaleOrigin?.replace('-', ' '),
 			position: 'fixed',
 			userSelect: 'none',
 			zIndex: 999
@@ -71,7 +71,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Window: React.ForwardRefRenderFunction<unknown, IWindowProps> = (props, ref) => {
+const _Window: React.ForwardRefRenderFunction<unknown, WindowProps> = (props, ref) => {
 	const {
 		children,
 		className,
@@ -82,7 +82,7 @@ const _Window: React.ForwardRefRenderFunction<unknown, IWindowProps> = (props, r
 		...restProps
 	} = props
 
-	const classes = useStyles({ scaleOrigin } as IStyleProps)
+	const classes = useStyles({ scaleOrigin } as StyleProps)
 
 	useTransition({ in: inProp, onExited, timeout })
 
@@ -95,6 +95,6 @@ const _Window: React.ForwardRefRenderFunction<unknown, IWindowProps> = (props, r
 	)
 }
 
-const Window = React.memo(React.forwardRef<unknown, IWindowProps>(_Window))
+const Window = React.memo(React.forwardRef<unknown, WindowProps>(_Window))
 
 export default Window

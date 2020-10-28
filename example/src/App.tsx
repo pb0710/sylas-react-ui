@@ -27,9 +27,8 @@ import {
 	Form,
 	Menu
 } from 'sylas-react-ui'
-import { Link, NavLink } from 'react-router-dom'
 
-interface IAppProps {}
+interface AppProps {}
 
 const useStyles = makeStyles(
 	createStyles({
@@ -148,20 +147,14 @@ const delay = timeout =>
 		}, timeout)
 	})
 
-const App: React.FC<IAppProps> = () => {
+const App: React.FC<AppProps> = () => {
 	const classes = useStyles()
 
 	const form = Form.useForm()
 
 	const menu = Menu.useMenu()
 
-	const {
-		triggerRef,
-		popupRef,
-		visible,
-		handleShowPopup,
-		handleHidePopup
-	} = Popup.usePopupVisible()
+	const { triggerRef, popupRef, visible, handleShowPopup, handleHidePopup } = Popup.usePopupVisible()
 
 	// const [visible, setVisible] = React.useState<boolean>(false)
 
@@ -320,7 +313,7 @@ const App: React.FC<IAppProps> = () => {
 				<Select.Option value="warning">橙黄</Select.Option>
 			</Select> */}
 
-			<Form
+			{/* <Form
 				className={classes.form}
 				form={form}
 				onValuesChange={handleFormChange}
@@ -350,7 +343,7 @@ const App: React.FC<IAppProps> = () => {
 						</Button>
 					</div>
 				</Form.Item>
-			</Form>
+			</Form> */}
 
 			{/* <Menu menu={menu} color="success" onSelected={console.log}>
 				<Link to="/">

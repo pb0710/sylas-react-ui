@@ -140,7 +140,7 @@ const navMap = [
 	}
 ]
 
-const delay = timeout =>
+const delay = (timeout) =>
 	new Promise((res, rej) => {
 		setTimeout(() => {
 			res(timeout)
@@ -154,8 +154,6 @@ const App: React.FC<AppProps> = () => {
 
 	const menu = Menu.useMenu()
 
-	const { triggerRef, popupRef, visible, handleShowPopup, handleHidePopup } = Popup.usePopupVisible()
-
 	// const [visible, setVisible] = React.useState<boolean>(false)
 
 	const handleConsole = () => {
@@ -164,11 +162,11 @@ const App: React.FC<AppProps> = () => {
 	const handleEnter = () => {
 		console.log('World')
 	}
-	const hanldeSearch = value => {
+	const hanldeSearch = (value) => {
 		console.log('value', value)
 	}
 
-	const handleFormChange = values => {
+	const handleFormChange = (values) => {
 		console.log('values: ', values)
 	}
 
@@ -199,7 +197,7 @@ const App: React.FC<AppProps> = () => {
 	// 	setVisible(prev => !prev)
 	// }
 
-	const handleFinished = values => {
+	const handleFinished = (values) => {
 		console.log('handleFinished: ', values)
 	}
 

@@ -25,6 +25,12 @@ interface StyleProps {
 	disabled: boolean
 }
 
+const flexCenter = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center'
+}
+
 const useStyles = makeStyles(
 	createStyles({
 		btn: ({ color, disabled }: StyleProps) => ({
@@ -51,9 +57,11 @@ const useStyles = makeStyles(
 
 			'&>span': {
 				'&:first-child': {
+					...flexCenter,
 					marginRight: 8
 				},
 				'&:last-child': {
+					...flexCenter,
 					marginLeft: 8
 				}
 			},

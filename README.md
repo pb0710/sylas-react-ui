@@ -106,7 +106,7 @@ Currently recommended to view the source code
 - Form.useForm
 - Menu.useMenu
 - TouchRipple.useRipple
-- Popup.usePopupVisible
+- Popup.usePopup
 
 ## Github repositories and document(Detailed introduction in future)
 

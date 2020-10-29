@@ -7,7 +7,7 @@ export interface TransitionOpts {
 	callback?(): void
 }
 
-export const useTransition = (options: TransitionOpts) => {
+export const useTransition = (options: TransitionOpts): void => {
 	const { in: inProp = false, onExited = () => {}, timeout = 0, callback } = options
 	React.useEffect(() => {
 		if (!inProp) {
@@ -18,5 +18,5 @@ export const useTransition = (options: TransitionOpts) => {
 				clearTimeout(exitTimer)
 			}
 		}
-	}, [inProp, onExited, timeout])
+	}, [callback, inProp, onExited, timeout])
 }

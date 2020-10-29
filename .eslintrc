@@ -28,6 +28,12 @@
     }
   },
   "rules": {
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "enableDangerousAutofixThisMayCauseInfiniteLoops": true
+      }
+    ],
     "no-empty-function": "off",
     "space-before-function-paren": "off",
     "react/prop-types": "off",
@@ -36,7 +42,6 @@
     "react/no-unused-prop-types": "off",
     // "import/export": "off",
     "prettier/prettier": "error",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/rules-of-hooks": "error"
   }
 }

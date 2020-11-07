@@ -1,123 +1,139 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import * as React from 'react'
+import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { FormContext } from './Form'
-import { Callback, Values } from './hooks'
-
-enum TextAlign {
-	LEFT = 'left',
-	RIGHT = 'right',
-	CENTER = 'center'
-}
+import { Context } from './Form'
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
-			boxSizing: 'border-box',
-			display: 'flex',
-			alignItems: 'center',
+		formItem: {
+			display: 'flex'
+		},
+		label: {
+			flex: '0 0 20%',
+			height: '100%',
+			whiteSpace: 'nowrap',
+			textAlign: 'right',
+			overflow: 'hidden',
+
+			'&>label': {
+				display: 'inline-flex',
+				alignItems: 'center',
+				height: 32,
+
+				'&:after': {
+					content: '":"',
+					marginRight: 8,
+					marginLeft: 2
+				}
+			}
+		},
+		control: {
+			width: '100%'
+		},
+		content: {
 			width: '100%',
-			padding: 0,
-			marginBottom: 24
-		},
-		inner: {
-			width: ({ col, label }: StyleProps) => `calc(100% - ${label ? col * 8 - 4 : 0}px)`,
-			position: 'relative'
-		},
-		label: ({ col, textAlign }: StyleProps) => ({
-			fontSize: 14,
-			color: '#303133',
-			textAlign,
-			width: col * 8,
-			marginRight: 4
-		}),
-		tip: {
 			display: 'flex',
 			alignItems: 'center',
-			position: 'absolute',
-			top: 32,
-			left: 0,
+			minHeight: 32,
+
+			'&>div': {
+				width: '100%'
+			}
+		},
+		explain: {
 			width: '100%',
 			minHeight: 24,
-			fontSize: 14,
-			margin: 0,
-			padding: 0,
-			color: '#ff4d4f'
+			lineHeight: 1.5,
+			paddingBottom: 2
 		}
 	})
 )
 
-export interface Validator {
-	(value?: string | boolean, callback?: Callback, values?: Values): Promise<void>
-}
-
-interface FormItemProps extends React.HTMLAttributes<HTMLLabelElement> {
+export interface FormItemProps {
 	className?: string
-	label?: string
-	textAlign?: string
-	col?: number
 	name?: string
-	initialValue?: string | boolean
-	validator?: Validator
-}
-
-interface StyleProps {
-	col: number
-	textAlign: TextAlign
 	label?: string
+	initialValue?: any
+	validator?(): void
 }
 
-const _FormItem: React.FC<FormItemProps> = props => {
-	const { children, className, label, textAlign = TextAlign.RIGHT, col = 10, name, initialValue, validator } = props
+export function recursiveMap(
+	children: React.ReactNode,
+	fn: (child: React.ReactNode) => React.ReactNode
+): React.ReactNode {
+	return React.Children.map(children, (child) => {
+		if (!React.isValidElement(child)) return child
 
-	const ctxProps = React.useContext(FormContext)
-	const { values, errors, onFieldValueChange, setFieldsValue, syncFormItem } = ctxProps
+		if (child.props.children) {
+			child = React.cloneElement(child, {
+				children: recursiveMap(child.props.children, fn)
+			})
+		}
 
-	const value = name && values?.[name]
-	const error = errors?.find(err => err.name === name)
-	const isError = error !== undefined
+		return fn(child)
+	})
+}
 
-	// 拥有错误提示特殊样式的组件列表
-	const specialErrorList = ['Input', 'Password', 'TextArea']
-	// 表单相关组件列表
-	const formItemList = [...specialErrorList, 'Select', 'Switch']
+const FormItem: React.FC<FormItemProps> = (props) => {
+	const { children, className, name, initialValue, label, ...rest } = props
 
-	React.useEffect(
-		() => {
-			if (name) {
-				syncFormItem(name, validator)
-				// 考虑到 Switch 或 Checkbox 的 boolean 值，只过滤 null or undefined
-				initialValue != null && setFieldsValue({ [name]: initialValue })
-			}
-		},
-		// contextProps 不放到 deps 里
-		[]
-	)
+	const initValueRef = React.useRef(initialValue)
 
-	const baseProps = { name, value, onFieldValueChange }
+	const [values, { dispatch, name: formName }] = React.useContext(Context)
+	const value = name ? values[name] : undefined
+	const id = `${formName}_${name}`
 
-	const classes = useStyles({ col, textAlign, label } as StyleProps)
+	const onValueChange = (value: any) => {
+		if (name && dispatch) {
+			dispatch({ type: 'set_fields_value', payload: { [name]: value } })
+		}
+	}
 
-	const formItemCls = clsx(classes.root, className)
+	const submit = () => {
+		dispatch && dispatch({ type: 'submit' })
+	}
+
+	// initialValue only set once
+	React.useEffect(() => {
+		if (dispatch && name) {
+			dispatch({ type: 'set_fields_value', payload: { [name]: initValueRef.current } })
+		}
+	}, [dispatch, name])
+
+	const classes = useStyles()
+	const formItemCls = clsx(classes.formItem, className)
+
+	function renderChildren(): React.ReactNode {
+		if (!React.isValidElement(children) || React.Children.count(children) !== 1) return children
+
+		return recursiveMap(children, (child) => {
+			if (!React.isValidElement(child)) return child
+
+			const isSubmitType = child.props.htmlType === 'submit'
+			const controlProps = isSubmitType ? { submit } : { value, onValueChange, id }
+
+			return React.cloneElement(child, controlProps)
+		})
+	}
 
 	return (
-		<div className={formItemCls}>
-			{label && <label className={classes.label}>{label}：</label>}
-			<div className={classes.inner}>
-				{React.Children.map(children as any, (child: JSX.Element) =>
-					specialErrorList.some(input => input === child?.type?.displayName)
-						? React.cloneElement(child, { ...baseProps, error: isError })
-						: formItemList.some(item => item === child?.type?.displayName)
-						? React.cloneElement(child, baseProps)
-						: React.cloneElement(child)
-				)}
-				<span className={classes.tip}>{error?.desc}</span>
+		<div className={formItemCls} {...rest}>
+			{label && (
+				<div className={classes.label}>
+					<label htmlFor={`${formName}_${name}`}>{label}</label>
+				</div>
+			)}
+			<div className={classes.control}>
+				<div className={classes.content}>
+					<div>{renderChildren()}</div>
+				</div>
+				<div className={classes.explain}></div>
 			</div>
 		</div>
 	)
 }
 
-const FormItem = React.memo(_FormItem)
-FormItem.displayName = 'FormItem'
-
-export default FormItem
+// const InternalFormItem: React.NamedExoticComponent<React.PropsWithChildren<FormItemProps>> = React.memo(FormItem)
+const InternalFormItem = FormItem
+InternalFormItem.displayName = 'FormItem'
+export default InternalFormItem

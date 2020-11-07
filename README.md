@@ -115,3 +115,10 @@ Currently recommended to view the source code
 ## License
 
 MIT © [pb0710](https://github.com/pb0710)
+
+```js
+/**
+ * date: 20201105
+ * start rewriting form components, committed to reduce re-render and thoroughly resolve async validate bugs.
+ */
+```

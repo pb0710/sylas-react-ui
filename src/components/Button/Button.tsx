@@ -4,7 +4,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import ButtonBase from './ButtonBase'
 import TouchRipple from '../TouchRipple'
-import { FormContext } from '../Form/Form'
+import { FormContext } from '../FormBackup/Form'
 
 enum IHtmlType {
 	SUBMIT = 'submit'
@@ -18,6 +18,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	suffixes?: JSX.Element
 	htmlType?: string
 	error?: boolean
+	submit?(): void
 }
 
 interface StyleProps {
@@ -84,11 +85,12 @@ const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, re
 		htmlType,
 		error = false,
 		onClick = null,
+		submit,
 		...restProps
 	} = props
 
 	const ctxProps = React.useContext(FormContext)
-	const { submit } = ctxProps
+	// const { submit } = ctxProps
 
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 
@@ -98,11 +100,11 @@ const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, re
 	const customClick = React.useCallback(
 		(e: React.MouseEvent<HTMLElement>) => {
 			onClick && onClick(e)
-			if (htmlType === IHtmlType.SUBMIT) {
-				submit()
-			}
+			// if (htmlType === IHtmlType.SUBMIT) {
+			submit && submit()
+			// }
 		},
-		[submit, onClick, htmlType]
+		[onClick, submit]
 	)
 
 	const btnCls = clsx(classes.btn, className)

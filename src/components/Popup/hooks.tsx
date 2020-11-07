@@ -13,8 +13,6 @@ export function usePopup(
 			const dom = ref.current
 			if (blurNotHidden) return
 			if (dom?.contains(e?.target)) return
-
-			console.log('hide')
 			setVisible(false)
 		},
 		[blurNotHidden]

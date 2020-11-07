@@ -1,93 +1,98 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import * as React from 'react'
+import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { Form, Values, useForm } from './hooks'
-
-export interface Callback {
-	(desc: string): void
-}
-
-export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
-	className?: string
-	form?: Form
-	onValuesChange?(values?: Values): void
-	onFinished?(values: Values): void
-	onFailed?(): void
-}
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'space-around',
-			width: '100%',
-			height: '100%',
-			minHeight: 120,
-			padding: 8
-		}
+		form: {}
 	})
 )
 
-const defaultCtx: Form = {
-	submit: () => ({} as any),
-	onFieldValueChange() {},
-	syncFormItem() {},
-	getFieldValue() {},
-	setFieldsValue() {},
-	validateFields: async () => 'pending'
+export interface FormProps {
+	className?: string
+	name?: string
+	onFinsh?(values): void
+	onFailed?(): void
+	onValuesChange?(values): void
 }
 
-export const FormContext = React.createContext<Form>(defaultCtx)
+type State = {
+	values: Record<string, any>
+}
 
-const _Form: React.FC<FormProps> = props => {
-	const {
-		children,
-		className,
-		// form 不传时自动创建
-		form = useForm(),
-		onValuesChange = () => {},
-		onFinished = () => {},
-		onFailed = () => {},
-		...restProps
-	} = props
+type Action =
+	| {
+			type: 'set_fields_value'
+			payload: Record<string, any>
+	  }
+	| {
+			type: 'submit'
+	  }
 
-	const customSubmit = React.useCallback(
-		() =>
-			form.submit().then(
-				(res: Values) => {
-					onFinished(res)
-					return res
-				},
-				(err: string) => {
-					onFailed()
-					return err
-				}
-			),
-		[onFinished, onFailed]
-	)
+const dispatch: React.DispatchWithoutAction | React.Dispatch<Action> = () => {}
 
-	const classes = useStyles()
+const defaultContext = [
+	{},
+	{
+		dispatch,
+		name: ''
+	}
+]
+
+export const Context = React.createContext(defaultContext)
+
+const initState = {
+	values: {}
+}
+
+const Form: React.FC<FormProps> = (props) => {
+	const { children, className, name = '', onFinsh, onFailed, onValuesChange, ...rest } = props
+
+	const submit = (values) => {
+		try {
+			onFinsh && onFinsh(values)
+		} catch (error) {
+			onFailed && onFailed()
+		}
+	}
+
+	/**
+	 * reducer but not pure
+	 * @param state
+	 * @param action
+	 */
+	function reducer(state: State = initState, action: Action) {
+		switch (action.type) {
+			case 'set_fields_value':
+				return { ...state, values: { ...state.values, ...action.payload } }
+
+			case 'submit':
+				submit(state.values)
+				return state
+
+			default:
+				return state
+		}
+	}
+
+	const [states, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initState)
+	const { values } = states
 
 	React.useEffect(() => {
-		onValuesChange(form.values)
-	}, [form.values])
+		onValuesChange && onValuesChange(values)
+	}, [onValuesChange, values])
 
-	const formCls = clsx(classes.root, className)
-
-	const formCtx = { ...form, submit: customSubmit }
-
+	const classes = useStyles()
+	const formCls = clsx(classes.form, className)
 	return (
-		<FormContext.Provider value={formCtx}>
-			<form {...restProps} className={formCls}>
+		<Context.Provider value={[values, { dispatch, name }]}>
+			<div className={formCls} {...rest}>
 				{children}
-			</form>
-		</FormContext.Provider>
+			</div>
+		</Context.Provider>
 	)
 }
 
-const Form = React.memo(_Form)
-Form.displayName = 'Form'
-
-export default Form
+const internalForm = Form
+internalForm.displayName = 'Form'
+export default internalForm

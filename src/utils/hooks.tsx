@@ -20,3 +20,13 @@ export const useTransition = (options: TransitionOpts): void => {
 		}
 	}, [callback, inProp, onExited, timeout])
 }
+
+export function useInternalState<S = unknown>(outerState: S): [S, React.Dispatch<React.SetStateAction<S>>] {
+	const [state, setState] = React.useState(outerState)
+
+	React.useEffect(() => {
+		setState(outerState)
+	}, [outerState])
+
+	return [state, setState]
+}

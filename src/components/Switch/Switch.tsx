@@ -18,13 +18,12 @@ export interface SwitchProps extends React.HTMLAttributes<HTMLElement> {
 
 const Switch: React.FC<SwitchProps> = (props) => {
 	const { className, value = false, onValueChange, onClick, ...rest } = props
-
 	const [checked, setChecked] = useInternalState(value)
 
 	const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-		onClick && onClick(event)
+		onClick?.(event)
 		setChecked((prev) => {
-			onValueChange && onValueChange(!prev)
+			onValueChange?.(!prev)
 			return !prev
 		})
 	}

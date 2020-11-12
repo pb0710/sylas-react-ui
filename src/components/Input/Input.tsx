@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
+import { useInternalState } from '../../utils/hooks'
 
 const useStyles = makeStyles(
 	createStyles({
@@ -20,22 +21,24 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const Input: React.FC<InputProps> = (props) => {
 	const { className, value = '', onChange, onValueChange, ...rest } = props
+	const [inputValue, setInputValue] = useInternalState(value)
 
 	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const keywords = event.currentTarget.value
-		onChange && onChange(event)
-		onValueChange && onValueChange(keywords)
+		onChange?.(event)
+		setInputValue(keywords)
+		onValueChange?.(keywords)
 	}
 
 	const classes = useStyles()
 	const inputCls = clsx(classes.input, className)
 	return (
 		<div>
-			<input className={inputCls} value={value} onChange={handleInput} {...rest} />
+			<input className={inputCls} value={inputValue} onChange={handleInput} {...rest} />
 		</div>
 	)
 }
 
-const internalInput = Input
+const internalInput = React.memo(Input)
 internalInput.displayName = 'Input'
 export default internalInput

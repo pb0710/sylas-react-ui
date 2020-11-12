@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { Context } from './Form'
+import { FormContext } from './Context'
+import { Rule, useLastStateRef, Validator } from './hooks'
+import { recursiveMap } from '../../utils'
 
 const useStyles = makeStyles(
 	createStyles({
@@ -9,7 +11,7 @@ const useStyles = makeStyles(
 			display: 'flex'
 		},
 		label: {
-			flex: '0 0 20%',
+			flex: '0 0 25%',
 			height: '100%',
 			whiteSpace: 'nowrap',
 			textAlign: 'right',
@@ -40,11 +42,17 @@ const useStyles = makeStyles(
 				width: '100%'
 			}
 		},
-		explain: {
+		explainList: {
 			width: '100%',
 			minHeight: 24,
 			lineHeight: 1.5,
-			paddingBottom: 2
+			paddingBottom: 2,
+
+			'&>p': {
+				margin: 0,
+				// color: '#dc004e'
+				color: '#f56c6c'
+			}
 		}
 	})
 )
@@ -54,51 +62,73 @@ export interface FormItemProps {
 	name?: string
 	label?: string
 	initialValue?: any
-	validator?(): void
-}
-
-export function recursiveMap(
-	children: React.ReactNode,
-	fn: (child: React.ReactNode) => React.ReactNode
-): React.ReactNode {
-	return React.Children.map(children, (child) => {
-		if (!React.isValidElement(child)) return child
-
-		if (child.props.children) {
-			child = React.cloneElement(child, {
-				children: recursiveMap(child.props.children, fn)
-			})
-		}
-
-		return fn(child)
-	})
+	rules?: Rule[]
 }
 
 const FormItem: React.FC<FormItemProps> = (props) => {
-	const { children, className, name, initialValue, label, ...rest } = props
+	const { children, className, name = '', initialValue, label, rules = [], ...rest } = props
 
+	// initialValue only render once and it would never changed again.
 	const initValueRef = React.useRef(initialValue)
+	const [explains, setExplains] = React.useState<JSX.Element[]>([])
 
-	const [values, { dispatch, name: formName }] = React.useContext(Context)
-	const value = name ? values[name] : undefined
-	const id = `${formName}_${name}`
+	const { form, formName } = React.useContext(FormContext)
+	const {
+		getState,
+		dispatch,
+		getFieldValue,
+		submit,
+		updateFieldsValue,
+		updateFieldsValidating,
+		updateFieldValidateResult,
+		validateFields
+	} = form
+	const value = getFieldValue(name)
+	const fieldValidating = getState().fieldsValidating[name] || false
+	const fieldId = `field_${formName}_${name}`
 
-	const onValueChange = (value: any) => {
-		if (name && dispatch) {
-			dispatch({ type: 'set_fields_value', payload: { [name]: value } })
-		}
-	}
+	// always get lastest validate function
+	const validateRef = useLastStateRef((): void => {
+		Promise.allSettled(
+			rules.map(async (rule: Rule) => {
+				const ruleEntity: Validator = typeof rule === 'function' ? rule(form) : rule
+				const value = getState().values[name]
+				return await ruleEntity.validator(value)
+			})
+		)
+			.then((results) => {
+				const newExplains: JSX.Element[] = results
+					.map((result) => (result.status === 'rejected' ? result.reason : undefined))
+					.filter(Boolean)
+					.map((explain, index) => <p key={index}>{explain}</p>)
+				setExplains(newExplains)
+				updateFieldValidateResult({ [name]: newExplains })
+			})
+			.finally(() => {
+				updateFieldsValidating({ [name]: false })
+			})
+	})
 
-	const submit = () => {
-		dispatch && dispatch({ type: 'submit' })
-	}
+	const onValueChange = React.useCallback(
+		(value: any): void => {
+			updateFieldsValue({ [name]: value })
+			validateFields(name)
+		},
+		[name, updateFieldsValue, validateFields]
+	)
 
-	// initialValue only set once
 	React.useEffect(() => {
-		if (dispatch && name) {
-			dispatch({ type: 'set_fields_value', payload: { [name]: initValueRef.current } })
+		if (fieldValidating) {
+			validateRef.current()
 		}
-	}, [dispatch, name])
+	}, [fieldValidating, validateRef])
+
+	// initialize only once.
+	React.useEffect(() => {
+		if (!name) return
+		updateFieldsValue({ [name]: initValueRef.current })
+		updateFieldValidateResult({ [name]: [] })
+	}, [name, updateFieldsValue, updateFieldValidateResult])
 
 	const classes = useStyles()
 	const formItemCls = clsx(classes.formItem, className)
@@ -106,12 +136,11 @@ const FormItem: React.FC<FormItemProps> = (props) => {
 	function renderChildren(): React.ReactNode {
 		if (!React.isValidElement(children) || React.Children.count(children) !== 1) return children
 
-		return recursiveMap(children, (child) => {
+		return recursiveMap(children, (child: React.ReactNode) => {
 			if (!React.isValidElement(child)) return child
 
-			const isSubmitType = child.props.htmlType === 'submit'
-			const controlProps = isSubmitType ? { submit } : { value, onValueChange, id }
-
+			const isSubmitType: boolean = child.props.htmlType === 'submit'
+			const controlProps = isSubmitType ? { submit } : { value, onValueChange, id: fieldId }
 			return React.cloneElement(child, controlProps)
 		})
 	}
@@ -120,20 +149,20 @@ const FormItem: React.FC<FormItemProps> = (props) => {
 		<div className={formItemCls} {...rest}>
 			{label && (
 				<div className={classes.label}>
-					<label htmlFor={`${formName}_${name}`}>{label}</label>
+					<label htmlFor={fieldId}>{label}</label>
 				</div>
 			)}
 			<div className={classes.control}>
 				<div className={classes.content}>
 					<div>{renderChildren()}</div>
 				</div>
-				<div className={classes.explain}></div>
+				<div className={classes.explainList}>{explains}</div>
 			</div>
 		</div>
 	)
 }
 
-// const InternalFormItem: React.NamedExoticComponent<React.PropsWithChildren<FormItemProps>> = React.memo(FormItem)
-const InternalFormItem = FormItem
+const InternalFormItem: React.NamedExoticComponent<React.PropsWithChildren<FormItemProps>> = React.memo(FormItem)
+// const InternalFormItem = FormItem
 InternalFormItem.displayName = 'FormItem'
 export default InternalFormItem

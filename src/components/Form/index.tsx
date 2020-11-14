@@ -1,14 +1,15 @@
-import InternalForm, { FormProps } from './Form'
-import FormItem from './FormItem'
+import { Form as InternalForm } from './Form'
+import { Field } from './Field'
 import { useForm } from './hooks'
 
-interface FormType extends React.FC<FormProps> {
+type InternalFormType = typeof InternalForm
+interface FormType extends InternalFormType {
 	useForm: typeof useForm
-	Item: typeof FormItem
+	Field: typeof Field
 }
 
 const Form = InternalForm as FormType
 Form.useForm = useForm
-Form.Item = FormItem
+Form.Field = Field
 
 export default Form

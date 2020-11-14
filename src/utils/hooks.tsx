@@ -30,3 +30,13 @@ export function useInternalState<S = unknown>(outerState: S): [S, React.Dispatch
 
 	return [state, setState]
 }
+
+export function useForceUpdate(): () => void {
+	const [, dispatch] = React.useState(Object.create(null))
+
+	// turn dispatch(required_parameter) into dispatch().
+	const memoizedDispatch = React.useCallback((): void => {
+		dispatch(Object.create(null))
+	}, [dispatch])
+	return memoizedDispatch
+}

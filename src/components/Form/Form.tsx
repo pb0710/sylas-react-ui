@@ -1,62 +1,29 @@
 import * as React from 'react'
-import { createStyles, makeStyles } from '@material-ui/styles'
-import clsx from 'clsx'
-import { FormType, useForm, Values } from './hooks'
-import { FormContext } from './Context'
-
-const useStyles = makeStyles(
-	createStyles({
-		form: {}
-	})
-)
+import { FormContext } from './formContext'
+import { FormInstance, useForm } from './hooks'
 
 export interface FormProps {
-	className?: string
-	name?: string
-	form?: FormType
-	onFinsh?(values: Values): void
-	onFailed?(): void
-	onValuesChange?(values: Values): void
+	form?: FormInstance
+	onFinsh(values: Record<string, unknown>): void
+	onFail(errors: string[]): void
 }
 
-const Form: React.FC<FormProps> = (props) => {
-	const { children, className, form, name = '', onFinsh, onFailed, onValuesChange, ...rest } = props
-	// const [defaultForm] = useForm()
-	const formEntity = form as FormType
-	const { getState, updateSubmiting, validateFields } = formEntity
-	const { values, submiting, fieldsValidateResult } = getState()
+export const Form: React.FC<FormProps> = (props) => {
+	const { children, form, onFinsh, onFail } = props
+	const [formInstance] = useForm(form)
 
 	React.useEffect(() => {
-		console.log('fieldsValidateResult', fieldsValidateResult)
-	}, [fieldsValidateResult])
+		formInstance.setCallback({ onFinsh, onFail })
+	}, [formInstance, onFail, onFinsh])
 
-	// React.useEffect(() => {
-	// 	if (submiting) {
-	// 		validateFields(...Object.keys(getState().fieldsValidateResult))
-	// 		if (Object.values(getState().fieldsValidateResult).some((value: string[]) => value.length)) {
-	// 			onFailed?.()
-	// 		} else {
-	// 			onFinsh?.(getState().values)
-	// 		}
-	// 		updateSubmiting(false)
-	// 	}
-	// }, [getState, onFailed, onFinsh, submiting, updateSubmiting, validateFields])
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+		event.preventDefault()
+		formInstance.submit()
+	}
 
-	React.useEffect(() => {
-		// onValuesChange?.(getState().values)
-	}, [getState, onValuesChange])
-
-	const classes = useStyles()
-	const formCls = clsx(classes.form, className)
 	return (
-		<FormContext.Provider value={{ form: form as FormType, formName: name }}>
-			<div className={formCls} {...rest}>
-				{children}
-			</div>
-		</FormContext.Provider>
+		<form onSubmit={handleSubmit}>
+			<FormContext.Provider value={formInstance}>{children}</FormContext.Provider>
+		</form>
 	)
 }
-
-const internalForm = Form
-internalForm.displayName = 'Form'
-export default internalForm

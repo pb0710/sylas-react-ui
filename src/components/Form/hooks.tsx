@@ -1,163 +1,155 @@
 import * as React from 'react'
-import { initState } from './Context'
+import { FieldProps, RuleConfig } from './Field'
 
-export type Values = Record<string, any>
-export interface FormType {
-	getState(): State
-	dispatch: React.DispatchWithoutAction | React.Dispatch<Action>
-	updateFieldsValue(values: Record<string, any>): void
-	updateFieldsValidating(fieldsValidating: Record<string, boolean>): void
-	updateFieldValidateResult(fieldsValidateResult: Record<string, any[]>): void
-	updateSubmiting(submiting: boolean): void
+export interface FieldElement extends React.ReactElement<FieldProps> {
+	explains: string[]
+	onStoreChange(): void
+}
+export type Store = Record<string, unknown>
+export type Errors = Record<string, string[]>
+export type Callback = Record<string, (...args: unknown[]) => void>
+export interface FormInstance {
+	setCallback(newCallback: Callback): void
+	subscribeField(field: FieldElement): () => void
+	getFormInstance(): FormInstance
+	getFieldValue(name: string): unknown
+	setFieldsValue(newStore: Store): void
+	validateFields(...names: string[]): Promise<Errors | void>
 	submit(): void
-	getFieldValue(name: string): any
-	validateFields(...names: string[]): void
-}
-export type Validator = { validator(value: unknown): Promise<unknown> }
-export type Rule = Validator | ((form: FormType) => Validator)
-export type State = {
-	fieldsValidating: Record<string, boolean>
-	fieldsValidateResult: Record<string, any[]>
-	submiting: boolean
-	values: Record<string, any>
-}
-export const enum actionTypes {
-	UPDATE_SUBMITING = 'update_submiting',
-	UPDATE_FIELDS_VALIDATING = 'update_fields_validating',
-	UPDATE_FIELDS_VALUE = 'update_fields_value',
-	UPDATE_FIELD_VALIDATE_RESULT = 'update_field_validate_result'
 }
 
-export type Action =
-	| { type: actionTypes.UPDATE_FIELDS_VALUE; payload: Values }
-	| { type: actionTypes.UPDATE_SUBMITING; payload: boolean }
-	| { type: actionTypes.UPDATE_FIELDS_VALIDATING; payload: Record<string, boolean> }
-	| { type: actionTypes.UPDATE_FIELD_VALIDATE_RESULT; payload: Record<string, any[]> }
-
-let dispatch: React.Dispatch<Action>
-
-export function reducer(state: State, action: Action): State {
-	console.log(`logger action: ${action.type},`, action.payload)
-	switch (action.type) {
-		case actionTypes.UPDATE_SUBMITING:
-			return { ...state, submiting: action.payload }
-
-		case actionTypes.UPDATE_FIELDS_VALIDATING:
-			return {
-				...state,
-				fieldsValidating: {
-					...state.fieldsValidating,
-					...action.payload
-				}
-			}
-
-		case actionTypes.UPDATE_FIELD_VALIDATE_RESULT:
-			return {
-				...state,
-				fieldsValidateResult: {
-					...state.fieldsValidateResult,
-					...action.payload
-				}
-			}
-
-		case actionTypes.UPDATE_FIELDS_VALUE:
-			return {
-				...state,
-				values: { ...state.values, ...action.payload }
-			}
-
-		default:
-			throw Error('not match')
+export class FormStore {
+	private _store: Store
+	public get store(): Store {
+		return this._store
 	}
-}
+	public set store(store: Store) {
+		this._store = store
+	}
+	private _fields: FieldElement[]
+	public get fields(): FieldElement[] {
+		return this._fields
+	}
+	public set fields(fields: FieldElement[]) {
+		this._fields = fields
+	}
+	private _errors: Errors
+	public get errors(): Errors {
+		return this._errors
+	}
+	public set errors(errors: Errors) {
+		this._errors = errors
+	}
+	private _callback: Callback
+	public get callback(): Callback {
+		return this._callback
+	}
+	public set callback(value: Callback) {
+		this._callback = value
+	}
 
-type useEnhancedReducerReturnType = [() => State, React.Dispatch<Action>, State]
+	constructor() {
+		this.store = {}
+		this.fields = []
+		this.errors = {}
+		this.callback = {}
+	}
 
-/**
- * customize useReducer. provide getState and enhancedReducer
- * @param reducer
- * @param initState
- * @param initializer
- */
-export function useEnhancedReducer(
-	reducer: Parameters<typeof React.useReducer>[0],
-	initState: Parameters<typeof React.useReducer>[1],
-	initializer?: Parameters<typeof React.useReducer>[2]
-): useEnhancedReducerReturnType {
-	const lastState = React.useRef<ReturnType<typeof reducer>>(initState)
-	const getState = React.useCallback(() => lastState.current, [])
-	// to prevent reducer called twice, per: https://github.com/facebook/react/issues/16295
-	const enhancedReducer = React.useRef(
-		(state: State, action: Action): State => (lastState.current = reducer(state, action))
-	).current
-	return [
-		...React.useReducer(enhancedReducer, initState, initializer),
-		getState
-	].reverse() as useEnhancedReducerReturnType
-}
+	public setCallback = (newCallback: Callback): void => {
+		this.callback = { ...this.callback, ...newCallback }
+	}
 
-/**
- * get form instance
- */
-export function useForm(): FormType[] {
-	const [getState, internalDispatch] = useEnhancedReducer(reducer, initState)
-	dispatch = internalDispatch
+	public subscribeField = (field: FieldElement): (() => void) => {
+		this.fields.push(field)
+		return () => {
+			delete this.store[field.props.name]
+			this.fields = this.fields.filter((item) => item.props.name !== field.props.name)
+		}
+	}
 
-	const updateSubmiting = React.useCallback((submiting: boolean) => {
-		dispatch({ type: actionTypes.UPDATE_SUBMITING, payload: submiting })
-	}, [])
+	public getFieldValue = (name: string): unknown => {
+		return this.store[name]
+	}
 
-	const updateFieldsValue = React.useCallback((values: Record<string, any>) => {
-		dispatch({ type: actionTypes.UPDATE_FIELDS_VALUE, payload: values })
-	}, [])
-
-	const updateFieldsValidating = React.useCallback((fieldsValidating: Record<string, boolean>) => {
-		dispatch({ type: actionTypes.UPDATE_FIELDS_VALIDATING, payload: fieldsValidating })
-	}, [])
-
-	const updateFieldValidateResult = React.useCallback((fieldsValidateResult: Record<string, any[]>) => {
-		dispatch({ type: actionTypes.UPDATE_FIELD_VALIDATE_RESULT, payload: fieldsValidateResult })
-	}, [])
-
-	const submit = React.useCallback(() => {
-		updateSubmiting(true)
-	}, [updateSubmiting])
-
-	const getFieldValue = React.useCallback((name: string) => getState().values[name], [getState])
-
-	const validateFields = React.useCallback(
-		(...names: string[]) => {
-			const newValidating: Record<string, boolean> = {}
-			names.forEach((name) => {
-				newValidating[name] = true
+	public setFieldsValue = (newStore: Store): void => {
+		this.store = {
+			...this.store,
+			...newStore
+		}
+		this.fields.forEach((field) => {
+			const { name } = field.props
+			Object.keys(newStore).forEach((key) => {
+				if (key === name) {
+					field.onStoreChange()
+				}
 			})
-			updateFieldsValidating(newValidating)
-		},
-		[updateFieldsValidating]
-	)
-
-	const form: FormType = {
-		getState,
-		dispatch,
-		updateFieldsValue,
-		updateFieldsValidating,
-		updateFieldValidateResult,
-		updateSubmiting,
-		submit,
-		getFieldValue,
-		validateFields
+		})
 	}
-	return [form]
+
+	private setErrors = (newErrors: Errors): void => {
+		this.errors = { ...this.errors, ...newErrors }
+	}
+
+	private getRules = (field: FieldElement): RuleConfig[] => {
+		const { rules = [] } = field.props
+		const result = rules.map((rule) => (typeof rule === 'function' ? rule(this.getFormInstance()) : rule))
+		return result
+	}
+
+	public validate = async (field: FieldElement): Promise<void> => {
+		const { name } = field.props
+		const value = this.getFieldValue(name)
+		const ruleEntities = this.getRules(field)
+		const results = await Promise.allSettled(ruleEntities.map((ruleEntity) => ruleEntity.validator(value)))
+		const explains: string[] = results.map((result) => result.status === 'rejected' && result.reason).filter(Boolean)
+		this.setErrors({ [name]: explains })
+		field.explains = explains
+		field.onStoreChange()
+	}
+
+	public validateFields = async (...names: string[]): Promise<Errors | void> => {
+		// if params empty then validate all fields.
+		if (!names.length) {
+			names = Object.keys(this.store)
+		}
+
+		await Promise.all(
+			names.map(async (name) => {
+				const field = this.fields.find((field) => field.props.name === name)
+				if (field) {
+					await this.validate(field)
+				}
+			})
+		)
+		const hasErrors = Object.values(this.errors).some((explain) => explain.length)
+		if (hasErrors) {
+			return this.errors
+		}
+	}
+
+	public submit = async (): Promise<void> => {
+		const hasErrors = Boolean(await this.validateFields())
+		console.log('hasErrors: ', hasErrors)
+		hasErrors ? this.callback?.onFail(this.errors) : this.callback?.onFinsh(this.store)
+	}
+
+	public getFormInstance = (): FormInstance => {
+		return {
+			setCallback: this.setCallback,
+			subscribeField: this.subscribeField,
+			getFormInstance: this.getFormInstance,
+			getFieldValue: this.getFieldValue,
+			setFieldsValue: this.setFieldsValue,
+			validateFields: this.validateFields,
+			submit: this.submit
+		}
+	}
 }
 
-/**
- * get reference to latest state
- * @param state
- */
-export function useLastStateRef<S>(state: S): React.MutableRefObject<S> {
-	const stateRef = React.useRef(state)
-	React.useEffect(() => {
-		stateRef.current = state
-	}, [state])
-	return stateRef
+export function useForm(form?: FormInstance): FormInstance[] {
+	const formRef = React.useRef<FormInstance>()
+	if (!formRef.current) {
+		formRef.current = form || new FormStore().getFormInstance()
+	}
+	return [formRef.current]
 }

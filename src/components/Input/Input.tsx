@@ -7,7 +7,7 @@ const useStyles = makeStyles(
 	createStyles({
 		input: {
 			width: '100%',
-			height: 32,
+			height: 36,
 			padding: '0 8px'
 		}
 	})

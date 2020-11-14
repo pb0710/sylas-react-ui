@@ -1,6 +1,6 @@
-import InternalInput, { InputProps } from './Input'
+import { InternalInput, InputProps } from './Input'
 
-type InputType = React.FC<InputProps>
+type InputType = React.FC<Omit<InputProps, 'classes'>>
 
 const Input = InternalInput as InputType
 

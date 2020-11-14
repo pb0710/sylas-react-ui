@@ -59,7 +59,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Switch: React.FC<SwitchProps> = props => {
+const _Switch: React.FC<SwitchProps> = (props) => {
 	const {
 		className,
 		color = ThemeNames.PRIMARY,
@@ -86,7 +86,7 @@ const _Switch: React.FC<SwitchProps> = props => {
 		if (!disabled) {
 			onChange(!checked)
 			onFieldValueChange(!checked, name)
-			setChecked(prev => !prev)
+			setChecked((prev) => !prev)
 		}
 	}, [disabled, onChange, onFieldValueChange, checked, name])
 

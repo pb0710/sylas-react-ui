@@ -3,10 +3,10 @@ import { Form, Input, Switch } from 'sylas-react-ui'
 
 const App = () => {
 	const handleFinsh = (values) => {
-		console.log('submit values:', values)
+		console.log('submit finshed values:', values)
 	}
 	const handleFail = (errors) => {
-		console.log('submit errors:', errors)
+		console.error('submit failed errors:', errors)
 	}
 	const [check, setCheck] = React.useState<boolean>(false)
 	const handleToggle = () => {
@@ -15,10 +15,12 @@ const App = () => {
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
 			<h1>App</h1>
-			<div style={{ width: 400 }}>
-				<button onClick={handleToggle}>Password confirm is necessary: {check ? 'Yes' : 'No'}</button>
+			<div style={{ width: 320 }}>
+				<button style={{ marginBottom: 16 }} onClick={handleToggle}>
+					Password confirm is necessary: {check ? 'Yes' : 'No'}
+				</button>
 				<Form onFinsh={handleFinsh} onFail={handleFail}>
-					<Form.Field
+					<Form.Item
 						name="username"
 						initialValue="i am a user"
 						// validate rules with promise.
@@ -34,8 +36,8 @@ const App = () => {
 						]}
 					>
 						<Input placeholder="username" />
-					</Form.Field>
-					<Form.Field
+					</Form.Item>
+					<Form.Item
 						name="password"
 						initialValue=""
 						// multiple validate rules.
@@ -68,8 +70,8 @@ const App = () => {
 						]}
 					>
 						<Input placeholder="password" />
-					</Form.Field>
-					<Form.Field
+					</Form.Item>
+					<Form.Item
 						name="confirmPassword"
 						initialValue=""
 						// dynamic validate rules.
@@ -89,11 +91,11 @@ const App = () => {
 						]}
 					>
 						<Input placeholder="confirm password" />
-					</Form.Field>
+					</Form.Item>
 					{/* no validate rules. */}
-					<Form.Field name="remember" initialValue={true}>
-						<Switch />
-					</Form.Field>
+					<Form.Item name="remember" initialValue={true}>
+						<Switch description="remember password" />
+					</Form.Item>
 					<button type="submit">Submit</button>
 				</Form>
 			</div>

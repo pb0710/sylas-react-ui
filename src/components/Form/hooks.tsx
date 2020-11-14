@@ -49,8 +49,8 @@ export class FormStore {
 	}
 
 	constructor() {
-		this.store = {}
 		this.fields = []
+		this.store = {}
 		this.errors = {}
 		this.callback = {}
 	}
@@ -129,7 +129,6 @@ export class FormStore {
 
 	public submit = async (): Promise<void> => {
 		const hasErrors = Boolean(await this.validateFields())
-		console.log('hasErrors: ', hasErrors)
 		hasErrors ? this.callback?.onFail(this.errors) : this.callback?.onFinsh(this.store)
 	}
 

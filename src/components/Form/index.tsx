@@ -1,15 +1,15 @@
 import { Form as InternalForm } from './Form'
-import { Field } from './Field'
+import { InternalFormItem } from './FormItem'
 import { useForm } from './hooks'
 
 type InternalFormType = typeof InternalForm
 interface FormType extends InternalFormType {
 	useForm: typeof useForm
-	Field: typeof Field
+	Item: typeof InternalFormItem
 }
 
 const Form = InternalForm as FormType
 Form.useForm = useForm
-Form.Field = Field
+Form.Item = InternalFormItem
 
 export default Form

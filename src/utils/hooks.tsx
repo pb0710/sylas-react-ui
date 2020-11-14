@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export interface TransitionOpts {
 	in?: boolean
@@ -19,6 +19,29 @@ export const useTransition = (options: TransitionOpts): void => {
 			}
 		}
 	}, [callback, inProp, onExited, timeout])
+}
+
+export function useBoolean(
+	initial: boolean
+): [
+	boolean,
+	{
+		setTrue: () => void
+		setFalse: () => void
+		setToggle: () => void
+	}
+] {
+	const [state, setState] = React.useState(initial)
+	const setTrue = React.useCallback(() => {
+		setState(true)
+	}, [])
+	const setFalse = React.useCallback(() => {
+		setState(false)
+	}, [])
+	const setToggle = React.useCallback(() => {
+		setState((prev) => !prev)
+	}, [])
+	return [state, { setTrue, setFalse, setToggle }]
 }
 
 export function useInternalState<S = unknown>(outerState: S): [S, React.Dispatch<React.SetStateAction<S>>] {

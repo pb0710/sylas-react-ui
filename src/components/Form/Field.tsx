@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Explains } from './Explains'
+import { InternalExplains as Explains } from './Explains'
 import { FormContext } from './formContext'
 import { FormInstance } from './hooks'
 
@@ -10,8 +10,13 @@ export interface FieldProps {
 	initialValue: any
 	rules?: Rule[]
 }
+export interface FieldControlProps {
+	value: any
+	onValueChange: (value: unknown) => void
+}
 
 /**
+ * form field core code.
  * use class component due to there needs more independent control from external,
  * and use functional component implementing it will increase the amount of code.
  */
@@ -41,10 +46,7 @@ export class Field extends React.Component<FieldProps> {
 		this.forceUpdate()
 	}
 
-	private getControlProps = (): {
-		value: unknown
-		onValueChange: (value: unknown) => void
-	} => {
+	private getControlProps = (): FieldControlProps => {
 		const { getFieldValue, setFieldsValue, validateFields }: FormInstance = this.context
 		const { name } = this.props
 		return {
@@ -60,7 +62,9 @@ export class Field extends React.Component<FieldProps> {
 		const { children } = this.props
 		return (
 			<div>
-				{React.isValidElement(children) && React.cloneElement(children, this.getControlProps())}
+				{React.isValidElement(children)
+					? React.cloneElement(children, this.getControlProps())
+					: console.warn(`${children} is not valid element!`)}
 				<Explains explains={this.explains} />
 			</div>
 		)

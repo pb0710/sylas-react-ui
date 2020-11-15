@@ -89,16 +89,13 @@ const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, re
 		...restProps
 	} = props
 
-	const ctxProps = React.useContext(FormContext)
-	// const { submit } = ctxProps
-
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
 
 	const stylesProps: StyleProps = { color: selectColor(color), disabled }
 	const classes = useStyles(stylesProps)
 
 	const customClick = React.useCallback(
-		(e: React.MouseEvent<HTMLElement>) => {
+		(e: React.MouseEvent<HTMLButtonElement>) => {
 			onClick && onClick(e)
 			// if (htmlType === IHtmlType.SUBMIT) {
 			submit && submit()
@@ -110,7 +107,11 @@ const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, re
 	const btnCls = clsx(classes.btn, className)
 
 	const renderChildren = () => {
-		if (typeof children === 'string' && children.length === 2 && !/[^\u4e00-\u9fa5]/.test(children)) {
+		if (
+			typeof children === 'string' &&
+			children.length === 2 &&
+			!/[^\u4e00-\u9fa5]/.test(children)
+		) {
 			// 两字中文中间加空格
 			return children[0] + ' ' + children[1]
 		} else {
@@ -130,7 +131,7 @@ const _Button: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, re
 			onMouseLeave={handleStop}
 		>
 			<span>{prefixes}</span>
-			<TouchRipple ref={rippleRef} color={color} />
+			<TouchRipple ref={rippleRef as any} color={color} />
 			{renderChildren()}
 			<span>{suffixes}</span>
 		</ButtonBase>

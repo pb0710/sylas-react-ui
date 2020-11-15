@@ -1,167 +1,151 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import clsx from 'clsx'
-import { DownOutlined } from '@ant-design/icons'
+import * as React from 'react'
+import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import { TransitionGroup } from 'react-transition-group'
-import { ThemeNames, selectColor, Colors } from '../../common/themeColors'
-import DropList from './DropList'
+import clsx from 'clsx'
+import { useBoolean, useInternalState } from '../../utils/hooks'
+import { CaretDownFilled } from '@ant-design/icons'
+import { InternalDropList as DropList } from './DropList'
+import { Chosen } from './Option'
 
-export interface SelectOption {
-	value: string
-	desc: string
-}
-
-export interface SelectProps {
-	children: any
-	className?: string
-	name?: string
-	color?: string
-	defaultValue?: string
-	value?: string
-	error?: boolean
-	onChange?(value: string): void
-	onFieldValueChange?(value?: string, name?: string): void
-}
-
-interface StyleProps {
-	color: Colors
-	dropVisible: boolean
-}
-
-const useStyles = makeStyles(
-	createStyles({
-		root: {
-			width: 136,
-			height: 32,
-			fontSize: 14,
-			color: '#303133',
-			position: 'relative',
-			cursor: 'pointer',
-			userSelect: 'none'
+const styles = createStyles({
+	wrapper: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		fontWeight: 500,
+		userSelect: 'none',
+		'&>span:last-child': {
+			paddingLeft: 16,
+			color: '#555'
+		}
+	},
+	select: {
+		position: 'relative',
+		display: 'inline-flex',
+		alignItems: 'center',
+		minWidth: '160px',
+		maxWidth: '100%',
+		height: 40,
+		border: '2px solid #f8f8f8',
+		borderRadius: 4,
+		background: '#f8f8f8',
+		cursor: 'pointer',
+		transition: 'background .25s, border .25s',
+		'&:hover': {
+			borderColor: '#eee',
+			background: '#eee'
 		},
-		select: ({ dropVisible }: StyleProps) => ({
-			boxSizing: 'border-box',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			width: '100%',
-			height: 32,
-			background: '#fdfdfd',
-			paddingLeft: 12,
-			paddingRight: 12,
-			borderRadius: 4,
-			border: '1px solid #d9d9d9',
-			color: dropVisible ? '#909399' : '#303133',
-			transition: 'all 100ms'
-		}),
-		desc: {
-			marginRight: 16,
+		'&>span:first-child': {
+			paddingLeft: 14,
+			paddingRight: 32,
 			whiteSpace: 'nowrap',
 			textOverflow: 'ellipsis',
-			overflow: 'hidden'
+			overflow: 'hidden',
+			fontWeight: 500
 		},
-		dropDownIcon: ({ dropVisible }: StyleProps) => ({
-			fontSize: 11,
-			transform: dropVisible ? 'rotate(180deg)' : 'rotate(0)',
-			transition: 'all 100ms'
-		})
-	})
-)
+		'&>input': {
+			position: 'relative',
+			left: 8,
+			width: 0,
+			height: 0,
+			padding: 0,
+			opacity: 0,
+			cursor: 'default'
+		}
+	},
+	focus: {
+		borderColor: '#409eff',
+		'&:hover': {
+			borderColor: '#409eff',
+			background: '#fff'
+		}
+	},
+	icon: {
+		position: 'absolute',
+		right: 10,
+		fontSize: 12,
+		color: '#444',
+		transform: 'scaleX(1.2)'
+	}
+})
 
-const _Select: React.FC<SelectProps> = props => {
+export interface SelectProps extends React.HTMLAttributes<HTMLElement>, WithStyles<typeof styles> {
+	className?: string
+	description?: string
+	value?: string
+	onValueChange?(value: string): void
+}
+
+const Select: React.FC<SelectProps> = (props) => {
 	const {
+		classes,
 		children,
-		className,
-		name,
-		defaultValue = '',
-		color = ThemeNames.PRIMARY,
-		value = defaultValue,
-		onChange = () => {},
-		onFieldValueChange = () => {}
+		className = '',
+		description = '',
+		value = '',
+		onValueChange,
+		...rest
 	} = props
 
-	const defaultOption = { desc: '', value: '' }
-	const [selected, setSelected] = React.useState<SelectOption>(defaultOption)
-	const [dropVisible, setDropVisible] = React.useState<boolean>(false)
+	const [picking, setPicking] = useInternalState<string>(value)
+	const [name, setName] = React.useState<React.ReactNode>()
+	const [selectedIndex, setSelectedIndex] = React.useState<number>(0)
+	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleShowDrop = () => {
-		setDropVisible(true)
-	}
-
-	const handleHideDrop = () => {
-		setDropVisible(false)
-	}
-
-	const handleChange = React.useCallback(
-		(option: SelectOption) => {
-			setSelected(option)
-			onChange && onChange(option.value)
-			onFieldValueChange && onFieldValueChange(option.value, name)
-			handleHideDrop()
+	const onChoose = React.useCallback(
+		(chosen: Chosen) => {
+			const { value, description } = chosen
+			onValueChange?.(value)
+			setPicking(value)
+			setName(description)
 		},
-		[onChange, onFieldValueChange, handleHideDrop, name]
+		[onValueChange, setPicking]
 	)
 
-	const styleProps: StyleProps = {
-		dropVisible,
-		color: selectColor(color)
-	}
-	const classes = useStyles(styleProps)
-
-	const handleSetOption = (value: string) => {
-		if (children) {
-			React.Children.forEach(children, (child: JSX.Element) => {
-				if (child?.props?.value === value) {
-					setSelected({
-						desc: child.props.children,
-						value
-					})
+	React.useEffect(() => {
+		React.Children.forEach(children, (child, index) => {
+			if (React.isValidElement(child)) {
+				const { props } = child
+				if (props.value === value) {
+					setName(props.children)
+					setSelectedIndex(index)
 				}
-			})
-		}
+			}
+		})
+	}, [children, value])
+
+	const controlProps = {
+		chosen: {
+			value: picking,
+			description: name
+		},
+		onChoose
 	}
 
-	React.useEffect(() => {
-		if (defaultValue) {
-			handleSetOption(defaultValue)
-		}
-	}, [defaultValue])
-
-	React.useEffect(() => {
-		handleSetOption(value)
-	}, [value])
-
-	React.useEffect(() => {
-		if (dropVisible) {
-			document.addEventListener('click', handleHideDrop)
-		}
-		return () => {
-			document.removeEventListener('click', handleHideDrop)
-		}
-	}, [dropVisible, handleHideDrop])
-
-	const containerCls = clsx(classes.root, className)
-
+	const selectCls = clsx({
+		[classes.select]: true,
+		[classes.focus]: focus,
+		[className]: true
+	})
 	return (
-		<div className={containerCls}>
-			<div className={classes.select} onClick={handleShowDrop}>
-				<span className={classes.desc}>{selected.desc}</span>
-				<span className={classes.dropDownIcon}>
-					<DownOutlined />
-				</span>
-			</div>
-			<TransitionGroup component={null}>
-				{dropVisible && (
-					<DropList selected={selected} handleChange={handleChange}>
-						{children}
-					</DropList>
-				)}
-			</TransitionGroup>
+		<div className={classes.wrapper}>
+			<label className={selectCls} {...rest}>
+				<span title={picking}>{name}</span>
+				<input onFocus={handleFocus} onBlur={handleBlur} />
+				<CaretDownFilled className={classes.icon} />
+				<TransitionGroup>
+					{focus && (
+						<DropList index={selectedIndex}>
+							{React.Children.map(children, (child) =>
+								React.isValidElement(child) ? React.cloneElement(child, controlProps) : child
+							)}
+						</DropList>
+					)}
+				</TransitionGroup>
+			</label>
+			{description && <span>{description}</span>}
 		</div>
 	)
 }
 
-const Select = React.memo(_Select)
-Select.displayName = 'Select'
-
-export default Select
+export const InternalSelect = withStyles(styles, { name: 'Select' })(Select)
+InternalSelect.displayName = 'Select'

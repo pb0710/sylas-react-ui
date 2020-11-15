@@ -1,97 +1,77 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/styles'
+import * as React from 'react'
+import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
-import { SelectOption } from './Select'
+import { omit } from 'lodash-es'
 
-interface OptionProps extends React.HTMLAttributes<HTMLElement> {
-	className?: string
-	color?: string
-	timeout?: number
-	value?: string
-	isCurrent?: boolean
-	handleChange?(option?: SelectOption): void
-}
-
-interface StyleProps {
-	color: Colors
-	timeout: number
-	isCurrent: boolean
-}
-
-const useStyles = makeStyles({
-	root: ({ color, isCurrent, timeout }: StyleProps) => ({
+const styles = createStyles({
+	option: {
 		display: 'flex',
 		alignItems: 'center',
-		width: 'inherit',
-		height: 32,
-		background: 'tranparent',
-		transition: `background ${timeout}ms`,
-
-		'&:hover': {
-			background: 'rgba(160, 160, 160, .1)'
-		},
-
-		...(isCurrent
-			? {
-					color: color.main,
-					background: color.ripple,
-
-					'&:hover': {
-						background: color.ripple
-					}
-			  }
-			: {
-					color: '#303133'
-			  })
-	}),
-	text: {
-		marginLeft: 12,
-		marginRight: 12,
+		padding: '0 16px',
+		width: '100%',
+		height: 36,
 		fontSize: 14,
+		fontWeight: 500,
 		whiteSpace: 'nowrap',
 		textOverflow: 'ellipsis',
-		overflow: 'hidden'
+		overflow: 'hidden',
+		transition: 'background-color .2s',
+		'&:hover': {
+			background: '#eee'
+		}
+	},
+	default: {
+		fontWeight: 600,
+		background: '#ecf5ff',
+		'&:hover': {
+			background: '#ecf5ff'
+		}
 	}
 })
 
-const _Option: React.FC<OptionProps> = props => {
-	const {
-		className,
-		children,
-		value = '',
-		handleChange = () => {},
-		color = ThemeNames.PRIMARY,
-		timeout = 200,
-		isCurrent = false,
-		...restProps
-	} = props
+export interface Chosen {
+	value: string
+	description: React.ReactNode
+}
 
-	const styleProps: StyleProps = {
-		color: selectColor(color),
-		timeout,
-		isCurrent
-	}
-	const classes = useStyles(styleProps)
+interface OptionProps
+	extends React.OptionHTMLAttributes<HTMLOptionElement>,
+		WithStyles<typeof styles> {
+	className?: string
+	value: string
+	chosen?: Chosen
+	onChoose?(chosen: Chosen): void
+}
 
-	const handleSelect = React.useCallback(() => {
-		const nextOption: SelectOption = {
-			desc: children as string,
-			value
-		}
-		handleChange(nextOption)
-	}, [value, handleChange])
+const Option: React.FC<OptionProps> = (props) => {
+	const { classes, children, className = '', value, chosen, onChoose, ...rest } = props
 
-	const optionCls = clsx(classes.root, className)
+	const handleSelect = React.useCallback(
+		(event: React.MouseEvent<HTMLOptionElement>) => {
+			event.preventDefault()
+			event.stopPropagation()
+			onChoose?.({
+				value,
+				description: children
+			})
+		},
+		[children, onChoose, value]
+	)
+
+	const restProps = omit(rest, ['value', 'onClick'])
+
+	const optionCls = clsx({
+		[classes.option]: true,
+		[classes.default]: value === chosen?.value,
+		[className]: true
+	})
 
 	return (
-		<div {...restProps} className={optionCls} onClick={handleSelect}>
-			<span className={classes.text}>{children}</span>
-		</div>
+		<option className={optionCls} onClick={handleSelect} value={value} {...restProps}>
+			{children}
+		</option>
 	)
 }
 
-const Option = React.memo(_Option)
-Option.displayName = 'Option'
-
-export default Option
+export const InternalOption = withStyles(styles, { name: 'Option' })(Option)
+InternalOption.displayName = 'Option'

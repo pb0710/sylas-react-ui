@@ -7,7 +7,7 @@ export type RuleConfig = { validator: (value: any) => Promise<void | string> }
 export type Rule = RuleConfig | ((form: FormInstance) => RuleConfig)
 export interface FieldProps {
 	name: string
-	initialValue: any
+	initialValue?: any
 	rules?: Rule[]
 }
 export interface FieldControlProps {

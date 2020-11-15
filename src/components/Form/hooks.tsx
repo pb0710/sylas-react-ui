@@ -92,7 +92,9 @@ export class FormStore {
 
 	private getRules = (field: FieldElement): RuleConfig[] => {
 		const { rules = [] } = field.props
-		const result = rules.map((rule) => (typeof rule === 'function' ? rule(this.getFormInstance()) : rule))
+		const result = rules.map((rule) =>
+			typeof rule === 'function' ? rule(this.getFormInstance()) : rule
+		)
 		return result
 	}
 
@@ -100,8 +102,12 @@ export class FormStore {
 		const { name } = field.props
 		const value = this.getFieldValue(name)
 		const ruleEntities = this.getRules(field)
-		const results = await Promise.allSettled(ruleEntities.map((ruleEntity) => ruleEntity.validator(value)))
-		const explains: string[] = results.map((result) => result.status === 'rejected' && result.reason).filter(Boolean)
+		const results = await Promise.allSettled(
+			ruleEntities.map((ruleEntity) => ruleEntity.validator(value))
+		)
+		const explains: string[] = results
+			.map((result) => result.status === 'rejected' && result.reason)
+			.filter(Boolean)
 		this.setErrors({ [name]: explains })
 		field.explains = explains
 		field.onStoreChange()

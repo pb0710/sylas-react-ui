@@ -26,5 +26,5 @@ const Explains: React.FC<ExplainsProps> = (props) => {
 	)
 }
 
-export const InternalExplains = withStyles(styles)(Explains)
+export const InternalExplains = withStyles(styles, { name: 'Explains' })(Explains)
 InternalExplains.displayName = 'Explains'

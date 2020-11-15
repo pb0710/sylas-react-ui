@@ -58,7 +58,7 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = 
 	)
 
 	const start = React.useCallback(
-		e => {
+		(e) => {
 			const element = container.current
 
 			const rect: Rect | ClientRect = element

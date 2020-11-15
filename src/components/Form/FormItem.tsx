@@ -23,5 +23,5 @@ const FormItem: React.FC<FormItemProps> = (props) => {
 	)
 }
 
-export const InternalFormItem = withStyles(styles)(FormItem)
+export const InternalFormItem = withStyles(styles, { name: 'FormItem' })(FormItem)
 InternalFormItem.displayName = 'FormItem'

@@ -1,14 +1,17 @@
 import * as React from 'react'
 import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { useInternalState } from '../../utils/hooks'
+import { useBoolean, useInternalState } from '../../utils/hooks'
 
 const styles = createStyles({
 	wrapper: {
 		display: 'inline-flex',
 		alignItems: 'center',
-		'&>span': {
-			paddingLeft: 16
+		fontWeight: 500,
+		userSelect: 'none',
+		'&>span:last-child': {
+			paddingLeft: 16,
+			color: '#555'
 		}
 	},
 	switch: {
@@ -27,6 +30,9 @@ const styles = createStyles({
 		'&:hover': {
 			background: '#e8e8e8'
 		},
+		'&>input': {
+			display: 'none'
+		},
 		'&>div': {
 			display: 'flex',
 			alignItems: 'center',
@@ -34,8 +40,11 @@ const styles = createStyles({
 			height: 10,
 			borderRadius: 5,
 			background: '#333',
-			transition: 'transform .2s ease-out'
+			transition: 'transform .2s'
 		}
+	},
+	focus: {
+		borderColor: '#333'
 	},
 	actived: {
 		borderColor: '#409eff',
@@ -59,10 +68,22 @@ export interface SwitchProps extends React.HTMLAttributes<HTMLElement>, WithStyl
 }
 
 const Switch: React.FC<SwitchProps> = (props) => {
-	const { classes, className = '', value = false, onValueChange, onClick, description, ...rest } = props
-	const [checked, setChecked] = useInternalState<boolean>(value)
+	const {
+		classes,
+		className = '',
+		value = false,
+		onValueChange,
+		onClick,
+		description,
+		...rest
+	} = props
 
-	const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+	const [checked, setChecked] = useInternalState<boolean>(value)
+	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
+
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault()
+		event.stopPropagation()
 		onClick?.(event)
 		onValueChange?.(!checked)
 		setChecked((oldChecked) => !oldChecked)
@@ -71,17 +92,25 @@ const Switch: React.FC<SwitchProps> = (props) => {
 	const switchCls = clsx({
 		[classes.switch]: true,
 		[classes.actived]: checked,
+		[classes.focus]: focus,
 		[className]: true
 	})
+
 	return (
-		<label className={classes.wrapper}>
-			<button className={switchCls} type="button" onClick={handleClick} {...rest} onFocus={console.log}>
+		<label
+			className={classes.wrapper}
+			onFocus={handleFocus}
+			onBlur={handleBlur}
+			title={checked.toString()}
+		>
+			<button className={switchCls} type="button" onClick={handleClick} {...rest}>
 				<div></div>
+				<input />
 			</button>
 			{description && <span>{description}</span>}
 		</label>
 	)
 }
 
-export const InternalSwitch = withStyles(styles)(Switch)
+export const InternalSwitch = withStyles(styles, { name: 'Switch' })(Switch)
 InternalSwitch.displayName = 'Switch'

@@ -1,11 +1,11 @@
-import _Select, { SelectProps } from './Select'
-import Option from './Option'
+import { InternalOption } from './Option'
+import { InternalSelect, SelectProps } from './Select'
 
-interface SelectExports extends React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLElement>> {
-	Option: typeof Option
+interface SelectType extends React.FC<Omit<SelectProps, 'classes'>> {
+	Option: typeof InternalOption
 }
 
-const Select = _Select as SelectExports
-Select.Option = Option
+const Select = InternalSelect as SelectType
+Select.Option = InternalOption
 
 export default Select

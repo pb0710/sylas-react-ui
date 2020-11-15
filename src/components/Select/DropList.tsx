@@ -1,43 +1,27 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import clsx from 'clsx'
-import Paper from '../Paper'
-import { SelectOption } from './Select'
+import * as React from 'react'
+import { createStyles, makeStyles } from '@material-ui/styles'
 import { useTransition, TransitionOpts } from '../../utils/hooks'
+import clsx from 'clsx'
 
-export interface DropListProps extends TransitionOpts {
-	children: React.ReactNode
-	selected?: SelectOption
-	handleChange(option: SelectOption): void
-}
-
-interface StyleProps {
-	timeout: number
-	childCount: number
-}
+const getHeight = (mutiple: number): number => mutiple * 36
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ timeout, childCount }: StyleProps) => ({
-			zIndex: 999,
-			minWidth: '100%',
-			maxHeight: 160,
+		dropList: {
 			position: 'absolute',
-			top: 36,
-			left: 0,
-			right: 0,
-			fontSize: 14,
-			color: '#303133',
-			paddingTop: 4,
-			paddingBottom: 4,
+			left: -2,
+			top: ({ index }: stylesProps) => -getHeight(index) - 8,
+			overflowY: 'auto',
+			width: 'calc(100% + 4px)',
+			maxHeight: 232,
+			minHeight: 48,
+			padding: '8px 0',
 			borderRadius: 4,
-			boxShadow: '0 4px 24px rgba(26,26,26,.14)',
-			transformOrigin: 'center 0',
-			cursor: 'pointer',
-			// 为何不直接 auto？因为 hidden 时右边距多了1px的 bug
-			overflowY: childCount >= 5 ? 'auto' : 'unset',
-			animationDuration: `${timeout}ms`
-		}),
+			background: '#fff',
+			boxShadow: '0 4px 16px rgba(0,0,0,.16)',
+			transformOrigin: ({ index }) => `center ${getHeight(index) + 10}px`,
+			animationDuration: ({ timeout }) => `${timeout}ms`
+		},
 		enter: {
 			animation: '$kf_enter ease-out'
 		},
@@ -45,21 +29,21 @@ const useStyles = makeStyles(
 			animation: '$kf_leave ease-out'
 		},
 		'@keyframes kf_enter': {
-			'0%': {
+			from: {
 				opacity: 0,
 				transform: 'scaleY(.9)'
 			},
-			'100%': {
+			to: {
 				opacity: 1,
 				transform: 'scaleY(1)'
 			}
 		},
 		'@keyframes kf_leave': {
-			'0%': {
+			from: {
 				opacity: 1,
 				transform: 'scaleY(1)'
 			},
-			'100%': {
+			to: {
 				opacity: 0,
 				transform: 'scaleY(.9)'
 			}
@@ -67,29 +51,30 @@ const useStyles = makeStyles(
 	})
 )
 
-const _DropList: React.FC<DropListProps> = props => {
-	const { children, timeout = 150, in: inProp = false, onExited = () => {}, selected, handleChange } = props
-
-	useTransition({ in: inProp, onExited, timeout })
-
-	const childCount = React.Children.count(children)
-
-	const styleProps: StyleProps = { timeout, childCount }
-	const classes = useStyles(styleProps)
-
-	const dropListCls = clsx(classes.root, inProp ? classes.enter : classes.leave)
-
-	return (
-		<Paper className={dropListCls}>
-			{React.Children.map(children as any, (child: JSX.Element) => {
-				const isCurrent = child.props.value === selected?.value
-				return React.cloneElement(child, { handleChange, isCurrent })
-			})}
-		</Paper>
-	)
+interface DropListProps extends TransitionOpts {
+	index?: number
 }
 
-const DropList = React.memo(_DropList)
-DropList.displayName = 'SelectDropList'
+interface stylesProps {
+	index: number
+	timeout: number
+}
 
-export default DropList
+const DropList: React.FC<DropListProps> = (props) => {
+	const { children, index = 0, timeout = 100, in: inProp = false, onExited } = props
+
+	useTransition({ in: inProp, onExited, timeout })
+	const indexRef = React.useRef(index) // only set once
+	const classes = useStyles({ index: indexRef.current, timeout })
+
+	const dropListCls = clsx({
+		[classes.dropList]: true,
+		[classes.enter]: inProp,
+		[classes.leave]: !inProp
+	})
+
+	return <div className={dropListCls}>{children}</div>
+}
+
+export const InternalDropList = DropList
+InternalDropList.displayName = 'DropList'

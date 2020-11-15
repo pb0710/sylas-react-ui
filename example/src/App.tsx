@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Form, Input, Switch } from 'sylas-react-ui'
+import { Form, Input, Switch, Select } from 'sylas-react-ui'
 
 const App = () => {
+	const [form] = Form.useForm()
 	const handleFinsh = (values) => {
 		console.log('submit finshed values:', values)
 	}
@@ -19,7 +20,7 @@ const App = () => {
 				<button style={{ marginBottom: 16 }} onClick={handleToggle}>
 					Password confirm is necessary: {check ? 'Yes' : 'No'}
 				</button>
-				<Form onFinsh={handleFinsh} onFail={handleFail}>
+				<Form form={form} onFinsh={handleFinsh} onFail={handleFail}>
 					<Form.Item
 						name="username"
 						initialValue="i am a user"
@@ -93,8 +94,15 @@ const App = () => {
 						<Input placeholder="confirm password" />
 					</Form.Item>
 					{/* no validate rules. */}
-					<Form.Item name="remember" initialValue={true}>
+					<Form.Item name="remember" initialValue={false}>
 						<Switch description="remember password" />
+					</Form.Item>
+					<Form.Item name="lang" initialValue="en_US">
+						<Select description="language">
+							<Select.Option value="en_US">English</Select.Option>
+							<Select.Option value="zh_CN">简体中文</Select.Option>
+							<Select.Option value="zh_TW">繁體中文</Select.Option>
+						</Select>
 					</Form.Item>
 					<button type="submit">Submit</button>
 				</Form>

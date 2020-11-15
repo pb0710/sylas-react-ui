@@ -7,7 +7,7 @@ export interface TransitionOpts {
 	callback?(): void
 }
 
-export const useTransition = (options: TransitionOpts): void => {
+export function useTransition(options: TransitionOpts): void {
 	const { in: inProp = false, onExited = () => {}, timeout = 0, callback } = options
 	React.useEffect(() => {
 		if (!inProp) {
@@ -44,7 +44,9 @@ export function useBoolean(
 	return [state, { setTrue, setFalse, setToggle }]
 }
 
-export function useInternalState<S = unknown>(outerState: S): [S, React.Dispatch<React.SetStateAction<S>>] {
+export function useInternalState<S = unknown>(
+	outerState: S
+): [S, React.Dispatch<React.SetStateAction<S>>] {
 	const [state, setState] = React.useState(outerState)
 
 	React.useEffect(() => {

@@ -25,7 +25,7 @@ const styles = createStyles({
 		borderRadius: 4,
 		border: '2px solid #f8f8f8',
 		background: '#f8f8f8',
-		transition: 'background .3s, border .3s',
+		transition: 'background .25s, border .25s',
 		fontWeight: 500,
 		'&:hover': {
 			borderColor: '#eee',
@@ -44,7 +44,9 @@ const styles = createStyles({
 	}
 })
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, WithStyles<typeof styles> {
+export interface InputProps
+	extends React.InputHTMLAttributes<HTMLInputElement>,
+		WithStyles<typeof styles> {
 	className?: string
 	value?: string
 	onValueChange?(value: string): void
@@ -79,5 +81,5 @@ const Input: React.FC<InputProps> = (props) => {
 	)
 }
 
-export const InternalInput = React.memo(withStyles(styles)(Input))
+export const InternalInput = React.memo(withStyles(styles, { name: 'Input' })(Input))
 InternalInput.displayName = 'Input'

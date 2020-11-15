@@ -50,7 +50,14 @@ const useStyles = makeStyles(
 )
 
 const _IconButton: React.ForwardRefRenderFunction<unknown, IconButtonProps> = (props, ref) => {
-	const { children, className, color = ThemeNames.DEFAULT, disabled = false, focus = false, ...restProps } = props
+	const {
+		children,
+		className,
+		color = ThemeNames.DEFAULT,
+		disabled = false,
+		focus = false,
+		...restProps
+	} = props
 	const stylesProps: StyleProps = { color: selectColor(color), focus, disabled }
 	const classes = useStyles(stylesProps)
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
@@ -66,7 +73,7 @@ const _IconButton: React.ForwardRefRenderFunction<unknown, IconButtonProps> = (p
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
 		>
-			<TouchRipple ref={rippleRef} color={color} centered timeout={500} />
+			<TouchRipple ref={rippleRef as any} color={color} centered timeout={500} />
 			{children}
 		</ButtonBase>
 	)

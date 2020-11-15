@@ -24,7 +24,7 @@ export { default as Switch } from './components/switch'
 
 // export { default as Tag } from './components/Tag'
 
-// export { default as Select } from './components/Select'
+export { default as Select } from './components/select'
 
 export { default as TouchRipple } from './components/TouchRipple'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Validator } from './FormItem'
 
 enum validateState {
@@ -83,11 +83,11 @@ export const useForm = (): Form => {
 	// 触发表单值改变的 name
 	const [origin, setOrigin] = React.useState<string | undefined>()
 
-	const _setFieldError: SetFieldsError = error => {
-		setErrors(prev => {
+	const _setFieldError: SetFieldsError = (error) => {
+		setErrors((prev) => {
 			if (prev.length) {
 				// 数组去重，筛除 name 相同的 error
-				const dedupePrev = prev.filter(item => item.name !== error.name)
+				const dedupePrev = prev.filter((item) => item.name !== error.name)
 				return [...dedupePrev, error]
 			} else {
 				return [error]
@@ -97,8 +97,8 @@ export const useForm = (): Form => {
 
 	const _cleanFieldError: CleanFieldError = (...names) => {
 		if (names.length) {
-			names.forEach(name => {
-				setErrors(prev => prev.filter(err => err.name !== name))
+			names.forEach((name) => {
+				setErrors((prev) => prev.filter((err) => err.name !== name))
 			})
 		} else {
 			setErrors([])
@@ -110,7 +110,7 @@ export const useForm = (): Form => {
 			const { value, name, validator } = item
 			let result = validateState.FULFILLED
 			if (validator) {
-				const callback: Callback = desc => {
+				const callback: Callback = (desc) => {
 					if (desc) {
 						_setFieldError({ name, desc, validator })
 						result = validateState.REJECTED
@@ -133,7 +133,7 @@ export const useForm = (): Form => {
 			const validators = items.map(_validate)
 			const results = await Promise.all(validators)
 
-			return results.some(result => result === validateState.REJECTED)
+			return results.some((result) => result === validateState.REJECTED)
 				? validateState.REJECTED
 				: validateState.FULFILLED
 		},
@@ -141,13 +141,13 @@ export const useForm = (): Form => {
 	)
 
 	const _mergeItems = (name: string, value: Value) => {
-		setItems(prev => prev.map(item => (item.name === name ? { ...item, value } : item)))
+		setItems((prev) => prev.map((item) => (item.name === name ? { ...item, value } : item)))
 	}
 
 	const onFieldValueChange: OnFieldValueChange = (value, name) => {
 		setOrigin(undefined)
 		if (name) {
-			setValues(prev => ({
+			setValues((prev) => ({
 				...prev,
 				[name]: value
 			}))
@@ -160,14 +160,14 @@ export const useForm = (): Form => {
 	const syncFormItem: SyncFormItem = (name, validator) => {
 		if (name) {
 			const newItem = { name, validator }
-			setItems(prev => [...prev, newItem])
+			setItems((prev) => [...prev, newItem])
 		}
 	}
-	const getFieldValue: GetFieldValue = name => values[name]
+	const getFieldValue: GetFieldValue = (name) => values[name]
 
-	const setFieldsValue: SetFieldsValue = nextValues => {
+	const setFieldsValue: SetFieldsValue = (nextValues) => {
 		setOrigin(undefined)
-		setValues(prev => ({
+		setValues((prev) => ({
 			...prev,
 			...nextValues
 		}))
@@ -190,7 +190,7 @@ export const useForm = (): Form => {
 				// 区分参数，names不传即校验全部
 				if (names.length) {
 					const namesSet = new Set(names)
-					const targets = items.filter(item => namesSet.has(item.name))
+					const targets = items.filter((item) => namesSet.has(item.name))
 					_validateItems(targets).then(receiveResult)
 				} else {
 					_validateItems(items).then(receiveResult)
@@ -215,7 +215,7 @@ export const useForm = (): Form => {
 	React.useEffect(
 		() => {
 			if (origin) {
-				items.forEach(item => {
+				items.forEach((item) => {
 					// 只校验表单值变更项
 					if (origin === item.name) {
 						validateFields(origin).then(

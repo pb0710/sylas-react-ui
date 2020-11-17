@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import Paper from '../Paper'

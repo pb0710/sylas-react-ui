@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import _Loading, { LoadingProps } from './Loading'
 import Bounce from './Bounce'
 import Line from './Line'

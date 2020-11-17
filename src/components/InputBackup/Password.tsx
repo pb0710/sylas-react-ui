@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import Input, { InputProps, InputTypes } from './Input'
 
 const _Password: React.ForwardRefRenderFunction<unknown, InputProps> = (props, ref) => {

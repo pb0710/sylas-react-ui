@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import List from '../List'
@@ -32,7 +32,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _MenuItem: React.FC<MenuItemProps> = props => {
+const _MenuItem: React.FC<MenuItemProps> = (props) => {
 	const { children, className, id, color = ThemeNames.PRIMARY } = props
 
 	const ctxProps = React.useContext(MenuContext)

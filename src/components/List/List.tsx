@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _List: React.FC<ListProps> = props => {
+const _List: React.FC<ListProps> = (props) => {
 	const { children, className, bordered = false, ...restProps } = props
 	const classes = useStyles({ bordered })
 	const ulCls = clsx(classes.list, className)

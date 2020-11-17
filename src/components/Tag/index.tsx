@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { CloseOutlined } from '@ant-design/icons'
@@ -50,7 +50,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Tag: React.FC<TagProps> = props => {
+const _Tag: React.FC<TagProps> = (props) => {
 	const {
 		className,
 		children,

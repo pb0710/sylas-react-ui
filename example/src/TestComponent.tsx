@@ -1,4 +1,4 @@
-// import React from 'react'
+// import * as React from 'react'
 // import { createStyles, makeStyles } from '@material-ui/styles'
 // import { UserOutlined, NotificationOutlined } from '@ant-design/icons'
 // import { Button, Loading, Popup, Select } from 'sylas-react-ui'

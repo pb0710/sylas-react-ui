@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
@@ -46,8 +46,14 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Progress: React.FC<ProgressProps> = props => {
-	const { className, percent = 0, color = ThemeNames.PRIMARY, trailColor = 'rgba(0,0,0,0)', fixedTop = false } = props
+const _Progress: React.FC<ProgressProps> = (props) => {
+	const {
+		className,
+		percent = 0,
+		color = ThemeNames.PRIMARY,
+		trailColor = 'rgba(0,0,0,0)',
+		fixedTop = false
+	} = props
 
 	const stylesProps: StyleProps = { color: selectColor(color), trailColor, percent, fixedTop }
 	const classes = useStyles(stylesProps)

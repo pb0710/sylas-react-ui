@@ -1,6 +1,6 @@
 export { default as JSSBaseline } from './components/JSSBaseline'
 
-export { default as Button } from './components/Button'
+export { default as Button } from './components/button'
 
 // export { default as Collapse } from './components/Collapse'
 
@@ -26,7 +26,7 @@ export { default as Switch } from './components/switch'
 
 export { default as Select } from './components/select'
 
-export { default as TouchRipple } from './components/TouchRipple'
+export { default as TouchRipple } from './components/touchRipple'
 
 export { default as Form } from './components/form'
 

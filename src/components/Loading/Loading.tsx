@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 
 export interface LoadingProps {}
 
-const _Loading: React.FC<LoadingProps> = props => {
+const _Loading: React.FC<LoadingProps> = (props) => {
 	return <div></div>
 }
 

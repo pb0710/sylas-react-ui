@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { DownOutlined } from '@ant-design/icons'
@@ -68,7 +68,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Select: React.FC<SelectProps> = props => {
+const _Select: React.FC<SelectProps> = (props) => {
 	const {
 		children,
 		className,

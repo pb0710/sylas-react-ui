@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { FormContext } from './Form'
@@ -67,14 +67,23 @@ interface StyleProps {
 	label?: string
 }
 
-const _FormItem: React.FC<FormItemProps> = props => {
-	const { children, className, label, textAlign = TextAlign.RIGHT, col = 10, name, initialValue, validator } = props
+const _FormItem: React.FC<FormItemProps> = (props) => {
+	const {
+		children,
+		className,
+		label,
+		textAlign = TextAlign.RIGHT,
+		col = 10,
+		name,
+		initialValue,
+		validator
+	} = props
 
 	const ctxProps = React.useContext(FormContext)
 	const { values, errors, onFieldValueChange, setFieldsValue, syncFormItem } = ctxProps
 
 	const value = name && values?.[name]
-	const error = errors?.find(err => err.name === name)
+	const error = errors?.find((err) => err.name === name)
 	const isError = error !== undefined
 
 	// 拥有错误提示特殊样式的组件列表
@@ -105,9 +114,9 @@ const _FormItem: React.FC<FormItemProps> = props => {
 			{label && <label className={classes.label}>{label}：</label>}
 			<div className={classes.inner}>
 				{React.Children.map(children as any, (child: JSX.Element) =>
-					specialErrorList.some(input => input === child?.type?.displayName)
+					specialErrorList.some((input) => input === child?.type?.displayName)
 						? React.cloneElement(child, { ...baseProps, error: isError })
-						: formItemList.some(item => item === child?.type?.displayName)
+						: formItemList.some((item) => item === child?.type?.displayName)
 						? React.cloneElement(child, baseProps)
 						: React.cloneElement(child)
 				)}

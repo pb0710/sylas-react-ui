@@ -14,16 +14,13 @@ const styles = createStyles({
 			fontSize: 13,
 			fontWeight: 600,
 			color: '#3a8ee6',
-			padding: '0 4px',
-			whiteSpace: 'nowrap',
-			textOverflow: 'ellipsis',
-			overflow: 'hidden'
+			padding: '0 4px'
 		}
 	},
-	input: {
+	textarea: {
 		width: '100%',
-		height: 40,
-		padding: '0 10px',
+		minHeight: 80,
+		padding: 10,
 		outline: 'none',
 		borderRadius: 4,
 		border: '2px solid #f8f8f8',
@@ -47,34 +44,34 @@ const styles = createStyles({
 	}
 })
 
-export interface InputProps
-	extends React.InputHTMLAttributes<HTMLInputElement>,
+export interface TextareaProps
+	extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
 		WithStyles<typeof styles> {
 	className?: string
 	value?: string
 	onValueChange?(value: string): void
 }
 
-const Input: React.FC<InputProps> = (props) => {
+const Textarea: React.FC<TextareaProps> = (props) => {
 	const { classes, className, value = '', onChange, onValueChange, placeholder, ...rest } = props
-	const [inputValue, setInputValue] = useInternalState<string>(value)
+	const [TextareaValue, setTextareaValue] = useInternalState<string>(value)
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleTextarea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const keywords = event.currentTarget.value
 		onChange?.(event)
 		onValueChange?.(keywords)
-		setInputValue(keywords)
+		setTextareaValue(keywords)
 	}
 
-	const inputCls = clsx(classes.input, className)
+	const TextareaCls = clsx(classes.textarea, className)
 	return (
 		<div className={classes.wrapper}>
 			{focus && <span>{placeholder}</span>}
-			<input
-				className={inputCls}
-				value={inputValue}
-				onChange={handleInput}
+			<textarea
+				className={TextareaCls}
+				value={TextareaValue}
+				onChange={handleTextarea}
 				onFocus={handleFocus}
 				onBlur={handleBlur}
 				placeholder={focus ? '' : placeholder}
@@ -84,5 +81,5 @@ const Input: React.FC<InputProps> = (props) => {
 	)
 }
 
-export const InternalInput = React.memo(withStyles(styles, { name: 'Input' })(Input))
-InternalInput.displayName = 'Input'
+export const InternalTextarea = React.memo(withStyles(styles, { name: 'Textarea' })(Textarea))
+InternalTextarea.displayName = 'Textarea'

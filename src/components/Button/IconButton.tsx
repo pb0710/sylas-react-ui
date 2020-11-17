@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import ButtonBase from './ButtonBase'
-import TouchRipple from '../TouchRipple'
+import TouchRipple from '../../components/touchRipple'
 
 export interface StyleProps {
 	color: Colors
@@ -37,7 +37,6 @@ const useStyles = makeStyles(
 			opacity: disabled ? 0.5 : 1,
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			transition: 'all 0.25s ease-out',
-
 			...(disabled
 				? {}
 				: {
@@ -49,7 +48,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _IconButton: React.ForwardRefRenderFunction<unknown, IconButtonProps> = (props, ref) => {
+const IconButton: React.ForwardRefRenderFunction<any, IconButtonProps> = (props, ref) => {
 	const {
 		children,
 		className,
@@ -66,20 +65,18 @@ const _IconButton: React.ForwardRefRenderFunction<unknown, IconButtonProps> = (p
 	return (
 		<ButtonBase
 			type="button"
-			{...restProps}
-			ref={ref as any}
+			ref={ref}
 			className={btnCls}
 			onMouseDown={handleStart}
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
+			{...restProps}
 		>
-			<TouchRipple ref={rippleRef as any} color={color} centered timeout={500} />
+			<TouchRipple ref={rippleRef} color={color} centered timeout={500} />
 			{children}
 		</ButtonBase>
 	)
 }
 
-const IconButton = React.memo(React.forwardRef<unknown, IconButtonProps>(_IconButton))
-IconButton.displayName = 'IconButton'
-
-export default IconButton
+export const InternalIconButton = React.memo(React.forwardRef<unknown, IconButtonProps>(IconButton))
+InternalIconButton.displayName = 'IconButton'

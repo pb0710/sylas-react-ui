@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { TransitionGroup } from 'react-transition-group'
-import Ripple, { RippleProps } from './Ripple'
+import { InternalRipple } from './Ripple'
 
 interface Rect {
 	width: number
@@ -31,19 +31,19 @@ const useStyles = makeStyles(
 	})
 )
 
-const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = (props, ref) => {
+const TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = (props, ref) => {
 	const { centered = false, timeout = 400, color = 'default' } = props
 
-	const [ripples, setRipples] = React.useState<React.FC<RippleProps>[]>([])
-	const key = React.useRef(0)
-	const container: React.RefObject<any> = React.useRef()
+	const [ripples, setRipples] = React.useState<React.ReactNode[]>([])
+	const key = React.useRef<number>(0)
+	const container = React.useRef(Object.create(null))
 	const classes = useStyles()
 
 	const addRipple = React.useCallback(
-		(rippleX, rippleY, rippleSize) => {
-			setRipples((oldRipples: any) => [
+		(rippleX: number, rippleY: number, rippleSize: number): void => {
+			setRipples((oldRipples) => [
 				...oldRipples,
-				<Ripple
+				<InternalRipple
 					key={key.current}
 					rippleX={rippleX}
 					rippleY={rippleY}
@@ -58,9 +58,8 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = 
 	)
 
 	const start = React.useCallback(
-		(e) => {
+		(event: React.MouseEvent<HTMLElement>): void => {
 			const element = container.current
-
 			const rect: Rect | ClientRect = element
 				? element.getBoundingClientRect()
 				: {
@@ -69,7 +68,6 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = 
 						left: 0,
 						top: 0
 				  }
-
 			let rippleX: number
 			let rippleY: number
 			let rippleSize: number
@@ -79,25 +77,24 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = 
 				rippleY = Math.round(rect.height / 2)
 				rippleSize = Math.round(Math.sqrt(4 * (rippleX ** 2 + rippleY ** 2)))
 			} else {
-				rippleX = Math.round(e.clientX - rect.left)
-				rippleY = Math.round(e.clientY - rect.top)
+				rippleX = Math.round(event.clientX - rect.left)
+				rippleY = Math.round(event.clientY - rect.top)
 
 				const sizeX = Math.max(Math.abs(rect.width - rippleX), rippleX) * 2
 				const sizeY = Math.max(Math.abs(rect.height - rippleY), rippleY) * 2
 
 				rippleSize = Math.round(Math.sqrt(sizeX ** 2 + sizeY ** 2))
 			}
-
 			addRipple(rippleX, rippleY, rippleSize)
 		},
 		[addRipple, centered]
 	)
 
-	const stop = React.useCallback(() => {
-		setRipples((oldRipples: any) => (oldRipples.length > 0 ? oldRipples.slice(1) : oldRipples))
+	const stop = React.useCallback((): void => {
+		setRipples((oldRipples) => (oldRipples.length > 0 ? oldRipples.slice(1) : oldRipples))
 	}, [])
 
-	// 自组件暴露方法给父组件
+	// sub component provider function to super component by ref.
 	React.useImperativeHandle(ref, () => ({ start, stop }), [start, stop])
 
 	return (
@@ -107,7 +104,7 @@ const _TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = 
 	)
 }
 
-const TouchRipple = React.memo(React.forwardRef<unknown, TouchRippleProps>(_TouchRipple))
-TouchRipple.displayName = 'TouchRipple'
-
-export default TouchRipple
+export const InternalTouchRipple = React.memo(
+	React.forwardRef<unknown, TouchRippleProps>(TouchRipple)
+)
+InternalTouchRipple.displayName = 'TouchRipple'

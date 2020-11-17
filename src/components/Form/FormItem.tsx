@@ -1,6 +1,6 @@
 import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import React from 'react'
+import * as React from 'react'
 import { Field, FieldProps } from './Field'
 
 const styles = createStyles({

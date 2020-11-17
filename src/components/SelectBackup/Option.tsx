@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
 	}
 })
 
-const _Option: React.FC<OptionProps> = props => {
+const _Option: React.FC<OptionProps> = (props) => {
 	const {
 		className,
 		children,

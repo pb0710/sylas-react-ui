@@ -61,7 +61,7 @@ interface stylesProps {
 }
 
 const DropList: React.FC<DropListProps> = (props) => {
-	const { children, index = 0, timeout = 100, in: inProp = false, onExited } = props
+	const { children, index = 0, timeout = 150, in: inProp = false, onExited } = props
 
 	useTransition({ in: inProp, onExited, timeout })
 	const indexRef = React.useRef(index) // only set once

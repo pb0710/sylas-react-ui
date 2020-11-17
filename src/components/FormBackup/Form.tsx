@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { Form, Values, useForm } from './hooks'
@@ -41,7 +41,7 @@ const defaultCtx: Form = {
 
 export const FormContext = React.createContext<Form>(defaultCtx)
 
-const _Form: React.FC<FormProps> = props => {
+const _Form: React.FC<FormProps> = (props) => {
 	const {
 		children,
 		className,

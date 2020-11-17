@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import List from '../List'
@@ -39,7 +39,7 @@ const defaultCtx: MenuCtx = {
 
 export const MenuContext = React.createContext(defaultCtx)
 
-const _Menu: React.FC<MenuProps> = props => {
+const _Menu: React.FC<MenuProps> = (props) => {
 	const {
 		children,
 		className,
@@ -52,7 +52,7 @@ const _Menu: React.FC<MenuProps> = props => {
 
 	const classes = useStyles()
 
-	const onCustomSelect: IdEffect = id => {
+	const onCustomSelect: IdEffect = (id) => {
 		onSelected(id)
 		menu?.setCurrentKey(id)
 	}

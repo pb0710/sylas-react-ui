@@ -19,6 +19,7 @@ const styles = createStyles({
 		}
 	},
 	select: {
+		zIndex: 1,
 		position: 'relative',
 		display: 'inline-flex',
 		alignItems: 'center',
@@ -126,6 +127,7 @@ const Select: React.FC<SelectProps> = (props) => {
 		[classes.focus]: focus,
 		[className]: true
 	})
+
 	return (
 		<div className={classes.wrapper}>
 			<label className={selectCls} {...rest}>

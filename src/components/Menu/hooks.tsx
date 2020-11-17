@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export interface Ids {
 	[key: string]: boolean
@@ -31,7 +31,7 @@ export function useMenu(): Menu {
 	}
 
 	const setCurrentKey = (id: string) => {
-		setIds(prev => {
+		setIds((prev) => {
 			const result = {}
 			for (const key in prev) {
 				if (Object.prototype.hasOwnProperty.call(prev, key)) {
@@ -43,7 +43,7 @@ export function useMenu(): Menu {
 	}
 
 	const syncMenuId: IdEffect = (id: string) => {
-		setIds(prev => ({ ...prev, [id]: false }))
+		setIds((prev) => ({ ...prev, [id]: false }))
 	}
 
 	return { ids, syncMenuId, getCurrentKey, setCurrentKey }

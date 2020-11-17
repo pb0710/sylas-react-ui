@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import clsx from 'clsx'
 import { makeStyles, createStyles } from '@material-ui/styles'
 
@@ -38,7 +38,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Divider: React.FC<DividerProps> = props => {
+const _Divider: React.FC<DividerProps> = (props) => {
 	const { children, className, dashed = false, titleCentered = true } = props
 	const classes = useStyles({ dashed, titleCentered })
 	const dividerCls = clsx(classes.root, className)

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import { SearchOutlined } from '@ant-design/icons'
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _SuffixBtn: React.FC<SuffixBtnProps> = props => {
+const _SuffixBtn: React.FC<SuffixBtnProps> = (props) => {
 	const { children, onClick } = props
 	const classes = useStyles()
 

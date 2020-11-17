@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { Transition } from 'react-transition-group'
@@ -43,7 +43,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Collapse: React.FC<CollpaseProps> = props => {
+const _Collapse: React.FC<CollpaseProps> = (props) => {
 	const { children, className, in: inProp = false, timeout = 300, ...restProps } = props
 
 	const nodeRef = React.useRef<any>()

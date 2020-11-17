@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { CaretDownFilled } from '@ant-design/icons'
 import List from '../List'
@@ -34,7 +34,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _SubMenu: React.FC<SubMenuProps> = props => {
+const _SubMenu: React.FC<SubMenuProps> = (props) => {
 	const { children, className, title, opened = false } = props
 
 	const [listOpened, setlistOpened] = React.useState<boolean>(opened)
@@ -42,7 +42,7 @@ const _SubMenu: React.FC<SubMenuProps> = props => {
 	const classes = useStyles({ listOpened } as StyleProps)
 
 	const handleSelect = () => {
-		setlistOpened(prev => !prev)
+		setlistOpened((prev) => !prev)
 	}
 
 	// props 同步内部 state

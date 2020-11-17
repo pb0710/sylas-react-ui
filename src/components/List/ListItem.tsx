@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import TouchRipple from '../TouchRipple'
+import TouchRipple from '../../components/touchRipple'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
 export interface ListItemProps extends React.LiHTMLAttributes<HTMLElement> {
@@ -58,7 +58,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _ListItem: React.FC<ListItemProps> = props => {
+const _ListItem: React.FC<ListItemProps> = (props) => {
 	const {
 		children,
 		className,

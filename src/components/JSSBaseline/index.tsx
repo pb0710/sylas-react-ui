@@ -1,5 +1,5 @@
-import React from 'react'
-import { StylesProvider, withStyles, createStyles } from '@material-ui/styles'
+import * as React from 'react'
+import { StylesProvider, withStyles, createStyles, WithStyles } from '@material-ui/styles'
 import 'normalize.css'
 
 export const html = {
@@ -29,6 +29,13 @@ export const styles = createStyles({
 })
 
 // JSS 样式优先级较高，若要使用自定义样式覆盖，需将 style 前置插入
-const JssBaseline: React.FC = (props) => <StylesProvider injectFirst>{props.children}</StylesProvider>
+const JssBaseline: React.FC<WithStyles<typeof styles>> = (props) => {
+	const { classes, ...rest } = props
+	return (
+		<StylesProvider injectFirst {...rest}>
+			{props.children}
+		</StylesProvider>
+	)
+}
 
 export default withStyles(styles, { name: 'JSSBaseline' })(JssBaseline)

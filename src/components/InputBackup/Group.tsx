@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Group: React.FC<GroupProps> = props => {
+const _Group: React.FC<GroupProps> = (props) => {
 	const { children, className } = props
 	const classes = useStyles()
 	const childNum = React.Children.count(children)
@@ -40,7 +40,11 @@ const _Group: React.FC<GroupProps> = props => {
 				} = child
 
 				const compactStyles =
-					index === 0 ? classes.firstOne : index === childNum - 1 ? classes.lastOne : classes.compact
+					index === 0
+						? classes.firstOne
+						: index === childNum - 1
+						? classes.lastOne
+						: classes.compact
 
 				return React.cloneElement(child, {
 					inputClassName: clsx(oldInputCls, compactStyles)

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Form, Input, Switch, Select } from 'sylas-react-ui'
+import { Form, Input, Switch, Select, Button } from 'sylas-react-ui'
 
 const App = () => {
 	const [form] = Form.useForm()
@@ -17,9 +17,9 @@ const App = () => {
 		<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
 			<h1>App</h1>
 			<div style={{ width: 320 }}>
-				<button style={{ marginBottom: 16 }} onClick={handleToggle}>
+				<Button style={{ marginBottom: 16 }} onClick={handleToggle}>
 					Password confirm is necessary: {check ? 'Yes' : 'No'}
-				</button>
+				</Button>
 				<Form form={form} onFinsh={handleFinsh} onFail={handleFail}>
 					<Form.Item
 						name="username"
@@ -93,6 +93,9 @@ const App = () => {
 					>
 						<Input placeholder="confirm password" />
 					</Form.Item>
+					<Form.Item name="selfIntroduction" initialValue="">
+						<Input.Textarea placeholder="self introduction" />
+					</Form.Item>
 					{/* no validate rules. */}
 					<Form.Item name="remember" initialValue={false}>
 						<Switch description="remember password" />
@@ -104,7 +107,9 @@ const App = () => {
 							<Select.Option value="zh_TW">繁體中文</Select.Option>
 						</Select>
 					</Form.Item>
-					<button type="submit">Submit</button>
+					<Button type="submit" color="primary">
+						Submit
+					</Button>
 				</Form>
 			</div>
 		</div>

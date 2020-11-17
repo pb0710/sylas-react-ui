@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
@@ -66,13 +66,13 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Ripple: React.FC<RippleProps> = props => {
+const Ripple: React.FC<RippleProps> = (props) => {
 	const {
 		rippleX,
 		rippleY,
 		rippleSize,
 		in: inProp,
-		onExited = () => {},
+		onExited,
 		color = ThemeNames.DEFAULT,
 		timeout = 0
 	} = props
@@ -104,7 +104,5 @@ const _Ripple: React.FC<RippleProps> = props => {
 	)
 }
 
-const Ripple = React.memo(_Ripple)
-Ripple.displayName = 'Ripple'
-
-export default Ripple
+export const InternalRipple = React.memo(Ripple)
+InternalRipple.displayName = 'Ripple'

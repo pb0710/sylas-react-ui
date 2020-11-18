@@ -18,12 +18,12 @@ const styles = createStyles({
 	checkBox: {
 		position: 'relative',
 		display: 'inline-flex',
-		width: 18,
-		height: 18,
+		width: 16,
+		height: 16,
 		border: '2px solid #e8e8e8',
 		borderRadius: 4,
 		background: '#fff',
-		transition: 'border .2s,background-color .2s',
+		transition: 'border-color .2s,background-color .2s',
 		'&>input': {
 			zIndex: 1,
 			opacity: 0,
@@ -35,6 +35,9 @@ const styles = createStyles({
 			width: '100%',
 			height: '100%',
 			cursor: 'pointer'
+		},
+		'&:hover': {
+			background: '#e8e8e8'
 		}
 	},
 	focus: {
@@ -43,6 +46,9 @@ const styles = createStyles({
 	actived: {
 		borderColor: '#409eff',
 		background: '#409eff',
+		'&:hover': {
+			background: '#409eff'
+		},
 		'&:after': {
 			content: '" "',
 			position: 'absolute',
@@ -52,8 +58,7 @@ const styles = createStyles({
 			border: '2px solid #fff',
 			borderTop: 0,
 			borderLeft: 0,
-			transform: 'rotate(45deg) translate(36%,-20%)',
-			opacity: 1
+			transform: 'rotate(45deg) translate(36%,-18%)'
 		}
 	}
 })
@@ -86,7 +91,7 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
 	const [checked, setChecked] = useInternalState<boolean>(value)
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+	const handleClick = (event: React.MouseEvent<HTMLInputElement>): void => {
 		event.preventDefault()
 		event.stopPropagation()
 		onClick?.(event)

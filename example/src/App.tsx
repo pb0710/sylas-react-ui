@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Form, Input, Switch, Select, Button, CheckBox } from 'sylas-react-ui'
+import { Form, Input, Switch, Select, Button, CheckBox, Radio } from 'sylas-react-ui'
 
 function App() {
 	const [form] = Form.useForm()
@@ -105,8 +105,8 @@ function App() {
 						<Input.Textarea placeholder="self introduction" />
 					</Form.Item>
 
-					<Form.Item name="remember" initialValue={false}>
-						<Switch description="remember password" />
+					<Form.Item name="switch" initialValue={false}>
+						<Switch description="switch" />
 					</Form.Item>
 					<Form.Item name="lang" initialValue="en-US">
 						<Select description="language">
@@ -125,7 +125,7 @@ function App() {
 						initialValue={[
 							{ name: 'apple', value: false },
 							{ name: 'pear', value: true },
-							{ name: 'orange', value: false }
+							{ name: 'orange', value: true }
 						]}
 					>
 						<CheckBox.Group
@@ -135,6 +135,13 @@ function App() {
 								{ label: 'Orange', name: 'orange' }
 							]}
 						/>
+					</Form.Item>
+					<Form.Item name="frontendLibary" initialValue="angular">
+						<Radio.Group>
+							<Radio value="angular">Angular</Radio>
+							<Radio value="react">React</Radio>
+							<Radio value="vue">Vue</Radio>
+						</Radio.Group>
 					</Form.Item>
 					<Button type="submit" color="primary">
 						Submit

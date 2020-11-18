@@ -24,7 +24,7 @@ const CheckBoxGroup: React.FC<CheckBoxGroupProps> = (props) => {
 	const [checkList, setCheckList] = useInternalState<CheckItem[]>(value)
 
 	const onCheckedChange = React.useCallback(
-		(checkItem: CheckItem) => {
+		(checkItem: CheckItem): void => {
 			const result = checkList.map((item) => (item.name === checkItem.name ? checkItem : item))
 			setCheckList(result)
 			onValueChange?.(result)

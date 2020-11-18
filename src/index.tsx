@@ -32,4 +32,6 @@ export { default as Form } from './components/form'
 
 export { default as CheckBox } from './components/checkBox'
 
+export { default as Radio } from './components/radio'
+
 // export { default as Menu } from './components/Menu'

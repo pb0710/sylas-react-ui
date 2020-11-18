@@ -30,4 +30,6 @@ export { default as TouchRipple } from './components/touchRipple'
 
 export { default as Form } from './components/form'
 
+export { default as CheckBox } from './components/checkBox'
+
 // export { default as Menu } from './components/Menu'

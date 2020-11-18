@@ -76,6 +76,7 @@ export class FormStore {
 			...this.store,
 			...newStore
 		}
+		this.callback.onValuesChange?.(this.store)
 		this.fields.forEach((field) => {
 			const { name } = field.props
 			Object.keys(newStore).forEach((key) => {
@@ -135,7 +136,7 @@ export class FormStore {
 
 	public submit = async (): Promise<void> => {
 		const hasErrors = Boolean(await this.validateFields())
-		hasErrors ? this.callback?.onFail(this.errors) : this.callback?.onFinsh(this.store)
+		hasErrors ? this.callback.onFail?.(this.errors) : this.callback.onFinsh?.(this.store)
 	}
 
 	public getFormInstance = (): FormInstance => {

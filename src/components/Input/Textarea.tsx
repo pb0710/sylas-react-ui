@@ -19,7 +19,7 @@ const styles = createStyles({
 	},
 	textarea: {
 		width: '100%',
-		minHeight: 80,
+		height: 72,
 		padding: 10,
 		outline: 'none',
 		borderRadius: 4,

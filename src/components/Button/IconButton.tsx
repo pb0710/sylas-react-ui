@@ -13,7 +13,7 @@ export interface StyleProps {
 
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	className?: string
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 	focus?: boolean
 	disabled?: boolean
 }
@@ -55,7 +55,7 @@ const IconButton: React.ForwardRefRenderFunction<any, IconButtonProps> = (props,
 		color = ThemeNames.DEFAULT,
 		disabled = false,
 		focus = false,
-		...restProps
+		...rest
 	} = props
 	const stylesProps: StyleProps = { color: selectColor(color), focus, disabled }
 	const classes = useStyles(stylesProps)
@@ -64,13 +64,13 @@ const IconButton: React.ForwardRefRenderFunction<any, IconButtonProps> = (props,
 
 	return (
 		<ButtonBase
+			{...rest}
 			type="button"
 			ref={ref}
 			className={btnCls}
 			onMouseDown={handleStart}
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
-			{...restProps}
 		>
 			<TouchRipple ref={rippleRef} color={color} centered timeout={500} />
 			{children}

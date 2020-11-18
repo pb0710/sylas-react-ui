@@ -1,7 +1,8 @@
 import { InternalOption } from './Option'
-import { InternalSelect, SelectProps } from './Select'
+import { InternalSelect } from './Select'
 
-interface SelectType extends React.FC<Omit<SelectProps, 'classes'>> {
+type InternalSelectType = typeof InternalSelect
+interface SelectType extends InternalSelectType {
 	Option: typeof InternalOption
 }
 

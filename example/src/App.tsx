@@ -1,13 +1,16 @@
 import * as React from 'react'
-import { Form, Input, Switch, Select, Button } from 'sylas-react-ui'
+import { Form, Input, Switch, Select, Button, CheckBox } from 'sylas-react-ui'
 
-const App = () => {
+function App() {
 	const [form] = Form.useForm()
 	const handleFinsh = (values) => {
 		console.log('submit finshed values:', values)
 	}
 	const handleFail = (errors) => {
 		console.error('submit failed errors:', errors)
+	}
+	const handleValuesChange = (values) => {
+		console.log('values changed', values)
 	}
 	const [check, setCheck] = React.useState<boolean>(false)
 	const handleToggle = () => {
@@ -20,7 +23,12 @@ const App = () => {
 				<Button style={{ marginBottom: 16 }} onClick={handleToggle}>
 					Password confirm is necessary: {check ? 'Yes' : 'No'}
 				</Button>
-				<Form form={form} onFinsh={handleFinsh} onFail={handleFail}>
+				<Form
+					form={form}
+					onFinsh={handleFinsh}
+					onFail={handleFail}
+					onValuesChange={handleValuesChange}
+				>
 					<Form.Item
 						name="username"
 						initialValue="i am a user"
@@ -96,16 +104,37 @@ const App = () => {
 					<Form.Item name="selfIntroduction" initialValue="">
 						<Input.Textarea placeholder="self introduction" />
 					</Form.Item>
-					{/* no validate rules. */}
+
 					<Form.Item name="remember" initialValue={false}>
 						<Switch description="remember password" />
 					</Form.Item>
-					<Form.Item name="lang" initialValue="en_US">
+					<Form.Item name="lang" initialValue="en-US">
 						<Select description="language">
-							<Select.Option value="en_US">English</Select.Option>
-							<Select.Option value="zh_CN">简体中文</Select.Option>
-							<Select.Option value="zh_TW">繁體中文</Select.Option>
+							<Select.Option value="en-US">English</Select.Option>
+							<Select.Option value="es-ES">Español</Select.Option>
+							<Select.Option value="ru-RU">русский</Select.Option>
+							<Select.Option value="zh-CN">简体中文</Select.Option>
+							<Select.Option value="zh-TW">繁體中文</Select.Option>
 						</Select>
+					</Form.Item>
+					<Form.Item name="agree" initialValue={false}>
+						<CheckBox>checking means agree to XXX terms</CheckBox>
+					</Form.Item>
+					<Form.Item
+						name="fruit"
+						initialValue={[
+							{ name: 'apple', value: false },
+							{ name: 'pear', value: false },
+							{ name: 'orange', value: false }
+						]}
+					>
+						<CheckBox.Group
+							options={[
+								{ label: 'Apple', name: 'apple' },
+								{ label: 'Pear', name: 'pear' },
+								{ label: 'Orange', name: 'orange' }
+							]}
+						/>
 					</Form.Item>
 					<Button type="submit" color="primary">
 						Submit

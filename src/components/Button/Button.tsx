@@ -11,9 +11,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
 	disabled?: boolean
 	prefixes?: JSX.Element
 	suffixes?: JSX.Element
-	htmlType?: string
-	error?: boolean
-	submit?(): void
 }
 
 interface StyleProps {
@@ -36,7 +33,7 @@ const useStyles = makeStyles(
 			justifyContent: 'center',
 			position: 'relative',
 			fontSize: 14,
-			fontWeight: 500,
+			fontWeight: 600,
 			whiteSpace: 'nowrap',
 			textAlign: 'center',
 			minWidth: 80,
@@ -77,11 +74,9 @@ const Button: React.ForwardRefRenderFunction<any, ButtonProps> = (props, ref) =>
 		disabled = false,
 		prefixes = null,
 		suffixes = null,
-		htmlType,
-		error = false,
+		type = 'button',
 		onClick = null,
-		submit,
-		...restProps
+		...rest
 	} = props
 
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
@@ -89,12 +84,12 @@ const Button: React.ForwardRefRenderFunction<any, ButtonProps> = (props, ref) =>
 	const stylesProps: StyleProps = { color: selectColor(color), disabled }
 	const classes = useStyles(stylesProps)
 
-	const customClick = React.useCallback(
-		(e: React.MouseEvent<HTMLButtonElement>) => {
-			onClick && onClick(e)
-			submit && submit()
+	const onCustomClick = React.useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			if (disabled) return
+			onClick?.(event)
 		},
-		[onClick, submit]
+		[disabled, onClick]
 	)
 
 	const btnCls = clsx(classes.btn, className)
@@ -113,14 +108,14 @@ const Button: React.ForwardRefRenderFunction<any, ButtonProps> = (props, ref) =>
 
 	return (
 		<ButtonBase
-			type="button"
+			type={type}
 			ref={ref}
 			className={btnCls}
-			onClick={customClick}
+			onClick={onCustomClick}
 			onMouseDown={handleStart}
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
-			{...restProps}
+			{...rest}
 		>
 			<span>{prefixes}</span>
 			<TouchRipple ref={rippleRef} color={color} />

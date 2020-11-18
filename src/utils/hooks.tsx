@@ -12,7 +12,7 @@ export function useTransition(options: TransitionOpts): void {
 	React.useEffect(() => {
 		if (!inProp) {
 			callback && callback()
-			// 组件延迟卸载
+			// delay unmount for animations
 			const exitTimer = setTimeout(onExited, timeout)
 			return () => {
 				clearTimeout(exitTimer)

@@ -149,5 +149,5 @@ const Select: React.FC<SelectProps> = (props) => {
 	)
 }
 
-export const InternalSelect = withStyles(styles, { name: 'Select' })(Select)
+export const InternalSelect = React.memo(withStyles(styles, { name: 'Select' })(Select))
 InternalSelect.displayName = 'Select'

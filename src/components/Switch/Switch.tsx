@@ -60,7 +60,9 @@ const styles = createStyles({
 	}
 })
 
-export interface SwitchProps extends React.HTMLAttributes<HTMLElement>, WithStyles<typeof styles> {
+export interface SwitchProps
+	extends React.HTMLAttributes<HTMLButtonElement>,
+		WithStyles<typeof styles> {
 	className?: string
 	value?: boolean
 	onValueChange?(value: boolean): void

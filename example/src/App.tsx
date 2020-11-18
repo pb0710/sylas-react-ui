@@ -124,7 +124,7 @@ function App() {
 						name="fruit"
 						initialValue={[
 							{ name: 'apple', value: false },
-							{ name: 'pear', value: false },
+							{ name: 'pear', value: true },
 							{ name: 'orange', value: false }
 						]}
 					>

@@ -39,11 +39,14 @@ const CheckBoxGroup: React.FC<CheckBoxGroupProps> = (props) => {
 
 	return (
 		<div {...rest} className={checkBoxCls}>
-			{options.map(({ label, name }) => (
-				<InternalCheckBox key={name} name={name} onCheckedChange={onCheckedChange}>
-					{label}
-				</InternalCheckBox>
-			))}
+			{options.map(({ label, name }) => {
+				const value = checkList.find((check) => check.name === name)?.value
+				return (
+					<InternalCheckBox key={name} value={value} name={name} onCheckedChange={onCheckedChange}>
+						{label}
+					</InternalCheckBox>
+				)
+			})}
 		</div>
 	)
 }

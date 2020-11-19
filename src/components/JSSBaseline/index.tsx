@@ -28,7 +28,7 @@ export const styles = createStyles({
 	}
 })
 
-// JSS 样式优先级较高，若要使用自定义样式覆盖，需将 style 前置插入
+// JSS style has a higher priority. If you want to use custom style coverage, you need to insert style beforehand.
 const JssBaseline: React.FC<WithStyles<typeof styles>> = (props) => {
 	const { classes, ...rest } = props
 	return (

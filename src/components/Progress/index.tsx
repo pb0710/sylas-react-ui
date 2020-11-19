@@ -13,14 +13,14 @@ interface StyleProps {
 interface ProgressProps {
 	className?: string
 	percent?: number
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 	trailColor?: string
 	fixedTop?: boolean
 }
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ fixedTop, trailColor }: StyleProps) => ({
+		progress: ({ fixedTop, trailColor }: StyleProps) => ({
 			position: 'relative',
 			...(fixedTop
 				? {
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Progress: React.FC<ProgressProps> = (props) => {
+const InternalProgress: React.FC<ProgressProps> = (props) => {
 	const {
 		className,
 		percent = 0,
@@ -55,10 +55,13 @@ const _Progress: React.FC<ProgressProps> = (props) => {
 		fixedTop = false
 	} = props
 
-	const stylesProps: StyleProps = { color: selectColor(color), trailColor, percent, fixedTop }
-	const classes = useStyles(stylesProps)
-
-	const progressCls = clsx(classes.root, className)
+	const classes = useStyles({
+		color: selectColor(color),
+		trailColor,
+		percent,
+		fixedTop
+	})
+	const progressCls = clsx(classes.progress, className)
 
 	return (
 		<div className={progressCls}>
@@ -67,7 +70,7 @@ const _Progress: React.FC<ProgressProps> = (props) => {
 	)
 }
 
-const Progress = React.memo(_Progress)
+const Progress = React.memo(InternalProgress)
 Progress.displayName = 'Progress'
 
 export default Progress

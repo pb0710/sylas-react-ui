@@ -8,7 +8,7 @@ export interface RippleProps extends TransitionOpts {
 	rippleX: number
 	rippleY: number
 	rippleSize: number
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 interface StyleProps {

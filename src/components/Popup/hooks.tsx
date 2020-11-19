@@ -1,29 +1,33 @@
 import * as React from 'react'
 
-type ShowParam = { nativeEvent: { stopImmediatePropagation: () => void } }
-
 export function usePopup(
 	blurNotHidden = false
-): { visible: boolean; show(e?: ShowParam): void; hide(): void; ref: React.RefObject<HTMLElement> } {
+): {
+	visible: boolean
+	show(event?: React.MouseEvent<HTMLElement>): void
+	hide(): void
+	ref: React.RefObject<HTMLElement>
+} {
 	const [visible, setVisible] = React.useState(false)
 	const ref = React.useRef<HTMLElement>(null)
 
 	const blurCauseHide = React.useCallback(
-		(e) => {
-			const dom = ref.current
+		(event: React.MouseEvent<HTMLElement> | MouseEvent): void => {
 			if (blurNotHidden) return
-			if (dom?.contains(e?.target)) return
+			const targetContained =
+				event.target instanceof HTMLElement && ref.current?.contains(event?.target)
+			if (targetContained) return
 			setVisible(false)
 		},
 		[blurNotHidden]
 	)
 
-	const hide = () => {
+	const hide = (): void => {
 		setVisible(false)
 	}
 
-	const show = (e?: ShowParam) => {
-		e?.nativeEvent?.stopImmediatePropagation()
+	const show = (event?: React.MouseEvent<HTMLElement>): void => {
+		event?.nativeEvent?.stopImmediatePropagation()
 		setVisible(true)
 	}
 

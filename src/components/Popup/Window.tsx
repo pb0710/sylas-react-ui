@@ -2,27 +2,26 @@ import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { useTransition, TransitionOpts } from '../../utils/hooks'
-import Paper from '../Paper'
+import Paper from '../paper'
 
-export enum ScaleOrigin {
-	CENTER = 'center',
-	TOP = 'top',
-	RIGHT = 'right',
-	BOTTOM = 'bottom',
-	LEFT = 'left',
-	LEFT_TOP = 'left-top',
-	LEFT_BOTTOM = 'left-bottom',
-	RIGHT_TOP = 'right-top',
-	RIGHT_BOTTOM = 'right-bottom',
-	BOTTOM_LEFT = 'bottom-left',
-	BOTTOM_RIGHT = 'bottom-right',
-	TOP_LEFT = 'top-left',
-	TOP_RIGHT = 'top-right'
-}
+export type ScaleOrigin =
+	| 'center'
+	| 'top'
+	| 'right'
+	| 'bottom'
+	| 'left'
+	| 'left-top'
+	| 'left-bottom'
+	| 'right-top'
+	| 'right-bottom'
+	| 'bottom-left'
+	| 'bottom-right'
+	| 'top-left'
+	| 'top-right'
 
 export interface WindowProps extends TransitionOpts {
 	className?: string
-	scaleOrigin?: ScaleOrigin
+	scaleOrigin: ScaleOrigin
 }
 
 export interface StyleProps {
@@ -31,16 +30,16 @@ export interface StyleProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
-			width: 360,
-			minHeight: 400,
+		window: {
+			zIndex: 1,
 			fontSize: 14,
+			fontWeight: 'normal',
 			color: '#303133',
 			boxShadow: '0 4px 24px rgba(26,26,26,.14)',
 			transformOrigin: ({ scaleOrigin }: StyleProps) => scaleOrigin?.replace('-', ' '),
-			position: 'fixed',
+			position: 'absolute',
 			userSelect: 'none',
-			zIndex: 999
+			cursor: 'default'
 		},
 		enter: {
 			animation: '$kf_enter 200ms ease-out forwards'
@@ -71,30 +70,29 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Window: React.ForwardRefRenderFunction<unknown, WindowProps> = (props, ref) => {
+const Window: React.ForwardRefRenderFunction<any, WindowProps> = (props, ref) => {
 	const {
 		children,
 		className,
-		scaleOrigin = ScaleOrigin.CENTER,
+		scaleOrigin,
 		timeout = 150,
 		in: inProp,
 		onExited = () => {},
 		...restProps
 	} = props
 
-	const classes = useStyles({ scaleOrigin } as StyleProps)
+	const classes = useStyles({ scaleOrigin })
 
 	useTransition({ in: inProp, onExited, timeout })
 
-	const containerCls = clsx(classes.root, className, inProp ? classes.enter : classes.leave)
+	const containerCls = clsx(classes.window, className, inProp ? classes.enter : classes.leave)
 
 	return (
-		<Paper {...restProps} ref={ref as any} className={containerCls}>
+		<Paper {...restProps} ref={ref} className={containerCls}>
 			{children}
 		</Paper>
 	)
 }
 
-const Window = React.memo(React.forwardRef<unknown, WindowProps>(_Window))
-
-export default Window
+export const InternalWindow = React.memo(React.forwardRef<unknown, WindowProps>(Window))
+InternalWindow.displayName = 'Window'

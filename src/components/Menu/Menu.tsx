@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import List from '../List'
+import List from '../list'
 import { ThemeNames } from '../../common/themeColors'
 import { Menu, Ids, IdEffect, useMenu } from './hooks'
 
 export interface MenuProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 	menu?: Menu
 	onSelected?(id?: string): void | null
 }
@@ -22,7 +22,7 @@ export interface MenuCtx {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
+		menu: {
 			width: '100%',
 			fontSize: 14,
 			cursor: 'pointer',
@@ -59,7 +59,7 @@ const _Menu: React.FC<MenuProps> = (props) => {
 
 	const menuCtx = { color, ...menu, onSelected: onCustomSelect }
 
-	const menuCls = clsx(classes.root, className)
+	const menuCls = clsx(classes.menu, className)
 
 	return (
 		<MenuContext.Provider value={menuCtx}>

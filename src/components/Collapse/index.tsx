@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { Transition } from 'react-transition-group'
 
-type typeHeight = number | string
+type heightType = number | string
 
 interface CollpaseProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
@@ -13,7 +13,7 @@ interface CollpaseProps extends React.HTMLAttributes<HTMLElement> {
 
 interface StyleProps {
 	timeout: number
-	height: typeHeight
+	height: heightType
 }
 
 const useStyles = makeStyles(
@@ -43,17 +43,16 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Collapse: React.FC<CollpaseProps> = (props) => {
-	const { children, className, in: inProp = false, timeout = 300, ...restProps } = props
+const InternalCollapse: React.FC<CollpaseProps> = (props) => {
+	const { children, className = '', in: inProp = false, timeout = 250, ...restProps } = props
 
-	const nodeRef = React.useRef<any>()
-	const wrapperRef = React.useRef<any>()
+	const nodeRef = React.useRef(Object.create(null))
+	const wrapperRef = React.useRef(Object.create(null))
 
-	const defaultHeight: typeHeight = inProp ? 'auto' : 0
-	const [height, setHeight] = React.useState<typeHeight>(defaultHeight)
+	const defaultHeight: heightType = inProp ? 'auto' : 0
+	const [height, setHeight] = React.useState<heightType>(defaultHeight)
 
-	const styleProps: StyleProps = { height, timeout }
-	const classes = useStyles(styleProps)
+	const classes = useStyles({ height, timeout })
 
 	/**
 	 * css height属性 0 到 auto 间切换无法触发 transition
@@ -62,27 +61,34 @@ const _Collapse: React.FC<CollpaseProps> = (props) => {
 	 * 2、入场动画 从 0 设置 height 触发过渡动画，transition 结束时设置为 auto；
 	 * 3、退场动画 反之从 auto 到 height 再到 0
 	 */
-	const wrapperHeight: typeHeight = wrapperRef.current ? wrapperRef.current?.clientHeight : 0
+	const wrapperHeight: heightType = wrapperRef.current ? wrapperRef.current?.clientHeight : 0
+	const transitionNodeRef = Object.keys(nodeRef.current).length
+		? nodeRef
+		: React.createRef<JSX.Element>()
 
-	const handleEnter = () => {
+	const handleEnter = (): void => {
 		setHeight(0)
 	}
-
-	const handleEntering = () => {
+	const handleEntering = (): void => {
 		setHeight(wrapperHeight)
 	}
-
-	const handleEntered = () => {
+	const handleEntered = (): void => {
 		setHeight('auto')
 	}
-
-	const handleExit = () => {
+	const handleExit = (): void => {
 		setHeight(wrapperHeight)
 	}
-
-	const handleExiting = () => {
+	const handleExiting = (): void => {
 		setHeight(0)
 	}
+
+	const getCollapseCls = (state: string): string =>
+		clsx({
+			[classes.container]: true,
+			[classes.entered]: state === 'entered',
+			[classes.hidden]: state === 'exited' && !inProp,
+			[className]: true
+		})
 
 	return (
 		<Transition
@@ -92,23 +98,12 @@ const _Collapse: React.FC<CollpaseProps> = (props) => {
 			onEntering={handleEntering}
 			onExit={handleExit}
 			onExiting={handleExiting}
-			nodeRef={nodeRef}
+			nodeRef={transitionNodeRef}
 			timeout={timeout}
 			{...restProps}
 		>
-			{(state: string, childProps) => (
-				<div
-					className={clsx(
-						classes.container,
-						{
-							[classes.entered]: state === 'entered',
-							[classes.hidden]: state === 'exited' && !inProp
-						},
-						className
-					)}
-					ref={nodeRef}
-					{...childProps}
-				>
+			{(state: string, childProps: CollpaseProps) => (
+				<div className={getCollapseCls(state)} ref={nodeRef} {...childProps}>
 					<div className={classes.wrapper} ref={wrapperRef}>
 						<div className={classes.inner}>{children}</div>
 					</div>
@@ -118,7 +113,7 @@ const _Collapse: React.FC<CollpaseProps> = (props) => {
 	)
 }
 
-const Collapse = React.memo(_Collapse)
+const Collapse = React.memo(InternalCollapse)
 Collapse.displayName = 'Collapse'
 
 export default Collapse

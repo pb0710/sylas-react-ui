@@ -1,25 +1,27 @@
 import * as React from 'react'
 import { TransitionGroup } from 'react-transition-group'
-import { omit } from 'lodash-es'
-import Window from './Window'
+import { InternalWindow, ScaleOrigin } from './Window'
 
-export interface PopupProps extends React.RefAttributes<HTMLElement> {
+export interface PopupProps extends React.HTMLAttributes<HTMLElement> {
 	visible?: boolean
-	scaleOrigin?: string
+	scaleOrigin?: ScaleOrigin
 }
 
-const _Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref) => {
-	const { visible = false } = props
-	const windowProps = omit(props, ['visible'])
-
+const Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref) => {
+	const { visible = false, scaleOrigin = 'center', onClick, ...rest } = props
+	const onCustomClick = (event: React.MouseEvent<HTMLDivElement>): void => {
+		event.preventDefault()
+		event.stopPropagation()
+		onClick?.(event)
+	}
 	return (
 		<TransitionGroup component={null}>
-			{visible && <Window ref={ref} {...windowProps} />}
+			{visible && (
+				<InternalWindow ref={ref} {...{ scaleOrigin, onClick: onCustomClick, ...rest }} />
+			)}
 		</TransitionGroup>
 	)
 }
 
-const Popup = React.memo(React.forwardRef<unknown, PopupProps>(_Popup))
-Popup.displayName = 'Popup'
-
-export default Popup
+export const InternalPopup = React.memo(React.forwardRef<unknown, PopupProps>(Popup))
+InternalPopup.displayName = 'Popup'

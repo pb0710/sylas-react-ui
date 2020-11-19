@@ -6,7 +6,7 @@ import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
 interface TagProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 	bordered?: boolean
 	closeable?: boolean
 	onClose?(event: React.MouseEvent<HTMLElement>): void
@@ -19,9 +19,9 @@ interface StyleProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: ({ bordered, color }: StyleProps) => ({
+		tag: ({ bordered, color }: StyleProps) => ({
 			boxSizing: 'border-box',
-			display: 'flex',
+			display: 'inline-flex',
 			alignItems: 'center',
 			height: 20,
 			minWidth: 32,
@@ -50,7 +50,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Tag: React.FC<TagProps> = (props) => {
+const InternalTag: React.FC<TagProps> = (props) => {
 	const {
 		className,
 		children,
@@ -60,12 +60,11 @@ const _Tag: React.FC<TagProps> = (props) => {
 		onClose = () => {}
 	} = props
 
-	const stylesProps: StyleProps = {
+	const classes = useStyles({
 		bordered,
 		color: selectColor(color)
-	}
-	const classes = useStyles(stylesProps)
-	const tagCls = clsx(classes.root, className)
+	})
+	const tagCls = clsx(classes.tag, className)
 
 	return (
 		<div className={tagCls}>
@@ -75,7 +74,7 @@ const _Tag: React.FC<TagProps> = (props) => {
 	)
 }
 
-const Tag = React.memo(_Tag)
+const Tag = React.memo(InternalTag)
 Tag.displayName = 'Tag'
 
 export default Tag

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
 interface BounceProps {
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 interface StyleProps {
@@ -13,7 +13,7 @@ interface StyleProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
+		bounce: {
 			width: 40,
 			height: 40,
 			position: 'relative'
@@ -46,20 +46,17 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Bounce: React.FC<BounceProps> = (props) => {
+const Bounce: React.FC<BounceProps> = (props) => {
 	const { color = ThemeNames.PRIMARY } = props
-	const stylesProps: StyleProps = { color: selectColor(color) }
-	const classes = useStyles(stylesProps)
+	const classes = useStyles({ color: selectColor(color) })
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.bounce}>
 			<div className={clsx(classes.ballCommon, classes.ball1)}></div>
 			<div className={clsx(classes.ballCommon, classes.ball2)}></div>
 		</div>
 	)
 }
 
-const Bounce = React.memo(_Bounce)
-Bounce.displayName = 'Bounce'
-
-export default Bounce
+export const InternalBounce = React.memo(Bounce)
+InternalBounce.displayName = 'Bounce'

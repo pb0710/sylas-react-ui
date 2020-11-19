@@ -9,7 +9,7 @@ export interface ListItemProps extends React.LiHTMLAttributes<HTMLElement> {
 	bordered?: boolean
 	ripple?: boolean
 	hovered?: boolean
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 interface StyleProps {
@@ -58,7 +58,7 @@ const useStyles = makeStyles(
 	})
 )
 
-const _ListItem: React.FC<ListItemProps> = (props) => {
+const ListItem: React.FC<ListItemProps> = (props) => {
 	const {
 		children,
 		className,
@@ -88,13 +88,11 @@ const _ListItem: React.FC<ListItemProps> = (props) => {
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
 		>
-			<TouchRipple ref={rippleRef} color={color} />
 			{children}
+			<TouchRipple ref={rippleRef} color={color} />
 		</li>
 	)
 }
 
-const ListItem = React.memo(_ListItem)
-ListItem.displayName = 'ListItem'
-
-export default ListItem
+export const InternalListItem = React.memo(ListItem)
+InternalListItem.displayName = 'ListItem'

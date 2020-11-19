@@ -47,7 +47,7 @@ const Option: React.FC<OptionProps> = (props) => {
 	const { classes, children, className = '', value, chosen, onChoose, ...rest } = props
 
 	const handleSelect = React.useCallback(
-		(event: React.MouseEvent<HTMLOptionElement>) => {
+		(event: React.MouseEvent<HTMLOptionElement>): void => {
 			event.preventDefault()
 			event.stopPropagation()
 			onChoose?.({

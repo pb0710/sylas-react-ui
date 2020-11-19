@@ -14,7 +14,7 @@ export function useRipple(
 	const rippleRef: React.RefObject<any> = React.useRef<any>(null)
 
 	const handleStart = React.useCallback(
-		(event: React.MouseEvent<HTMLElement>) => {
+		(event: React.MouseEvent<HTMLElement>): void => {
 			event.preventDefault()
 			event.stopPropagation()
 			return muted ? null : rippleRef.current.start(event)

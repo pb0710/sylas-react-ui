@@ -1,16 +1,15 @@
-import * as React from 'react'
-import _Loading, { LoadingProps } from './Loading'
-import Bounce from './Bounce'
-import Line from './Line'
+import { InternalBounce } from './Bounce'
+import { InternalLine } from './Line'
 
-interface LoadingExports extends React.MemoExoticComponent<React.FC<LoadingProps>> {
-	Bounce: typeof Bounce
-	Line: typeof Line
+type InternalLoadingType = typeof InternalBounce
+interface LoadingType extends InternalLoadingType {
+	Bounce: typeof InternalBounce
+	Line: typeof InternalLine
 }
 
-const Loading = _Loading as LoadingExports
+const Loading = InternalBounce as LoadingType
 
-Loading.Bounce = Bounce
-Loading.Line = Line
+Loading.Bounce = InternalBounce
+Loading.Line = InternalLine
 
 export default Loading

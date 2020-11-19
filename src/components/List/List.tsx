@@ -6,7 +6,7 @@ interface StyleProps {
 	bordered: boolean
 }
 
-export interface ListProps {
+export interface ListProps extends React.HTMLAttributes<HTMLUListElement> {
 	className?: string
 	bordered?: boolean
 }
@@ -16,8 +16,6 @@ const useStyles = makeStyles(
 		list: {
 			boxSizing: 'border-box',
 			position: 'relative',
-			width: '100%',
-			minWidth: 200,
 			fontSize: 14,
 			color: '#303133',
 			margin: 0,
@@ -28,18 +26,16 @@ const useStyles = makeStyles(
 	})
 )
 
-const _List: React.FC<ListProps> = (props) => {
-	const { children, className, bordered = false, ...restProps } = props
+const List: React.FC<ListProps> = (props) => {
+	const { children, className, bordered = false, ...rest } = props
 	const classes = useStyles({ bordered })
-	const ulCls = clsx(classes.list, className)
+	const listCls = clsx(classes.list, className)
 	return (
-		<ul {...restProps} className={ulCls}>
+		<ul {...rest} className={listCls}>
 			{children}
 		</ul>
 	)
 }
 
-const List = React.memo(_List)
-List.displayName = 'List'
-
-export default List
+export const InternalList = React.memo(List)
+InternalList.displayName = 'List'

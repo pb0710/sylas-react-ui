@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
 interface LineProps {
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 interface StyleProps {
@@ -13,7 +13,7 @@ interface StyleProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
+		line: {
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
@@ -47,13 +47,12 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Line: React.FC<LineProps> = (props) => {
+const Line: React.FC<LineProps> = (props) => {
 	const { color = ThemeNames.PRIMARY } = props
-	const stylesProps: StyleProps = { color: selectColor(color) }
-	const classes = useStyles(stylesProps)
+	const classes = useStyles({ color: selectColor(color) })
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.line}>
 			<div className={clsx(classes.dotCommon, classes.dot1)}></div>
 			<div className={clsx(classes.dotCommon, classes.dot2)}></div>
 			<div className={clsx(classes.dotCommon, classes.dot3)}></div>
@@ -61,7 +60,5 @@ const _Line: React.FC<LineProps> = (props) => {
 	)
 }
 
-const Line = React.memo(_Line)
-Line.displayName = 'Line'
-
-export default Line
+export const InternalLine = React.memo(Line)
+InternalLine.displayName = 'Line'

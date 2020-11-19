@@ -1,11 +1,12 @@
-import _List, { ListProps } from './List'
-import ListItem from './ListItem'
+import { InternalList } from './List'
+import { InternalListItem } from './ListItem'
 
-interface ListExports extends React.MemoExoticComponent<React.FC<ListProps>> {
-	Item: typeof ListItem
+type InternalListType = typeof InternalList
+interface ListType extends InternalListType {
+	Item: typeof InternalListItem
 }
 
-const List = _List as ListExports
-List.Item = ListItem
+const List = InternalList as ListType
+List.Item = InternalListItem
 
 export default List

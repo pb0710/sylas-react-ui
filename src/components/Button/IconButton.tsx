@@ -21,7 +21,7 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLElement>
 const useStyles = makeStyles(
 	createStyles({
 		iconBtn: ({ color, focus, disabled }: StyleProps) => ({
-			display: 'flex',
+			display: 'inline-flex',
 			alignItems: 'center',
 			justifyContent: 'center',
 			position: 'relative',
@@ -29,7 +29,7 @@ const useStyles = makeStyles(
 			width: 40,
 			height: 40,
 			color: color.text,
-			fontSize: 16,
+			fontSize: 18,
 			background: focus ? 'rgba(120,120,120,.1)' : 'transparent',
 			outline: 0,
 			border: 0,

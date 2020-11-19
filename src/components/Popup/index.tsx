@@ -1,13 +1,12 @@
-import _Popup, { PopupProps } from './Popup'
+import { InternalPopup } from './Popup'
 import { usePopup } from './hooks'
 
-interface PopupExports
-	extends React.MemoExoticComponent<React.ForwardRefExoticComponent<PopupProps & React.HTMLAttributes<HTMLElement>>> {
+type InternalPopupType = typeof InternalPopup
+interface PopupType extends InternalPopupType {
 	usePopup: typeof usePopup
 }
 
-const Popup = _Popup as PopupExports
+const Popup = InternalPopup as PopupType
 Popup.usePopup = usePopup
-Popup.displayName = 'Popup'
 
 export default Popup

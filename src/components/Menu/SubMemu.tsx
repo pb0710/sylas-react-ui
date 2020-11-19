@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { CaretDownFilled } from '@ant-design/icons'
-import List from '../List'
-import Collapse from '../Collapse'
+import List from '../list'
+import Collapse from '../collapse'
 
 interface SubMenuProps extends React.HTMLAttributes<HTMLElement> {
 	className?: string
@@ -16,7 +16,7 @@ export interface StyleProps {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
+		subMenu: {
 			width: '100%'
 		},
 		openIcon: {
@@ -51,7 +51,7 @@ const _SubMenu: React.FC<SubMenuProps> = (props) => {
 	}, [opened])
 
 	return (
-		<List className={classes.root}>
+		<List className={classes.subMenu}>
 			<List.Item className={className} ripple hovered bordered={false} onClick={handleSelect}>
 				{title}
 				<div className={classes.openIcon}>

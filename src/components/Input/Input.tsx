@@ -60,7 +60,7 @@ const Input: React.FC<InputProps> = (props) => {
 	const [inputValue, setInputValue] = useInternalState<string>(value)
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		const keywords = event.currentTarget.value
 		onChange?.(event)
 		onValueChange?.(keywords)

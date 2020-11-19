@@ -57,7 +57,7 @@ const Textarea: React.FC<TextareaProps> = (props) => {
 	const [TextareaValue, setTextareaValue] = useInternalState<string>(value)
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleTextarea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleTextarea = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
 		const keywords = event.currentTarget.value
 		onChange?.(event)
 		onValueChange?.(keywords)

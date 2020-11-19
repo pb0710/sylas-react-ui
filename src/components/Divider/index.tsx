@@ -16,7 +16,7 @@ interface DividerProps extends React.HTMLAttributes<HTMLElement> {
 
 const useStyles = makeStyles(
 	createStyles({
-		root: {
+		divider: {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -38,10 +38,10 @@ const useStyles = makeStyles(
 	})
 )
 
-const _Divider: React.FC<DividerProps> = (props) => {
+const InternalDivider: React.FC<DividerProps> = (props) => {
 	const { children, className, dashed = false, titleCentered = true } = props
 	const classes = useStyles({ dashed, titleCentered })
-	const dividerCls = clsx(classes.root, className)
+	const dividerCls = clsx(classes.divider, className)
 
 	return (
 		<div className={dividerCls}>
@@ -50,7 +50,7 @@ const _Divider: React.FC<DividerProps> = (props) => {
 	)
 }
 
-const Divider = React.memo(_Divider)
+const Divider = React.memo(InternalDivider)
 Divider.displayName = 'Divider'
 
 export default Divider

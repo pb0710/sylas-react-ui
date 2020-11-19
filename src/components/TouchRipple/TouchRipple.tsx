@@ -13,7 +13,7 @@ interface Rect {
 export interface TouchRippleProps extends React.RefAttributes<HTMLElement> {
 	centered?: boolean
 	timeout?: number
-	color?: string
+	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 const useStyles = makeStyles(

@@ -19,7 +19,7 @@ interface StyleProps {
 }
 
 const flexCenter = {
-	display: 'flex',
+	display: 'inline-flex',
 	alignItems: 'center',
 	justifyContent: 'center'
 }
@@ -85,7 +85,7 @@ const Button: React.ForwardRefRenderFunction<any, ButtonProps> = (props, ref) =>
 	const classes = useStyles(stylesProps)
 
 	const onCustomClick = React.useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
+		(event: React.MouseEvent<HTMLButtonElement>): void => {
 			if (disabled) return
 			onClick?.(event)
 		},
@@ -94,7 +94,7 @@ const Button: React.ForwardRefRenderFunction<any, ButtonProps> = (props, ref) =>
 
 	const btnCls = clsx(classes.btn, className)
 
-	const renderChildren = () => {
+	const renderChildren = (): React.ReactNode => {
 		if (
 			typeof children === 'string' &&
 			children.length === 2 &&

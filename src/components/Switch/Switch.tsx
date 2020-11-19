@@ -61,7 +61,7 @@ const styles = createStyles({
 })
 
 export interface SwitchProps
-	extends React.HTMLAttributes<HTMLButtonElement>,
+	extends React.HTMLAttributes<HTMLDivElement>,
 		WithStyles<typeof styles> {
 	className?: string
 	value?: boolean
@@ -83,7 +83,7 @@ const Switch: React.FC<SwitchProps> = (props) => {
 	const [checked, setChecked] = useInternalState<boolean>(value)
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
 		event.preventDefault()
 		event.stopPropagation()
 		onClick?.(event)
@@ -105,10 +105,10 @@ const Switch: React.FC<SwitchProps> = (props) => {
 			onBlur={handleBlur}
 			title={checked.toString()}
 		>
-			<button className={switchCls} type="button" onClick={handleClick} {...rest}>
+			<div className={switchCls} onClick={handleClick} {...rest}>
 				<div></div>
-				<input />
-			</button>
+				<input type="checkbox" />
+			</div>
 			{description && <span>{description}</span>}
 		</label>
 	)

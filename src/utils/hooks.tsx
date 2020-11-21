@@ -28,7 +28,7 @@ export function useBoolean(
 	{
 		setTrue: () => void
 		setFalse: () => void
-		setToggle: () => void
+		toggle: () => void
 	}
 ] {
 	const [state, setState] = React.useState(initial)
@@ -38,10 +38,10 @@ export function useBoolean(
 	const setFalse = React.useCallback(() => {
 		setState(false)
 	}, [])
-	const setToggle = React.useCallback(() => {
+	const toggle = React.useCallback(() => {
 		setState((prev) => !prev)
 	}, [])
-	return [state, { setTrue, setFalse, setToggle }]
+	return [state, { setTrue, setFalse, toggle }]
 }
 
 export function useInternalState<S = unknown>(

@@ -66,7 +66,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 		ripple = false,
 		hovered = false,
 		color = ThemeNames.DEFAULT,
-		...restProps
+		...rest
 	} = props
 
 	const styleProps: StyleProps = {
@@ -82,14 +82,14 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
 	return (
 		<li
-			{...restProps}
+			{...rest}
 			className={listItemCls}
 			onMouseDown={handleStart}
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
 		>
 			{children}
-			<TouchRipple ref={rippleRef} color={color} />
+			{ripple && <TouchRipple ref={rippleRef} color={color} />}
 		</li>
 	)
 }

@@ -11,7 +11,7 @@ export default function PopupExample() {
 	return (
 		<>
 			<Button color="primary" onClick={toggle}>
-				{`${visible ? 'Hide' : 'Show'} Popup Example`}
+				{visible ? 'Hide' : 'Show'}Popup Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ minWidth: 640, height: 400, padding: 16 }}>

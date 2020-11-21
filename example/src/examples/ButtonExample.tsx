@@ -9,7 +9,7 @@ export default function ButtonExample() {
 	return (
 		<>
 			<Button color="primary" onClick={toggle}>
-				{`${visible ? 'Hide' : 'Show'} Button Example`}
+				{visible ? 'Hide' : 'Show'}Button Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ minWidth: 600, padding: 16 }}>

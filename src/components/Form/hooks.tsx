@@ -152,7 +152,7 @@ export class FormStore {
 	}
 }
 
-export function useForm(form?: FormInstance): FormInstance[] {
+export function useForm(form?: FormInstance): [FormInstance] {
 	const formRef = React.useRef<FormInstance>()
 	if (!formRef.current) {
 		formRef.current = form || new FormStore().getFormInstance()

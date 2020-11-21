@@ -1,65 +1,69 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import List from '../list'
-import { ListItemProps } from '../list/ListItem'
-import { MenuContext } from './Menu'
-import { selectColor, ThemeNames, Colors } from '../../common/themeColors'
+import { InternalListItem, ListItemProps } from '../list/ListItem'
+import { MenuContext, SubMenuContext } from './context'
+import { actionType } from './reducer'
 
-export interface MenuItemProps extends ListItemProps {
-	className?: string
-	id: string
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-}
-
-interface StyleProps {
-	selected: boolean
-	color: Colors
-}
-
-const useStyles = makeStyles(
-	createStyles({
-		menu: ({ color, selected }: StyleProps) => {
-			const textColor = selected ? color.main : '#303133'
-			return {
-				color: textColor,
-
-				'&:hover': {
-					color: textColor
-				}
-			}
+const styles = createStyles({
+	menuItem: {
+		borderRadius: 0,
+		fontWeight: 500,
+		'&:first-child,&:last-child': {
+			borderRadius: 0
 		}
-	})
-)
+	},
+	actived: {
+		color: '#409eff',
+		'&:hover': {
+			color: '#409eff'
+		}
+	}
+})
 
-const _MenuItem: React.FC<MenuItemProps> = (props) => {
-	const { children, className, id, color = ThemeNames.PRIMARY } = props
+interface MenuItemProps extends WithStyles<typeof styles>, ListItemProps {
+	className?: string
+	menuKey: string
+}
 
-	const ctxProps = React.useContext(MenuContext)
-	const { syncMenuId, onSelected, ids } = ctxProps
+const MenuItem: React.FC<MenuItemProps> = (props) => {
+	const { classes, children, className = '', menuKey, ...rest } = props
 
-	const selected: boolean = ids[id]
+	const {
+		state: { menuStore },
+		dispatch
+	} = React.useContext(MenuContext)
+	const actived = Boolean(menuStore[menuKey])
 
-	const styleProps: StyleProps = { selected, color: selectColor(color) }
-	const classes = useStyles(styleProps)
+	const { register, unregister } = React.useContext(SubMenuContext)
 
-	const handleSelect = () => (id && onSelected ? onSelected(id) : null)
-
+	// register & unregister.
 	React.useEffect(() => {
-		id && syncMenuId(id)
-		// context state 不必放入 deps
-	}, [id, syncMenuId])
+		dispatch({ type: actionType.REGISTER_MENU_LIST, payload: menuKey })
+		register?.(menuKey)
+		return () => {
+			dispatch({ type: actionType.UNREGISTER_MENU_LIST, payload: menuKey })
+			unregister?.(menuKey)
+		}
+	}, [dispatch, menuKey, register, unregister])
 
-	const menuItemCls = clsx(classes.menu, className)
+	// only support single selected.
+	const handleSelect = React.useCallback((): void => {
+		dispatch({ type: actionType.SELECT_KEY, payload: menuKey })
+	}, [dispatch, menuKey])
+
+	const menuCls = clsx({
+		[classes.menuItem]: true,
+		[classes.actived]: actived,
+		[className]: true
+	})
 
 	return (
-		<List.Item className={menuItemCls} hovered ripple bordered={false} onClick={handleSelect}>
+		<InternalListItem {...rest} className={menuCls} hovered ripple onClick={handleSelect}>
 			{children}
-		</List.Item>
+		</InternalListItem>
 	)
 }
 
-const MenuItem = React.memo(_MenuItem)
-MenuItem.displayName = 'MenuItem'
-
-export default MenuItem
+export const InternalMenuItem = React.memo(withStyles(styles, { name: 'MenuItem' })(MenuItem))
+InternalMenuItem.displayName = 'MenuItem'

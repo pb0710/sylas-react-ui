@@ -19,6 +19,8 @@ export interface TouchRippleProps extends React.RefAttributes<HTMLElement> {
 const useStyles = makeStyles(
 	createStyles({
 		touchRipple: {
+			// safari hack. https://stackoverflow.com/questions/49066011/overflow-hidden-with-border-radius-not-working-on-safari
+			WebkitMaskImage: '-webkit-radial-gradient(white, black)',
 			overflow: 'hidden',
 			pointerEvents: 'none',
 			position: 'absolute',

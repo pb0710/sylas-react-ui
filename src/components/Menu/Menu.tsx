@@ -1,76 +1,51 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import List from '../list'
-import { ThemeNames } from '../../common/themeColors'
-import { Menu, Ids, IdEffect, useMenu } from './hooks'
+import { InternalList, ListProps } from '../list/List'
+import { MenuContext } from './context'
+import { actionType, reducer } from './reducer'
 
-export interface MenuProps extends React.HTMLAttributes<HTMLElement> {
+const styles = createStyles({
+	menu: {}
+})
+
+interface MenuProps extends WithStyles<typeof styles>, ListProps {
 	className?: string
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-	menu?: Menu
-	onSelected?(id?: string): void | null
+	openKey: string
+	onMenuSelect?(key: string): void
 }
 
-export interface StyleProps {}
+const Menu: React.FC<MenuProps> = (props) => {
+	const { classes, children, className = '', openKey, onMenuSelect, ...rest } = props
 
-export interface MenuCtx {
-	syncMenuId: IdEffect
-	onSelected: IdEffect
-	ids: Ids
-}
+	const [state, dispatch] = React.useReducer(reducer, { menuStore: {}, subMenus: {} })
+	const previousKeyRef = React.useRef(Object.create(null))
 
-const useStyles = makeStyles(
-	createStyles({
-		menu: {
-			width: '100%',
-			fontSize: 14,
-			cursor: 'pointer',
-			userSelect: 'none'
+	React.useEffect(() => {
+		const { menuStore } = state
+		const currentKey = Object.keys(menuStore).find((key) => menuStore[key])
+		if (currentKey && currentKey !== previousKeyRef.current) {
+			onMenuSelect?.(currentKey)
 		}
+		// save the lastest key.
+		previousKeyRef.current = currentKey
+	}, [onMenuSelect, state])
+
+	React.useEffect(() => {
+		dispatch({ type: actionType.SELECT_KEY, payload: openKey })
+	}, [openKey])
+
+	const menuCls = clsx({
+		[classes.menu]: true,
+		[className]: true
 	})
-)
-
-const defaultCtx: MenuCtx = {
-	syncMenuId(id) {},
-	onSelected(id) {},
-	ids: {}
-}
-
-export const MenuContext = React.createContext(defaultCtx)
-
-const _Menu: React.FC<MenuProps> = (props) => {
-	const {
-		children,
-		className,
-		color = ThemeNames.PRIMARY,
-		// menu 不传时默认创建
-		menu = useMenu(),
-		onSelected = () => {},
-		...restProps
-	} = props
-
-	const classes = useStyles()
-
-	const onCustomSelect: IdEffect = (id) => {
-		onSelected(id)
-		menu?.setCurrentKey(id)
-	}
-
-	const menuCtx = { color, ...menu, onSelected: onCustomSelect }
-
-	const menuCls = clsx(classes.menu, className)
 
 	return (
-		<MenuContext.Provider value={menuCtx}>
-			<List {...restProps} className={menuCls}>
-				{children}
-			</List>
-		</MenuContext.Provider>
+		<InternalList {...rest} className={menuCls}>
+			<MenuContext.Provider value={{ state, dispatch }}>{children}</MenuContext.Provider>
+		</InternalList>
 	)
 }
 
-const Menu = React.memo(_Menu)
-Menu.displayName = 'Menu'
-
-export default Menu
+export const InternalMenu = React.memo(withStyles(styles, { name: 'Menu' })(Menu))
+InternalMenu.displayName = 'Menu'

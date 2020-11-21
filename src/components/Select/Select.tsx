@@ -65,7 +65,7 @@ const styles = createStyles({
 		right: 10,
 		fontSize: 12,
 		color: '#444',
-		transform: 'scaleX(1.2)'
+		transform: 'scaleX(1.1)'
 	}
 })
 

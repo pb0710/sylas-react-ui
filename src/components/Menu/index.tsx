@@ -1,17 +1,15 @@
-import _Menu, { MenuProps } from './Menu'
-import { useMenu } from './hooks'
-import MenuItem from './MenuItem'
-import SubMenu from './SubMemu'
+import { InternalMenu } from './Menu'
+import { InternalMenuItem } from './MenuItem'
+import { InternalSubMenu } from './SubMenu'
 
-interface MenuExports extends React.MemoExoticComponent<React.FC<MenuProps>> {
-	useMenu: typeof useMenu
-	Item: typeof MenuItem
-	SubMenu: typeof SubMenu
+type InternalMenuType = typeof InternalMenu
+interface MenuType extends InternalMenuType {
+	Item: typeof InternalMenuItem
+	Sub: typeof InternalSubMenu
 }
 
-const Menu = _Menu as MenuExports
-Menu.useMenu = useMenu
-Menu.Item = MenuItem
-Menu.SubMenu = SubMenu
+const Menu = InternalMenu as MenuType
+Menu.Item = InternalMenuItem
+Menu.Sub = InternalSubMenu
 
 export default Menu

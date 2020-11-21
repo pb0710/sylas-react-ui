@@ -5,6 +5,7 @@ import FormExample from './examples/FormExample'
 import ListExample from './examples/ListExample'
 import LoadingExample from './examples/LoadingExample'
 import PopupExample from './examples/PopupExample'
+import MenuExample from './examples/MenuExample'
 
 function App() {
 	return (
@@ -15,13 +16,15 @@ function App() {
 				<Divider />
 				<FormExample />
 				<Divider />
-				<ListExample />
+				<MenuExample />
+				<Divider />
+				<PopupExample />
 				<Divider />
 				<LoadingExample />
 				<Divider />
 				<ButtonExample />
 				<Divider />
-				<PopupExample />
+				<ListExample />
 				<Divider />
 			</div>
 		</>

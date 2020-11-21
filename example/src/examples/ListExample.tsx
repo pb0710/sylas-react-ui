@@ -8,7 +8,7 @@ export default function ListExample() {
 	return (
 		<>
 			<Button color="primary" onClick={toggle}>
-				{`${visible ? 'Hide' : 'Show'} List Example`}
+				{visible ? 'Hide' : 'Show'}List Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ width: 440, padding: 16 }}>

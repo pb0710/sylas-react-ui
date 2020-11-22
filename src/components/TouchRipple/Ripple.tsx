@@ -1,21 +1,9 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 import { useTransition, TransitionOpts } from '../../utils/hooks'
-
-export interface RippleProps extends TransitionOpts {
-	rippleX: number
-	rippleY: number
-	rippleSize: number
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-}
-
-interface StyleProps {
-	styles: Rect
-	timeout: number
-	color: Colors
-}
+import { Theme, ColorType } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
 
 interface Rect {
 	width: number
@@ -24,26 +12,35 @@ interface Rect {
 	top: number
 }
 
-const useStyles = makeStyles(
+const styles = (theme: Theme) =>
 	createStyles({
-		ripple: ({ styles }: StyleProps) => ({
-			position: 'absolute',
-			...styles
-		}),
-		child: {
+		ripple: {
+			position: 'absolute'
+		},
+		inner: {
 			display: 'block',
 			width: '100%',
 			height: '100%',
 			borderRadius: '50%',
-			background: ({ color }) => color.ripple
+			background: '#606266'
+		},
+		innerPrimary: {
+			background: theme.palette.primary.ripple
+		},
+		innerSuccess: {
+			background: theme.palette.success.ripple
+		},
+		innerWarning: {
+			background: theme.palette.warning.ripple
+		},
+		innerError: {
+			background: theme.palette.error.ripple
 		},
 		enter: {
-			animation: '$kf_enter ease-out forwards',
-			animationDuration: ({ timeout }) => `${timeout}ms`
+			animation: '$kf_enter ease-out forwards'
 		},
 		leave: {
-			animation: '$kf_leave ease-out forwards',
-			animationDuration: ({ timeout }) => `${timeout}ms`
+			animation: '$kf_leave ease-out forwards'
 		},
 		'@keyframes kf_enter': {
 			from: {
@@ -64,20 +61,30 @@ const useStyles = makeStyles(
 			}
 		}
 	})
-)
+
+export interface RippleProps
+	extends TransitionOpts,
+		WithStyles<typeof styles>,
+		React.HTMLAttributes<HTMLSpanElement> {
+	rippleX: number
+	rippleY: number
+	rippleSize: number
+	color?: ColorType
+}
 
 const Ripple: React.FC<RippleProps> = (props) => {
 	const {
+		classes,
 		rippleX,
 		rippleY,
 		rippleSize,
 		in: inProp,
 		onExited,
-		color = ThemeNames.DEFAULT,
-		timeout = 0
+		color,
+		timeout = 400
 	} = props
 
-	const styles: Rect = {
+	const style: Rect = {
 		width: rippleSize,
 		height: rippleSize,
 		left: rippleX - rippleSize / 2,
@@ -85,8 +92,6 @@ const Ripple: React.FC<RippleProps> = (props) => {
 	}
 
 	const [leave, setLeave] = React.useState<boolean>(false)
-	const styleProps: StyleProps = { styles, timeout, color: selectColor(color) }
-	const classes = useStyles(styleProps)
 
 	useTransition({
 		onExited,
@@ -96,13 +101,19 @@ const Ripple: React.FC<RippleProps> = (props) => {
 			setLeave(true)
 		}
 	})
+	const duration = { animationDuration: `${timeout}ms` }
 
 	return (
-		<span className={clsx(classes.ripple, classes.enter)}>
-			<span className={clsx(classes.child, leave && classes.leave)}></span>
+		<span className={clsx(classes.ripple, classes.enter)} style={{ ...style, ...duration }}>
+			<span
+				className={clsx(classes.inner, color && classes[`inner${capitalize(color)}`], {
+					[classes.leave]: leave
+				})}
+				style={duration}
+			></span>
 		</span>
 	)
 }
 
-export const InternalRipple = React.memo(Ripple)
+export const InternalRipple = React.memo(withStyles(styles, { name: 'Ripple' })(Ripple))
 InternalRipple.displayName = 'Ripple'

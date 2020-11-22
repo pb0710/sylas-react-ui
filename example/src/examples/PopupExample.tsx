@@ -2,15 +2,17 @@ import * as React from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import { Button, Collapse, Popup } from 'sylas-react-ui'
 import { useVisible } from '../hooks'
+import { ThemeContext } from '../App'
 
 export default function PopupExample() {
+	const color = React.useContext(ThemeContext)
 	const [visible, toggle] = useVisible(false)
 	const [popupVisible, popupToggle] = useVisible(false)
 	const [popup2Visible, popup2Toggle] = useVisible(false)
 
 	return (
 		<>
-			<Button color="primary" onClick={toggle}>
+			<Button color={color} light onClick={toggle}>
 				{visible ? 'Hide' : 'Show'}Popup Example
 			</Button>
 			<Collapse in={visible}>
@@ -20,7 +22,7 @@ export default function PopupExample() {
 							display: 'flex'
 						}}
 					>
-						<Button onClick={popupToggle}>
+						<Button color={color} onClick={popupToggle}>
 							Toggle Popup
 							<Popup
 								visible={popupVisible}
@@ -56,7 +58,7 @@ export default function PopupExample() {
 							<Popup
 								visible={popup2Visible}
 								scaleOrigin="right"
-								style={{ padding: 16, right: 56, top: -80 }}
+								style={{ padding: 16, right: 48, top: -80 }}
 							>
 								<span
 									style={{

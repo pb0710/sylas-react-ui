@@ -1,6 +1,14 @@
 import * as React from 'react'
-import { StylesProvider, withStyles, createStyles, WithStyles } from '@material-ui/styles'
+import {
+	StylesProvider,
+	withStyles,
+	createStyles,
+	WithStyles,
+	ThemeProvider
+} from '@material-ui/styles'
 import 'normalize.css'
+import { theme } from './theme'
+import { omit } from 'lodash-es'
 
 export const html = {
 	WebkitFontSmoothing: 'antialiased', // Antialiasing.
@@ -29,13 +37,13 @@ export const styles = createStyles({
 })
 
 // JSS style has a higher priority. If you want to use custom style coverage, you need to insert style beforehand.
-const JssBaseline: React.FC<WithStyles<typeof styles>> = (props) => {
-	const { classes, ...rest } = props
+const JSSBaseline: React.FC<WithStyles<typeof styles>> = (props) => {
+	const restProps = omit(props, ['classes'])
 	return (
-		<StylesProvider injectFirst {...rest}>
-			{props.children}
+		<StylesProvider injectFirst {...restProps}>
+			<ThemeProvider theme={theme}>{props.children}</ThemeProvider>
 		</StylesProvider>
 	)
 }
 
-export default withStyles(styles, { name: 'JSSBaseline' })(JssBaseline)
+export default withStyles(styles, { name: 'JSSBaseline' })(JSSBaseline)

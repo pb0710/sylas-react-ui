@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { Form, Input, Switch, Select, Button, CheckBox, Radio, Collapse } from 'sylas-react-ui'
+import { ThemeContext } from '../App'
 import { useVisible } from '../hooks'
 
 export default function FormExample() {
+	const color = React.useContext(ThemeContext)
 	const [visible, toggle] = useVisible(false)
 
 	const [form] = Form.useForm()
@@ -21,14 +23,14 @@ export default function FormExample() {
 	}
 	return (
 		<>
-			<Button color="primary" onClick={toggle}>
+			<Button color={color} light onClick={toggle}>
 				{visible ? 'Hide' : 'Show'} Form Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ width: 400, padding: 16 }}>
-					<Button style={{ marginBottom: 16 }} onClick={handleToggle}>
-						Password confirm is necessary: {check ? 'Yes' : 'No'}
-					</Button>
+					<CheckBox style={{ marginBottom: 16 }} color={color} onValueChange={handleToggle}>
+						Password confirm verify is necessary?
+					</CheckBox>
 					<Form
 						form={form}
 						onFinsh={handleFinsh}
@@ -50,7 +52,7 @@ export default function FormExample() {
 								}
 							]}
 						>
-							<Input placeholder="username" />
+							<Input color={color} placeholder="username" />
 						</Form.Item>
 						<Form.Item
 							name="password"
@@ -84,7 +86,7 @@ export default function FormExample() {
 								})
 							]}
 						>
-							<Input placeholder="password" type="password" />
+							<Input color={color} placeholder="password" type="password" />
 						</Form.Item>
 						<Form.Item
 							name="confirmPassword"
@@ -105,17 +107,17 @@ export default function FormExample() {
 									  }
 							]}
 						>
-							<Input placeholder="confirm password" type="password" />
+							<Input color={color} placeholder="confirm password" type="password" />
 						</Form.Item>
 						<Form.Item name="selfIntroduction" initialValue="">
-							<Input.Textarea placeholder="self introduction" />
+							<Input.Textarea color={color} placeholder="self introduction" />
 						</Form.Item>
 
 						<Form.Item name="switch" initialValue={false}>
-							<Switch description="switch" />
+							<Switch color={color} description="switch" />
 						</Form.Item>
 						<Form.Item name="lang" initialValue="en-US">
-							<Select description="language">
+							<Select color={color} description="language">
 								<Select.Option value="en-US">English</Select.Option>
 								<Select.Option value="es-ES">Español</Select.Option>
 								<Select.Option value="ru-RU">русский</Select.Option>
@@ -124,7 +126,7 @@ export default function FormExample() {
 							</Select>
 						</Form.Item>
 						<Form.Item name="agree" initialValue={false}>
-							<CheckBox>checking means agree to XXX terms</CheckBox>
+							<CheckBox color={color}>checking means agree to xxxxxxx terms</CheckBox>
 						</Form.Item>
 						<Form.Item
 							name="fruit"
@@ -135,6 +137,7 @@ export default function FormExample() {
 							]}
 						>
 							<CheckBox.Group
+								color={color}
 								options={[
 									{ label: 'Apple', name: 'apple' },
 									{ label: 'Pear', name: 'pear' },
@@ -143,13 +146,13 @@ export default function FormExample() {
 							/>
 						</Form.Item>
 						<Form.Item name="frontendLibary" initialValue="angular">
-							<Radio.Group>
+							<Radio.Group color={color}>
 								<Radio value="angular">Angular</Radio>
 								<Radio value="react">React</Radio>
 								<Radio value="vue">Vue</Radio>
 							</Radio.Group>
 						</Form.Item>
-						<Button type="submit" color="primary">
+						<Button type="submit" color={color}>
 							Submit
 						</Button>
 					</Form>

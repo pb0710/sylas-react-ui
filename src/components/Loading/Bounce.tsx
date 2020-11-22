@@ -1,35 +1,46 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import { Theme, ColorType } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
 
-interface BounceProps {
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
+const ballCommon = {
+	opacity: 0.6,
+	top: 0,
+	left: 0,
+	width: '100%',
+	height: '100%',
+	borderRadius: '50%',
+	// mixBlendMode: 'multiply',
+	animation: '$kf_ball_stretch 2s infinite ease-in-out'
 }
 
-interface StyleProps {
-	color: Colors
-}
-
-const useStyles = makeStyles(
+const styles = (theme: Theme) =>
 	createStyles({
 		bounce: {
 			width: 40,
 			height: 40,
 			position: 'relative'
 		},
-		ballCommon: {
-			width: '100%',
-			height: '100%',
-			borderRadius: '50%',
+		ballPrimary: {
+			...ballCommon,
 			position: 'absolute',
-			top: 0,
-			left: 0,
-			opacity: 0.6,
-			// mixBlendMode: 'multiply',
-			animation: '$kf_ball_stretch 2s infinite ease-in-out',
-			background: ({ color }: StyleProps) =>
-				color.name === ThemeNames.DEFAULT ? '#888' : color.main
+			background: theme.palette.primary.main
+		},
+		ballSuccess: {
+			...ballCommon,
+			position: 'absolute',
+			background: theme.palette.success.main
+		},
+		ballWarning: {
+			...ballCommon,
+			position: 'absolute',
+			background: theme.palette.warning.main
+		},
+		ballError: {
+			...ballCommon,
+			position: 'absolute',
+			background: theme.palette.error.main
 		},
 		ball1: {},
 		ball2: {
@@ -44,19 +55,21 @@ const useStyles = makeStyles(
 			}
 		}
 	})
-)
+
+interface BounceProps extends WithStyles<typeof styles> {
+	color?: ColorType
+}
 
 const Bounce: React.FC<BounceProps> = (props) => {
-	const { color = ThemeNames.PRIMARY } = props
-	const classes = useStyles({ color: selectColor(color) })
-
+	const { classes, color = 'primary' } = props
+	const ballCls = classes[`ball${capitalize(color)}`]
 	return (
 		<div className={classes.bounce}>
-			<div className={clsx(classes.ballCommon, classes.ball1)}></div>
-			<div className={clsx(classes.ballCommon, classes.ball2)}></div>
+			<div className={clsx(ballCls, classes.ball1)}></div>
+			<div className={clsx(ballCls, classes.ball2)}></div>
 		</div>
 	)
 }
 
-export const InternalBounce = React.memo(Bounce)
+export const InternalBounce = React.memo(withStyles(styles, { name: 'LoaddingBounce' })(Bounce))
 InternalBounce.displayName = 'Bounce'

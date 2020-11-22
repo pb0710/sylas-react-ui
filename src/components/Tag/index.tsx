@@ -1,70 +1,67 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { WithStyles, createStyles, withStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { CloseOutlined } from '@ant-design/icons'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
 
-interface TagProps extends React.HTMLAttributes<HTMLElement> {
+import { Theme, ColorType } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
+
+const styles = (theme: Theme) =>
+	createStyles({
+		tag: {
+			boxSizing: 'border-box',
+			display: 'inline-flex',
+			alignItems: 'center',
+			height: 24,
+			minWidth: 40,
+			padding: '0 8px',
+			borderRadius: 4,
+			fontSize: 12,
+			fontWeight: 500,
+			cursor: 'default'
+		},
+		tagPrimary: {
+			color: theme.palette.primary.main,
+			background: theme.palette.primary.ripple
+		},
+		tagSuccess: {
+			color: theme.palette.success.main,
+			background: theme.palette.success.ripple
+		},
+		tagWarning: {
+			color: theme.palette.warning.main,
+			background: theme.palette.warning.ripple
+		},
+		tagError: {
+			color: theme.palette.error.main,
+			background: theme.palette.error.ripple
+		},
+		close: {
+			fontSize: 10,
+			marginLeft: 8,
+			outline: 'none',
+			cursor: 'pointer'
+		}
+	})
+
+interface TagProps extends React.HTMLAttributes<HTMLElement>, WithStyles<typeof styles> {
 	className?: string
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-	bordered?: boolean
+	color?: ColorType
 	closeable?: boolean
 	onClose?(event: React.MouseEvent<HTMLElement>): void
 }
 
-interface StyleProps {
-	color: Colors
-	bordered: boolean
-}
-
-const useStyles = makeStyles(
-	createStyles({
-		tag: ({ bordered, color }: StyleProps) => ({
-			boxSizing: 'border-box',
-			display: 'inline-flex',
-			alignItems: 'center',
-			height: 20,
-			minWidth: 32,
-			fontSize: 12,
-			color: color.main,
-			background: color.ripple,
-			padding: '0 4px',
-			border: bordered ? `1px solid ${color.bright}` : 0,
-			borderRadius: 4,
-			cursor: 'default'
-		}),
-		close: {
-			display: 'flex',
-			alignItems: 'center',
-			height: '100%',
-			fontSize: 10,
-			marginLeft: 4,
-			outline: 0,
-			cursor: 'pointer',
-			transition: 'color 250ms',
-
-			'&:hover': {
-				color: ({ color }: StyleProps) => color.dim
-			}
-		}
-	})
-)
-
 const InternalTag: React.FC<TagProps> = (props) => {
 	const {
+		classes,
 		className,
 		children,
-		color = ThemeNames.PRIMARY,
-		bordered = true,
+		color = 'primary',
 		closeable = false,
 		onClose = () => {}
 	} = props
 
-	const classes = useStyles({
-		bordered,
-		color: selectColor(color)
-	})
-	const tagCls = clsx(classes.tag, className)
+	const tagCls = clsx(classes.tag, classes[`tag${capitalize(color)}`], className)
 
 	return (
 		<div className={tagCls}>
@@ -74,7 +71,7 @@ const InternalTag: React.FC<TagProps> = (props) => {
 	)
 }
 
-const Tag = React.memo(InternalTag)
+const Tag = React.memo(withStyles(styles, { name: 'Tag' })(InternalTag))
 Tag.displayName = 'Tag'
 
 export default Tag

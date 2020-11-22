@@ -16,8 +16,10 @@ export function hex2Rgba(hex: string, opacity: number): string {
 }
 
 // 判断两个dom是否为包含关系 => 参数1是否包含参数2（相等也算）
-export const judgeElementContains = <T extends EventTarget & HTMLElement>(element: T, targetElement: T): boolean =>
-	targetElement === element || element.contains(targetElement)
+export const judgeElementContains = <T extends EventTarget & HTMLElement>(
+	element: T,
+	targetElement: T
+): boolean => targetElement === element || element.contains(targetElement)
 
 export function delay(timeout: number): Promise<number> {
 	return new Promise((res) => {
@@ -47,4 +49,8 @@ export function recursiveMap(
 
 		return fn(child)
 	})
+}
+
+export function capitalize(str: string): string {
+	return str.charAt(0).toUpperCase() + str.slice(1)
 }

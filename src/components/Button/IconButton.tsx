@@ -1,69 +1,67 @@
 import * as React from 'react'
 import clsx from 'clsx'
-import { makeStyles, createStyles } from '@material-ui/styles'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
-import ButtonBase from './ButtonBase'
-import TouchRipple from '../../components/touchRipple'
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles'
+import TouchRipple from '../touchRipple'
 
-export interface StyleProps {
-	color: Colors
-	focus: boolean
-	disabled: boolean
-}
+const styles = createStyles({
+	iconBtn: {
+		position: 'relative',
+		whiteSpace: 'nowrap',
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 40,
+		height: 40,
+		margin: 0,
+		padding: 0,
+		border: 0,
+		outline: 'none',
+		borderRadius: '50%',
+		background: 'transparent',
+		color: 'inherit',
+		fontSize: 18,
+		transition: 'all 0.25s ease-out',
+		cursor: 'pointer',
+		'&:hover': {
+			background: 'rgba(120,120,120,.1)'
+		}
+	},
+	focus: {
+		background: 'rgba(120,120,120,.1)'
+	},
+	disabled: {
+		opacity: 0.5,
+		cursor: 'not-allowed',
+		'&:hover': {
+			background: 'transparent'
+		}
+	}
+})
 
-export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLElement> {
+export interface IconButtonProps
+	extends React.ButtonHTMLAttributes<HTMLElement>,
+		WithStyles<typeof styles> {
 	className?: string
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 	focus?: boolean
 	disabled?: boolean
 }
 
-const useStyles = makeStyles(
-	createStyles({
-		iconBtn: ({ color, focus, disabled }: StyleProps) => ({
-			display: 'inline-flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			position: 'relative',
-			whiteSpace: 'nowrap',
-			width: 40,
-			height: 40,
-			color: color.text,
-			fontSize: 18,
-			background: focus ? 'rgba(120,120,120,.1)' : 'transparent',
-			outline: 0,
-			border: 0,
-			borderRadius: '50%',
-			opacity: disabled ? 0.5 : 1,
-			cursor: disabled ? 'not-allowed' : 'pointer',
-			transition: 'all 0.25s ease-out',
-			...(disabled
-				? {}
-				: {
-						'&:hover': {
-							background: 'rgba(120,120,120,.1)'
-						}
-				  })
-		})
-	})
-)
+const IconButton = React.forwardRef<any, IconButtonProps>((props, ref) => {
+	const { classes, children, className, disabled = false, focus = false, ...rest } = props
 
-const IconButton: React.ForwardRefRenderFunction<any, IconButtonProps> = (props, ref) => {
-	const {
-		children,
-		className,
-		color = ThemeNames.DEFAULT,
-		disabled = false,
-		focus = false,
-		...rest
-	} = props
-	const stylesProps: StyleProps = { color: selectColor(color), focus, disabled }
-	const classes = useStyles(stylesProps)
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
-	const btnCls = clsx(classes.iconBtn, className)
+
+	const btnCls = clsx(
+		classes.iconBtn,
+		{
+			[classes.disabled]: disabled,
+			[classes.focus]: focus
+		},
+		className
+	)
 
 	return (
-		<ButtonBase
+		<button
 			{...rest}
 			type="button"
 			ref={ref}
@@ -72,11 +70,11 @@ const IconButton: React.ForwardRefRenderFunction<any, IconButtonProps> = (props,
 			onMouseUp={handleStop}
 			onMouseLeave={handleStop}
 		>
-			<TouchRipple ref={rippleRef} color={color} centered timeout={500} />
+			{disabled || <TouchRipple ref={rippleRef} centered timeout={500} />}
 			{children}
-		</ButtonBase>
+		</button>
 	)
-}
+})
 
-export const InternalIconButton = React.memo(React.forwardRef<unknown, IconButtonProps>(IconButton))
+export const InternalIconButton = React.memo(withStyles(styles, { name: 'IconButton' })(IconButton))
 InternalIconButton.displayName = 'IconButton'

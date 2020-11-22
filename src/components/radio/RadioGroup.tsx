@@ -2,6 +2,7 @@ import * as React from 'react'
 import { createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import { useInternalState } from '../../utils/hooks'
+import { ColorType } from '../jssBaseline/theme'
 
 const styles = createStyles({
 	radioGroup: {
@@ -10,14 +11,23 @@ const styles = createStyles({
 	}
 })
 
-interface RadioGroupProps extends WithStyles<typeof styles> {
+interface RadioGroupProps extends WithStyles<typeof styles>, React.HTMLAttributes<HTMLDivElement> {
 	className?: string
+	color?: ColorType
 	value?: string
 	onValueChange?(value: string): void
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = (props) => {
-	const { classes, children, className = '', value = '', onValueChange, ...rest } = props
+	const {
+		classes,
+		children,
+		className,
+		color = 'primary',
+		value = '',
+		onValueChange,
+		...rest
+	} = props
 
 	const [chosen, setChosen] = useInternalState<string>(value)
 
@@ -29,15 +39,14 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
 		[onValueChange, setChosen]
 	)
 
-	const radioGroupCls = clsx({
-		[classes.radioGroup]: true,
-		[className]: true
-	})
+	const radioGroupCls = clsx(classes.radioGroup, className)
 
 	return (
 		<div {...rest} className={radioGroupCls}>
 			{React.Children.map(children, (child) =>
-				React.isValidElement(child) ? React.cloneElement(child, { chosen, onCustomChange }) : child
+				React.isValidElement(child)
+					? React.cloneElement(child, { color, chosen, onCustomChange })
+					: child
 			)}
 		</div>
 	)

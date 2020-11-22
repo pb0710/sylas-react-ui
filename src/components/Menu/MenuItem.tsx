@@ -4,22 +4,43 @@ import clsx from 'clsx'
 import { InternalListItem, ListItemProps } from '../list/ListItem'
 import { MenuContext, SubMenuContext } from './context'
 import { actionType } from './reducer'
+import { Theme } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
 
-const styles = createStyles({
-	menuItem: {
-		borderRadius: 0,
-		fontWeight: 500,
-		'&:first-child,&:last-child': {
-			borderRadius: 0
+const styles = (theme: Theme) =>
+	createStyles({
+		menuItem: {
+			borderRadius: 0,
+			fontWeight: 500,
+			'&:first-child,&:last-child': {
+				borderRadius: 0
+			}
+		},
+		activedPrimary: {
+			color: theme.palette.primary.main,
+			'&:hover': {
+				color: theme.palette.primary.main
+			}
+		},
+		activedSuccess: {
+			color: theme.palette.success.main,
+			'&:hover': {
+				color: theme.palette.success.main
+			}
+		},
+		activedWarning: {
+			color: theme.palette.warning.main,
+			'&:hover': {
+				color: theme.palette.warning.main
+			}
+		},
+		activedError: {
+			color: theme.palette.error.main,
+			'&:hover': {
+				color: theme.palette.error.main
+			}
 		}
-	},
-	actived: {
-		color: '#409eff',
-		'&:hover': {
-			color: '#409eff'
-		}
-	}
-})
+	})
 
 interface MenuItemProps extends WithStyles<typeof styles>, ListItemProps {
 	className?: string
@@ -27,9 +48,10 @@ interface MenuItemProps extends WithStyles<typeof styles>, ListItemProps {
 }
 
 const MenuItem: React.FC<MenuItemProps> = (props) => {
-	const { classes, children, className = '', menuKey, ...rest } = props
+	const { classes, children, className, menuKey, ...rest } = props
 
 	const {
+		color,
 		state: { menuStore },
 		dispatch
 	} = React.useContext(MenuContext)
@@ -52,11 +74,13 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
 		dispatch({ type: actionType.SELECT_KEY, payload: menuKey })
 	}, [dispatch, menuKey])
 
-	const menuCls = clsx({
-		[classes.menuItem]: true,
-		[classes.actived]: actived,
-		[className]: true
-	})
+	const menuCls = clsx(
+		classes.menuItem,
+		{
+			[classes[`actived${capitalize(color)}`]]: actived
+		},
+		className
+	)
 
 	return (
 		<InternalListItem {...rest} className={menuCls} hovered ripple onClick={handleSelect}>

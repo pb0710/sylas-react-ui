@@ -2,6 +2,7 @@ import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import { TransitionGroup } from 'react-transition-group'
 import { InternalRipple } from './Ripple'
+import { ColorType } from '../jssBaseline/theme'
 
 interface Rect {
 	width: number
@@ -13,7 +14,7 @@ interface Rect {
 export interface TouchRippleProps extends React.RefAttributes<HTMLElement> {
 	centered?: boolean
 	timeout?: number
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
+	color?: ColorType
 }
 
 const useStyles = makeStyles(
@@ -34,7 +35,7 @@ const useStyles = makeStyles(
 )
 
 const TouchRipple: React.ForwardRefRenderFunction<unknown, TouchRippleProps> = (props, ref) => {
-	const { centered = false, timeout = 400, color = 'default' } = props
+	const { centered = false, timeout, color } = props
 
 	const [ripples, setRipples] = React.useState<React.ReactNode[]>([])
 	const key = React.useRef<number>(0)

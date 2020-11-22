@@ -1,19 +1,16 @@
 import * as React from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import TouchRipple from '../../components/touchRipple'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import TouchRipple from '../touchRipple'
 
 export interface ListItemProps extends React.LiHTMLAttributes<HTMLElement> {
 	className?: string
 	bordered?: boolean
 	ripple?: boolean
 	hovered?: boolean
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
 }
 
 interface StyleProps {
-	color: Colors
 	bordered: boolean
 	hovered: boolean
 }
@@ -59,22 +56,12 @@ const useStyles = makeStyles(
 )
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-	const {
-		children,
-		className,
-		bordered = true,
-		ripple = false,
-		hovered = false,
-		color = ThemeNames.DEFAULT,
-		...rest
-	} = props
+	const { children, className, bordered = true, ripple = false, hovered = false, ...rest } = props
 
-	const styleProps: StyleProps = {
-		color: selectColor(color),
+	const classes = useStyles({
 		bordered,
 		hovered
-	}
-	const classes = useStyles(styleProps)
+	})
 
 	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(!ripple)
 
@@ -89,7 +76,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 			onMouseLeave={handleStop}
 		>
 			{children}
-			{ripple && <TouchRipple ref={rippleRef} color={color} />}
+			{ripple && <TouchRipple ref={rippleRef} />}
 		</li>
 	)
 }

@@ -49,7 +49,7 @@ interface SubMenuProps extends WithStyles<typeof styles> {
 }
 
 const SubMenu: React.FC<SubMenuProps> = (props) => {
-	const { classes, children, className = '', menuKey: key, title, ...rest } = props
+	const { classes, children, className, menuKey: key, title, ...rest } = props
 
 	const { state, dispatch } = React.useContext(MenuContext)
 	const { subMenus } = state
@@ -124,13 +124,9 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
 		recurseSyncOpened(subMenu)
 	}, [recurseSyncOpened, key, subMenus])
 
-	const menuCls = clsx({
-		[classes.menuItem]: true,
-		[className]: true
-	})
+	const menuCls = clsx(classes.menuItem, className)
 
-	const iconCls = clsx({
-		[classes.icon]: true,
+	const iconCls = clsx(classes.icon, {
 		[classes.rotate]: opened
 	})
 

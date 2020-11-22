@@ -64,11 +64,10 @@ const DropList: React.FC<DropListProps> = (props) => {
 	const { children, index = 0, timeout = 150, in: inProp = false, onExited } = props
 
 	useTransition({ in: inProp, onExited, timeout })
-	const indexRef = React.useRef(index) // only set once
+	const indexRef = React.useRef<number>(index) // only set once
 	const classes = useStyles({ index: indexRef.current, timeout })
 
-	const dropListCls = clsx({
-		[classes.dropList]: true,
+	const dropListCls = clsx(classes.dropList, {
 		[classes.enter]: inProp,
 		[classes.leave]: !inProp
 	})

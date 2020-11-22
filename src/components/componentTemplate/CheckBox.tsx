@@ -11,11 +11,8 @@ interface CheckBoxProps extends WithStyles<typeof styles> {
 }
 
 const CheckBox: React.FC<CheckBoxProps> = (props) => {
-	const { classes, children, className = '' } = props
-	const checkBoxCls = clsx({
-		[classes.checkBox]: true,
-		[className]: true
-	})
+	const { classes, children, className } = props
+	const checkBoxCls = clsx(classes.checkBox, className)
 	return (
 		<label className={checkBoxCls}>
 			<div>

@@ -1,76 +1,77 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { createStyles, WithStyles, withStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import { Theme, ColorType } from '../jssBaseline/theme'
 
-interface StyleProps {
-	fixedTop: boolean
-	trailColor: string
-	percent: number
-	color: Colors
-}
-
-interface ProgressProps {
-	className?: string
-	percent?: number
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
-	trailColor?: string
-	fixedTop?: boolean
-}
-
-const useStyles = makeStyles(
+const styles = (theme: Theme) =>
 	createStyles({
-		progress: ({ fixedTop, trailColor }: StyleProps) => ({
+		progress: {
 			position: 'relative',
-			...(fixedTop
-				? {
-						zIndex: 99,
-						position: 'fixed',
-						top: 0,
-						left: 0
-				  }
-				: {}),
 			width: '100%',
-			height: 2,
-			background: trailColor
-		}),
-		line: ({ percent, color }: StyleProps) => ({
-			width: `${percent}%`,
+			height: 2
+		},
+		line: {
 			height: '100%',
-			background: color.main,
 			position: 'absolute',
 			top: 0,
 			left: 0,
 			transition: 'all .2s'
-		})
+		},
+		primary: {
+			background: theme.palette.primary.main
+		},
+		success: {
+			background: theme.palette.success.main
+		},
+		warning: {
+			background: theme.palette.warning.main
+		},
+		error: {
+			background: theme.palette.error.main
+		},
+		fixedTop: {
+			zIndex: 99,
+			position: 'fixed',
+			top: 0,
+			left: 0
+		}
 	})
-)
+interface ProgressProps extends WithStyles<typeof styles>, React.HTMLAttributes<HTMLDivElement> {
+	className?: string
+	percent?: number
+	color?: ColorType
+	trailColor?: string
+	fixedTop?: boolean
+}
 
 const InternalProgress: React.FC<ProgressProps> = (props) => {
 	const {
+		classes,
 		className,
 		percent = 0,
-		color = ThemeNames.PRIMARY,
+		color = 'primary',
 		trailColor = 'rgba(0,0,0,0)',
-		fixedTop = false
+		fixedTop = false,
+		...rest
 	} = props
 
-	const classes = useStyles({
-		color: selectColor(color),
-		trailColor,
-		percent,
-		fixedTop
-	})
-	const progressCls = clsx(classes.progress, className)
+	const progressCls = clsx(
+		classes.progress,
+		{
+			[classes.fixedTop]: fixedTop
+		},
+		className
+	)
+	const lineCls = clsx(classes.line, classes[color])
 
 	return (
-		<div className={progressCls}>
-			<div className={classes.line}></div>
+		<div {...rest} className={progressCls} style={{ background: trailColor }}>
+			<div className={lineCls} style={{ width: `${percent}%` }}></div>
 		</div>
 	)
 }
 
-const Progress = React.memo(InternalProgress)
+const Progress = React.memo(withStyles(styles, { name: 'Progress' })(InternalProgress))
 Progress.displayName = 'Progress'
 
 export default Progress

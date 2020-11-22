@@ -20,8 +20,8 @@ yarn add sylas-react-ui
 
 ## Usage
 
-At first, used JSSBaseline to wrap your root App component up.
-JSSBaseline had provided normalize css,and jss inject first -- it is necessary for customize className overwirte.
+At first, add JSSBaseline to wrap your root App component up.
+JSSBaseline is required, it had provided default styles, themes, and jss inject first -- it is necessary for customize className overwirte.
 
 ```tsx
 import React from 'react'
@@ -42,6 +42,20 @@ ReactDOM.render(
 
 then, you can import some Components from sylas-react-ui
 
+being used to function component（recommended)
+
+```tsx
+import React, { Component } from 'react'
+
+import { MyComponent } from 'sylas-react-ui'
+
+function Example() {
+	return <MyComponent />
+}
+```
+
+or class component
+
 ```tsx
 import React, { Component } from 'react'
 
@@ -54,18 +68,6 @@ class Example extends Component {
 }
 ```
 
-or use function component（recommended)
-
-```tsx
-import React, { Component } from 'react'
-
-import { MyComponent } from 'sylas-react-ui'
-
-function Example() {
-	return <MyComponent />
-}
-```
-
 ### components list
 
 - JSSBaseline
@@ -75,24 +77,27 @@ function Example() {
 - Divider
 - Form
 - Form.Item
-- GroundGlass
 - Input
 - Input.Group
-- Input.Password
-- Input.Search
-- List
-- List.Item
-- Loading.Bounce
-- Loading.Line
-- Menu
-- Menu.SubMenu
-- Menu.Item
-- Paper
-- Popup
-- Progress
 - Select
 - Select.Option
 - Switch
+- CheckBox
+- CheckBox.Group
+- Radio
+- Radio.Group
+- List
+- List.Item
+- Loading
+- Loading.Bounce
+- Loading.Line
+- Menu
+- Menu.Sub
+- Menu.Item
+- Paper
+- GroundGlass
+- Popup
+- Progress
 - Tag
 - TouchRipple
 
@@ -104,9 +109,7 @@ Currently recommended to view the source code
 ### hooks api
 
 - Form.useForm
-- Menu.useMenu
 - TouchRipple.useRipple
-- Popup.usePopup
 
 ## Github repositories and document(Detailed introduction in future)
 
@@ -115,10 +118,3 @@ Currently recommended to view the source code
 ## License
 
 MIT © [pb0710](https://github.com/pb0710)
-
-```js
-/**
- * date: 20201105
- * start rewriting form components, committed to reduce re-render and thoroughly resolve async validate bugs.
- */
-```

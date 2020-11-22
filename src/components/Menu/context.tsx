@@ -1,12 +1,15 @@
 import * as React from 'react'
+import { ColorType } from '../jssBaseline/theme'
 import { Action, State } from './reducer'
 
 interface MenuContextValue {
+	color: ColorType
 	state: State
 	dispatch: React.Dispatch<Action>
 }
 
 export const initialMenuValue: MenuContextValue = {
+	color: 'primary',
 	state: { menuStore: {}, subMenus: {} },
 	dispatch() {}
 }

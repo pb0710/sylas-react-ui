@@ -1,17 +1,19 @@
 import * as React from 'react'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { withStyles, createStyles, WithStyles } from '@material-ui/styles'
 import clsx from 'clsx'
-import { ThemeNames, Colors, selectColor } from '../../common/themeColors'
+import { Theme, ColorType } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
 
-interface LineProps {
-	color?: 'default' | 'primary' | 'success' | 'warning' | 'error'
+const dotCommon = {
+	opacity: 1,
+	display: 'inline-block',
+	width: 16,
+	height: 16,
+	borderRadius: '100%',
+	animation: '$kf_dot_stretch 1.4s infinite ease-in-out both'
 }
 
-interface StyleProps {
-	color: Colors
-}
-
-const useStyles = makeStyles(
+const styles = (theme: Theme) =>
 	createStyles({
 		line: {
 			display: 'flex',
@@ -19,15 +21,21 @@ const useStyles = makeStyles(
 			alignItems: 'center',
 			width: 64
 		},
-		dotCommon: {
-			width: 16,
-			height: 16,
-			borderRadius: '100%',
-			display: 'inline-block',
-			opacity: 1,
-			animation: '$kf_dot_stretch 1.4s infinite ease-in-out both',
-			background: ({ color }: StyleProps) =>
-				color.name === ThemeNames.DEFAULT ? '#888' : color.main
+		dotPrimary: {
+			...dotCommon,
+			background: theme.palette.primary.main
+		},
+		dotSuccess: {
+			...dotCommon,
+			background: theme.palette.success.main
+		},
+		dotWarning: {
+			...dotCommon,
+			background: theme.palette.warning.main
+		},
+		dotError: {
+			...dotCommon,
+			background: theme.palette.error.main
 		},
 		dot1: {},
 		dot2: {
@@ -45,20 +53,22 @@ const useStyles = makeStyles(
 			}
 		}
 	})
-)
+
+interface LineProps extends WithStyles<typeof styles> {
+	color?: ColorType
+}
 
 const Line: React.FC<LineProps> = (props) => {
-	const { color = ThemeNames.PRIMARY } = props
-	const classes = useStyles({ color: selectColor(color) })
-
+	const { classes, color = 'primary' } = props
+	const dotCls = classes[`dot${capitalize(color)}`]
 	return (
 		<div className={classes.line}>
-			<div className={clsx(classes.dotCommon, classes.dot1)}></div>
-			<div className={clsx(classes.dotCommon, classes.dot2)}></div>
-			<div className={clsx(classes.dotCommon, classes.dot3)}></div>
+			<div className={clsx(dotCls, classes.dot1)}></div>
+			<div className={clsx(dotCls, classes.dot2)}></div>
+			<div className={clsx(dotCls, classes.dot3)}></div>
 		</div>
 	)
 }
 
-export const InternalLine = React.memo(Line)
+export const InternalLine = React.memo(withStyles(styles, { name: 'LoadingLine' })(Line))
 InternalLine.displayName = 'Line'

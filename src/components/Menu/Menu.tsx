@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { InternalList, ListProps } from '../list/List'
 import { MenuContext } from './context'
 import { actionType, reducer } from './reducer'
+import { ColorType } from '../jssBaseline/theme'
 
 const styles = createStyles({
 	menu: {}
@@ -11,12 +12,13 @@ const styles = createStyles({
 
 interface MenuProps extends WithStyles<typeof styles>, ListProps {
 	className?: string
+	color?: ColorType
 	openKey: string
 	onMenuSelect?(key: string): void
 }
 
 const Menu: React.FC<MenuProps> = (props) => {
-	const { classes, children, className = '', openKey, onMenuSelect, ...rest } = props
+	const { classes, children, className, color = 'primary', openKey, onMenuSelect, ...rest } = props
 
 	const [state, dispatch] = React.useReducer(reducer, { menuStore: {}, subMenus: {} })
 	const previousKeyRef = React.useRef(Object.create(null))
@@ -35,14 +37,11 @@ const Menu: React.FC<MenuProps> = (props) => {
 		dispatch({ type: actionType.SELECT_KEY, payload: openKey })
 	}, [openKey])
 
-	const menuCls = clsx({
-		[classes.menu]: true,
-		[className]: true
-	})
+	const menuCls = clsx(classes.menu, className)
 
 	return (
 		<InternalList {...rest} className={menuCls}>
-			<MenuContext.Provider value={{ state, dispatch }}>{children}</MenuContext.Provider>
+			<MenuContext.Provider value={{ state, dispatch, color }}>{children}</MenuContext.Provider>
 		</InternalList>
 	)
 }

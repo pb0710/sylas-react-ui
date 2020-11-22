@@ -6,72 +6,97 @@ import { useBoolean, useInternalState } from '../../utils/hooks'
 import { CaretDownFilled } from '@ant-design/icons'
 import { InternalDropList as DropList } from './DropList'
 import { Chosen } from './Option'
+import { Theme, ColorType } from '../jssBaseline/theme'
+import { capitalize } from '../../utils'
 
-const styles = createStyles({
-	wrapper: {
-		display: 'inline-flex',
-		alignItems: 'center',
-		fontWeight: 500,
-		userSelect: 'none',
-		'&>span:last-child': {
-			paddingLeft: 16,
-			color: '#555'
-		}
-	},
-	select: {
-		zIndex: 1,
-		position: 'relative',
-		display: 'inline-flex',
-		alignItems: 'center',
-		minWidth: '160px',
-		maxWidth: '100%',
-		height: 40,
-		border: '2px solid #f8f8f8',
-		borderRadius: 4,
-		background: '#f8f8f8',
-		cursor: 'pointer',
-		transition: 'background .25s, border .25s',
-		'&:hover': {
-			borderColor: '#eee',
-			background: '#eee'
+const styles = (theme: Theme) =>
+	createStyles({
+		wrapper: {
+			display: 'inline-flex',
+			alignItems: 'center',
+			fontWeight: 500,
+			userSelect: 'none',
+			'&>span:last-child': {
+				paddingLeft: 16,
+				color: '#555'
+			}
 		},
-		'&>span:first-child': {
-			paddingLeft: 14,
-			paddingRight: 32,
-			whiteSpace: 'nowrap',
-			textOverflow: 'ellipsis',
-			overflow: 'hidden',
-			fontWeight: 500
-		},
-		'&>input': {
+		select: {
+			zIndex: 1,
 			position: 'relative',
-			left: 8,
-			width: 0,
-			height: 0,
-			padding: 0,
-			opacity: 0,
-			cursor: 'default'
+			display: 'inline-flex',
+			alignItems: 'center',
+			minWidth: '160px',
+			maxWidth: '100%',
+			height: 40,
+			border: '2px solid #f8f8f8',
+			borderRadius: 4,
+			background: '#f8f8f8',
+			cursor: 'pointer',
+			transition: 'background .25s, border .25s',
+			'&:hover': {
+				borderColor: '#eee',
+				background: '#eee'
+			},
+			'&>span:first-child': {
+				paddingLeft: 14,
+				paddingRight: 32,
+				whiteSpace: 'nowrap',
+				textOverflow: 'ellipsis',
+				overflow: 'hidden',
+				fontWeight: 500
+			},
+			'&>input': {
+				position: 'relative',
+				left: 8,
+				width: 0,
+				height: 0,
+				padding: 0,
+				opacity: 0,
+				cursor: 'default'
+			}
+		},
+		focusPrimary: {
+			borderColor: theme.palette.primary.main,
+			'&:hover': {
+				borderColor: theme.palette.primary.main,
+				background: '#fff'
+			}
+		},
+		focusSuccess: {
+			borderColor: theme.palette.success.main,
+			'&:hover': {
+				borderColor: theme.palette.success.main,
+				background: '#fff'
+			}
+		},
+		focusWarning: {
+			borderColor: theme.palette.warning.main,
+			'&:hover': {
+				borderColor: theme.palette.warning.main,
+				background: '#fff'
+			}
+		},
+		focusError: {
+			borderColor: theme.palette.error.main,
+			'&:hover': {
+				borderColor: theme.palette.error.main,
+				background: '#fff'
+			}
+		},
+		icon: {
+			position: 'absolute',
+			right: 10,
+			fontSize: 12,
+			color: '#444',
+			transform: 'scaleX(1.1)'
 		}
-	},
-	focus: {
-		borderColor: '#409eff',
-		'&:hover': {
-			borderColor: '#409eff',
-			background: '#fff'
-		}
-	},
-	icon: {
-		position: 'absolute',
-		right: 10,
-		fontSize: 12,
-		color: '#444',
-		transform: 'scaleX(1.1)'
-	}
-})
+	})
 
 export interface SelectProps extends React.HTMLAttributes<HTMLElement>, WithStyles<typeof styles> {
 	className?: string
 	description?: string
+	color?: ColorType
 	value?: string
 	onValueChange?(value: string): void
 }
@@ -80,8 +105,9 @@ const Select: React.FC<SelectProps> = (props) => {
 	const {
 		classes,
 		children,
-		className = '',
+		className,
 		description = '',
+		color = 'primary',
 		value = '',
 		onValueChange,
 		...rest
@@ -93,7 +119,7 @@ const Select: React.FC<SelectProps> = (props) => {
 	const [focus, { setTrue: handleFocus, setFalse: handleBlur }] = useBoolean(false)
 
 	const onChoose = React.useCallback(
-		(chosen: Chosen) => {
+		(chosen: Chosen): void => {
 			const { value, description } = chosen
 			onValueChange?.(value)
 			setPicking(value)
@@ -115,6 +141,7 @@ const Select: React.FC<SelectProps> = (props) => {
 	}, [children, value])
 
 	const controlProps = {
+		color,
 		chosen: {
 			value: picking,
 			description: name
@@ -122,11 +149,13 @@ const Select: React.FC<SelectProps> = (props) => {
 		onChoose
 	}
 
-	const selectCls = clsx({
-		[classes.select]: true,
-		[classes.focus]: focus,
-		[className]: true
-	})
+	const selectCls = clsx(
+		classes.select,
+		{
+			[classes[`focus${capitalize(color)}`]]: focus
+		},
+		className
+	)
 
 	return (
 		<div className={classes.wrapper}>

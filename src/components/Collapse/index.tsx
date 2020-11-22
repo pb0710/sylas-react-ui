@@ -44,7 +44,7 @@ const useStyles = makeStyles(
 )
 
 const InternalCollapse: React.FC<CollpaseProps> = (props) => {
-	const { children, className = '', in: inProp = false, timeout = 250, ...restProps } = props
+	const { children, className, in: inProp = false, timeout = 200, ...restProps } = props
 
 	const nodeRef = React.useRef(Object.create(null))
 	const wrapperRef = React.useRef(Object.create(null))
@@ -83,12 +83,14 @@ const InternalCollapse: React.FC<CollpaseProps> = (props) => {
 	}
 
 	const getCollapseCls = (state: string): string =>
-		clsx({
-			[classes.container]: true,
-			[classes.entered]: state === 'entered',
-			[classes.hidden]: state === 'exited' && !inProp,
-			[className]: true
-		})
+		clsx(
+			classes.container,
+			{
+				[classes.entered]: state === 'entered',
+				[classes.hidden]: state === 'exited' && !inProp
+			},
+			className
+		)
 
 	return (
 		<Transition

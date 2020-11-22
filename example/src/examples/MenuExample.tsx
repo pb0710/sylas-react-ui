@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { Button, Collapse, Menu } from 'sylas-react-ui'
+import { ThemeContext } from '../App'
 import { useVisible } from '../hooks'
 
 export default function MenuExample() {
+	const color = React.useContext(ThemeContext)
 	const [visible, toggle] = useVisible(false)
 
-	const [openKey, setOpenKey] = React.useState<string>('11')
+	const [openKey, setOpenKey] = React.useState('11')
 
 	const handleSelect = (key: string) => {
 		console.log('current selected key: ', key)
@@ -22,12 +24,12 @@ export default function MenuExample() {
 
 	return (
 		<>
-			<Button color="primary" onClick={toggle}>
+			<Button color={color} light onClick={toggle}>
 				{visible ? 'Hide' : 'Show'}Menu Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ minWidth: 280, padding: 0, borderRight: '1px solid #ddd' }}>
-					<Menu openKey={openKey} onMenuSelect={handleSelect}>
+					<Menu color={color} openKey={openKey} onMenuSelect={handleSelect}>
 						<Menu.Item menuKey="11">Menu Item 11</Menu.Item>
 						<Menu.Item menuKey="22">Menu Item 22</Menu.Item>
 						<Menu.Sub menuKey="subaaa" title="SubMenu aaa">

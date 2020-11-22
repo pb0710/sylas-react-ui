@@ -94,6 +94,8 @@ class Example extends Component {
 - Menu
 - Menu.Sub
 - Menu.Item
+- Tabs
+- Tabs.Panel
 - Paper
 - GroundGlass
 - Popup

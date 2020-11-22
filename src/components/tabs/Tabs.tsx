@@ -58,7 +58,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedPrimary: {
-			margin: '0 4px',
+			margin: '0 8px',
 			background: theme.palette.primary.main,
 			color: theme.palette.primary.text,
 			'&:hover': {
@@ -66,7 +66,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedSuccess: {
-			margin: '0 4px',
+			margin: '0 8px',
 			background: theme.palette.success.main,
 			color: theme.palette.success.text,
 			'&:hover': {
@@ -74,7 +74,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedWarning: {
-			margin: '0 4px',
+			margin: '0 8px',
 			background: theme.palette.warning.main,
 			color: theme.palette.warning.text,
 			'&:hover': {
@@ -82,7 +82,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedError: {
-			margin: '0 4px',
+			margin: '0 8px',
 			background: theme.palette.error.main,
 			color: theme.palette.error.text,
 			'&:hover': {

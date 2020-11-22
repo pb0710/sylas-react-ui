@@ -16,7 +16,7 @@ export default function PopupExample() {
 				{visible ? 'Hide' : 'Show'} Popup Example
 			</Button>
 			<Collapse in={visible}>
-				<div style={{ minWidth: 640, height: 400, padding: 16 }}>
+				<div style={{ minWidth: 560, height: 400, padding: 16 }}>
 					<div
 						style={{
 							display: 'flex'

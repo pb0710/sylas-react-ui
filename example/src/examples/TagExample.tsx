@@ -14,7 +14,7 @@ export default function TagExample() {
 	return (
 		<>
 			<Button color={color} light onClick={toggle}>
-				{visible ? 'Hide' : 'Show'}Tag Example
+				{visible ? 'Hide' : 'Show'} Tag Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ width: 440, padding: 16 }}>

@@ -29,6 +29,7 @@ const useStyles = makeStyles(
 			borderBottom: bordered ? '1px solid #f0f0f0' : 0,
 			borderRadius: bordered ? 0 : 4,
 			textDecoration: 'none',
+			listStyle: 'none',
 			color: '#303133',
 			transition: 'background .2s ease-out,color .2s ease-out',
 

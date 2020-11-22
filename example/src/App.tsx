@@ -7,6 +7,7 @@ import LoadingExample from './examples/LoadingExample'
 import PopupExample from './examples/PopupExample'
 import MenuExample from './examples/MenuExample'
 import TagExample from './examples/TagExample'
+import TabsExample from './examples/TabsExample'
 
 export const ThemeContext = React.createContext<any>('primary')
 
@@ -27,6 +28,8 @@ function App() {
 						<Select.Option value="warning">Warning</Select.Option>
 						<Select.Option value="error">Error</Select.Option>
 					</Select>
+					<Divider />
+					<TabsExample />
 					<Divider />
 					<FormExample />
 					<Divider />

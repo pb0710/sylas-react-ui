@@ -25,7 +25,7 @@ export default function MenuExample() {
 	return (
 		<>
 			<Button color={color} light onClick={toggle}>
-				{visible ? 'Hide' : 'Show'}Menu Example
+				{visible ? 'Hide' : 'Show'} Menu Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ minWidth: 280, padding: 0, borderRight: '1px solid #ddd' }}>

@@ -10,7 +10,7 @@ export default function ListExample() {
 	return (
 		<>
 			<Button color={color} light onClick={toggle}>
-				{visible ? 'Hide' : 'Show'}Loading Example
+				{visible ? 'Hide' : 'Show'} Loading Example
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ minWidth: 520, padding: 16 }}>

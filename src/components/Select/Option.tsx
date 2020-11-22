@@ -24,28 +24,24 @@ const styles = (theme: Theme) =>
 			}
 		},
 		currentPrimary: {
-			fontWeight: 600,
 			background: theme.palette.primary.ripple,
 			'&:hover': {
 				background: theme.palette.primary.ripple
 			}
 		},
 		currentSuccess: {
-			fontWeight: 600,
 			background: theme.palette.success.ripple,
 			'&:hover': {
 				background: theme.palette.success.ripple
 			}
 		},
 		currentWarning: {
-			fontWeight: 600,
 			background: theme.palette.warning.ripple,
 			'&:hover': {
 				background: theme.palette.warning.ripple
 			}
 		},
 		currentError: {
-			fontWeight: 600,
 			background: theme.palette.error.ripple,
 			'&:hover': {
 				background: theme.palette.error.ripple

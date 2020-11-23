@@ -2,7 +2,7 @@ import * as React from 'react'
 import { FormContext } from './formContext'
 import { FormInstance, useForm } from './hooks'
 
-export interface FormProps {
+export interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
 	form?: FormInstance
 	onFinsh(values: Record<string, unknown>): void
 	onFail?(errors: string[]): void
@@ -10,7 +10,7 @@ export interface FormProps {
 }
 
 export const Form: React.FC<FormProps> = (props) => {
-	const { children, form, onFinsh, onFail = () => {}, onValuesChange = () => {} } = props
+	const { children, form, onFinsh, onFail = () => {}, onValuesChange = () => {}, ...rest } = props
 	const [formInstance] = useForm(form)
 
 	React.useEffect(() => {
@@ -24,7 +24,7 @@ export const Form: React.FC<FormProps> = (props) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form {...rest} onSubmit={handleSubmit}>
 			<FormContext.Provider value={formInstance}>{children}</FormContext.Provider>
 		</form>
 	)

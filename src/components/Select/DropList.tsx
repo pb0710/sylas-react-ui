@@ -8,13 +8,14 @@ const getHeight = (mutiple: number): number => mutiple * 36
 const useStyles = makeStyles(
 	createStyles({
 		dropList: {
+			zIndex: 1,
 			position: 'absolute',
-			left: -2,
+			left: 0,
 			top: ({ index }: stylesProps) => -getHeight(index) - 8,
 			overflowY: 'auto',
-			width: 'calc(100% + 4px)',
-			// maxHeight: 232, // TODO: consider for max height not for the moment
+			minWidth: 160,
 			minHeight: 48,
+			// maxHeight: 232, // TODO: consider for max height not for the moment
 			padding: '8px 0',
 			borderRadius: 4,
 			background: '#fff',

@@ -27,7 +27,7 @@ export default function PopupExample() {
 							<Popup
 								visible={popupVisible}
 								scaleOrigin="top-left"
-								style={{ padding: 16, left: 0, top: 40 }}
+								style={{ padding: 16, left: 0, top: 48 }}
 							>
 								<span
 									style={{

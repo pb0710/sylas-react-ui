@@ -12,23 +12,24 @@ import { capitalize } from '../../utils'
 const styles = (theme: Theme) =>
 	createStyles({
 		wrapper: {
+			position: 'relative',
 			display: 'inline-flex',
 			alignItems: 'center',
 			fontWeight: 500,
 			userSelect: 'none',
 			'&>span:last-child': {
 				paddingLeft: 16,
-				color: '#555'
+				fontSize: 14,
+				color: '#777'
 			}
 		},
 		select: {
-			zIndex: 1,
 			position: 'relative',
 			display: 'inline-flex',
 			alignItems: 'center',
-			minWidth: '160px',
+			minWidth: 160,
 			maxWidth: '100%',
-			height: 40,
+			height: 36,
 			border: '2px solid #f8f8f8',
 			borderRadius: 4,
 			background: '#f8f8f8',
@@ -88,7 +89,7 @@ const styles = (theme: Theme) =>
 			position: 'absolute',
 			right: 10,
 			fontSize: 12,
-			color: '#444',
+			color: '#555',
 			transform: 'scaleX(1.1)'
 		}
 	})
@@ -163,16 +164,16 @@ const Select: React.FC<SelectProps> = (props) => {
 				<span title={picking}>{name}</span>
 				<input onFocus={handleFocus} onBlur={handleBlur} />
 				<CaretDownFilled className={classes.icon} />
-				<TransitionGroup>
-					{focus && (
-						<DropList index={selectedIndex}>
-							{React.Children.map(children, (child) =>
-								React.isValidElement(child) ? React.cloneElement(child, controlProps) : child
-							)}
-						</DropList>
-					)}
-				</TransitionGroup>
 			</label>
+			<TransitionGroup component={null}>
+				{focus && (
+					<DropList index={selectedIndex}>
+						{React.Children.map(children, (child) =>
+							React.isValidElement(child) ? React.cloneElement(child, controlProps) : child
+						)}
+					</DropList>
+				)}
+			</TransitionGroup>
 			{description && <span>{description}</span>}
 		</div>
 	)

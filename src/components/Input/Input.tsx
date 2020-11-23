@@ -20,10 +20,10 @@ const inputCommon = {
 		background: '#eee'
 	},
 	'&::placeholder': {
-		color: '#888',
+		color: '#777',
 		padding: '0 4px',
-		fontSize: 13,
-		fontWeight: 600
+		fontSize: 14,
+		fontWeight: 500
 	}
 }
 

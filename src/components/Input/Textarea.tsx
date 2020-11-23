@@ -6,6 +6,8 @@ import { Theme, ColorType } from '../jssBaseline/theme'
 import { capitalize } from '../../utils'
 
 const textareaCommon = {
+	maxWidth: '100%',
+	minHeight: 40,
 	width: '100%',
 	height: 72,
 	padding: 10,
@@ -20,10 +22,10 @@ const textareaCommon = {
 		background: '#eee'
 	},
 	'&::placeholder': {
-		color: '#888',
+		color: '#777',
 		padding: '0 4px',
-		fontSize: 13,
-		fontWeight: 600
+		fontSize: 14,
+		fontWeight: 500
 	}
 }
 

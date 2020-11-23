@@ -8,17 +8,11 @@ export interface PopupProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref) => {
-	const { visible = false, scaleOrigin = 'center', onClick, ...rest } = props
-	const onCustomClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-		event.preventDefault()
-		event.stopPropagation()
-		onClick?.(event)
-	}
+	const { visible = false, scaleOrigin = 'center', ...rest } = props
+
 	return (
 		<TransitionGroup component={null}>
-			{visible && (
-				<InternalWindow ref={ref} {...{ scaleOrigin, onClick: onCustomClick, ...rest }} />
-			)}
+			{visible && <InternalWindow ref={ref} {...{ scaleOrigin, ...rest }} />}
 		</TransitionGroup>
 	)
 }

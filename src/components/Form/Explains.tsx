@@ -6,8 +6,10 @@ import { TransitionOpts, useTransition } from '../../utils/hooks'
 
 const styles = createStyles({
 	explain: {
-		color: '#ff4d4f',
 		margin: 8,
+		color: '#ff4d4f',
+		fontSize: 13,
+		fontWeight: 500,
 		transformOrigin: 'left top'
 	},
 	enter: {

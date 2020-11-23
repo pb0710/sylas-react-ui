@@ -61,12 +61,12 @@ export class Field extends React.Component<FieldProps> {
 	render(): JSX.Element {
 		const { children } = this.props
 		return (
-			<div>
+			<React.Fragment>
 				{React.isValidElement(children)
 					? React.cloneElement(children, this.getControlProps())
 					: console.warn(`${children} is not valid element!`)}
 				<Explains explains={this.explains} />
-			</div>
+			</React.Fragment>
 		)
 	}
 }

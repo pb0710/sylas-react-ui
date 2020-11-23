@@ -14,7 +14,8 @@ const styles = (theme: Theme) =>
 			userSelect: 'none',
 			'&>span:last-child': {
 				paddingLeft: 16,
-				color: '#555'
+				fontSize: 14,
+				color: '#777'
 			}
 		},
 		switch: {

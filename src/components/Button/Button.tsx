@@ -23,7 +23,7 @@ const styles = (theme: Theme) =>
 			alignItems: 'center',
 			justifyContent: 'center',
 			minWidth: 80,
-			height: 32,
+			height: 36,
 			margin: 0,
 			border: 0,
 			outline: 'none',
@@ -73,14 +73,14 @@ const styles = (theme: Theme) =>
 		},
 		btnLightSuccess: {
 			background: '#f4f4f5',
-			color: theme.palette.success.main,
+			color: theme.palette.success.bright,
 			'&:hover': {
 				background: '#e8e8e8'
 			}
 		},
 		btnWarning: {
 			boxShadow: '0 1px 3px rgba(26,26,26,.1)',
-			background: theme.palette.warning.main,
+			background: theme.palette.warning.bright,
 			color: theme.palette.warning.text,
 			'&:hover': {
 				background: theme.palette.warning.dim
@@ -88,14 +88,14 @@ const styles = (theme: Theme) =>
 		},
 		btnLightWarning: {
 			background: '#f4f4f5',
-			color: theme.palette.warning.main,
+			color: theme.palette.warning.bright,
 			'&:hover': {
 				background: '#e8e8e8'
 			}
 		},
 		btnError: {
 			boxShadow: '0 1px 3px rgba(26,26,26,.1)',
-			background: theme.palette.error.main,
+			background: theme.palette.error.bright,
 			color: theme.palette.error.text,
 			'&:hover': {
 				background: theme.palette.error.dim
@@ -103,7 +103,7 @@ const styles = (theme: Theme) =>
 		},
 		btnLightError: {
 			background: '#f4f4f5',
-			color: theme.palette.error.main,
+			color: theme.palette.error.bright,
 			'&:hover': {
 				background: '#e8e8e8'
 			}
@@ -160,7 +160,7 @@ const Button = React.forwardRef<any, ButtonProps>((props, ref) => {
 		...rest
 	} = props
 
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
+	const [rippleRef, controlProps] = TouchRipple.useRipple(disabled)
 
 	const onCustomClick = React.useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -191,9 +191,7 @@ const Button = React.forwardRef<any, ButtonProps>((props, ref) => {
 			ref={ref}
 			className={btnCls}
 			onClick={onCustomClick}
-			onMouseDown={handleStart}
-			onMouseUp={handleStop}
-			onMouseLeave={handleStop}
+			{...controlProps}
 			{...rest}
 		>
 			<span>{prefixes}</span>

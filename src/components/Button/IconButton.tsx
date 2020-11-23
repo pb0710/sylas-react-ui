@@ -49,7 +49,7 @@ export interface IconButtonProps
 const IconButton = React.forwardRef<any, IconButtonProps>((props, ref) => {
 	const { classes, children, className, disabled = false, focus = false, ...rest } = props
 
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(disabled)
+	const [rippleRef, controlProps] = TouchRipple.useRipple(disabled)
 
 	const btnCls = clsx(
 		classes.iconBtn,
@@ -61,15 +61,7 @@ const IconButton = React.forwardRef<any, IconButtonProps>((props, ref) => {
 	)
 
 	return (
-		<button
-			{...rest}
-			type="button"
-			ref={ref}
-			className={btnCls}
-			onMouseDown={handleStart}
-			onMouseUp={handleStop}
-			onMouseLeave={handleStop}
-		>
+		<button {...rest} type="button" ref={ref} className={btnCls} {...controlProps}>
 			{disabled || <TouchRipple ref={rippleRef} centered timeout={500} />}
 			{children}
 		</button>

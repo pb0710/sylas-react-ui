@@ -83,7 +83,14 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
 	)
 
 	return (
-		<InternalListItem {...rest} className={menuCls} hovered ripple onClick={handleSelect}>
+		<InternalListItem
+			{...rest}
+			className={menuCls}
+			bordered={false}
+			hovered
+			ripple
+			onClick={handleSelect}
+		>
 			{children}
 		</InternalListItem>
 	)

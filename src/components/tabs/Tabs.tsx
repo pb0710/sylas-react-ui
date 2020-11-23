@@ -9,27 +9,27 @@ import { TabContext, Tabs } from './context'
 const styles = (theme: Theme) =>
 	createStyles({
 		tabs: {
-			border: '1px solid #ddd',
+			border: '1px solid #dadce0',
 			borderRadius: 4
 		},
 		header: {
 			display: 'flex',
 			alignItems: 'center',
 			width: '100%',
-			height: 40,
+			height: 48,
 			padding: '0 8px',
 			margin: 0,
-			borderBottom: '1px solid #ddd'
+			borderBottom: '1px solid #f0f0f0'
 		},
 		tabTitle: {
 			display: 'inline-flex',
 			alignItems: 'center',
 			justifyContent: 'center',
 			minWidth: 40,
-			height: 24,
+			height: 28,
 			padding: '0 8px',
 			margin: 0,
-			borderRadius: 12,
+			borderRadius: 14,
 			background: 'transparent',
 			fontSize: 14,
 			fontWeight: 500,
@@ -58,6 +58,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedPrimary: {
+			padding: '0 16px',
 			margin: '0 8px',
 			background: theme.palette.primary.main,
 			color: theme.palette.primary.text,
@@ -66,6 +67,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedSuccess: {
+			padding: '0 16px',
 			margin: '0 8px',
 			background: theme.palette.success.main,
 			color: theme.palette.success.text,
@@ -74,6 +76,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedWarning: {
+			padding: '0 16px',
 			margin: '0 8px',
 			background: theme.palette.warning.main,
 			color: theme.palette.warning.text,
@@ -82,6 +85,7 @@ const styles = (theme: Theme) =>
 			}
 		},
 		activedError: {
+			padding: '0 16px',
 			margin: '0 8px',
 			background: theme.palette.error.main,
 			color: theme.palette.error.text,

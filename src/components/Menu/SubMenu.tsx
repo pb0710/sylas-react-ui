@@ -33,7 +33,7 @@ const styles = createStyles({
 		display: 'inline-flex',
 		alignItems: 'center',
 		height: '100%',
-		color: '#444',
+		color: '#555',
 		fontSize: 12,
 		transition: 'transform 250ms'
 	},
@@ -132,7 +132,14 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
 
 	return (
 		<InternalList className={classes.wrapper}>
-			<InternalListItem {...rest} className={menuCls} hovered ripple onClick={handleSelect}>
+			<InternalListItem
+				{...rest}
+				className={menuCls}
+				bordered={false}
+				hovered
+				ripple
+				onClick={handleSelect}
+			>
 				{title}
 				<CaretDownFilled className={iconCls} />
 			</InternalListItem>

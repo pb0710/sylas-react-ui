@@ -63,19 +63,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 		bordered,
 		hovered
 	})
-
-	const { rippleRef, handleStart, handleStop } = TouchRipple.useRipple(!ripple)
+	/**
+	 * if there are many interactions inside of list item, do not set ripple = true.
+	 * otherwise, it will be covered by ripple.
+	 */
+	const [rippleRef, controlProps] = TouchRipple.useRipple(!ripple)
 
 	const listItemCls = clsx(classes.listItem, className)
 
 	return (
-		<li
-			{...rest}
-			className={listItemCls}
-			onMouseDown={handleStart}
-			onMouseUp={handleStop}
-			onMouseLeave={handleStop}
-		>
+		<li {...rest} className={listItemCls} {...controlProps}>
 			{children}
 			{ripple && <TouchRipple ref={rippleRef} />}
 		</li>

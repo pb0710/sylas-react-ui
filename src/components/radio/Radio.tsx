@@ -29,7 +29,8 @@ const styles = (theme: Theme) =>
 			userSelect: 'none',
 			'&>span:last-child': {
 				padding: '0 8px',
-				color: '#555'
+				fontSize: 14,
+				color: '#777'
 			}
 		},
 		radio: {

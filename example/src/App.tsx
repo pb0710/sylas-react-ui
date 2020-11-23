@@ -18,9 +18,7 @@ function App() {
 			<ThemeContext.Provider value={theme}>
 				<Progress percent={33} fixedTop />
 				<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-					<br />
-					<h1>Example</h1>
-					<br />
+					<h1 style={{ margin: '40px 0' }}>Example</h1>
 					<Divider />
 					<Select value={theme} onValueChange={setTheme} description="Theme" color={theme}>
 						<Select.Option value="primary">Primary</Select.Option>

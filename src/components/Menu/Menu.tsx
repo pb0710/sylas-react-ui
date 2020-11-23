@@ -7,7 +7,10 @@ import { actionType, reducer } from './reducer'
 import { ColorType } from '../jssBaseline/theme'
 
 const styles = createStyles({
-	menu: {}
+	menu: {
+		userSelect: 'none',
+		cursor: 'pointer'
+	}
 })
 
 interface MenuProps extends WithStyles<typeof styles>, ListProps {

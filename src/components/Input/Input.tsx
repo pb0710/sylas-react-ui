@@ -8,6 +8,7 @@ import { capitalize } from '../../utils'
 const inputCommon = {
 	width: '100%',
 	height: 40,
+	minWidth: 240,
 	padding: '0 10px',
 	outline: 'none',
 	borderRadius: 4,

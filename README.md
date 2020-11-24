@@ -1,6 +1,6 @@
 # sylas-react-ui
 
-> A React UI components libary base on typescript,function component and hooks api
+> A Light React UI components libary base on typescript,function component and hooks api
 
 [![NPM](https://img.shields.io/npm/v/sylas-react-ui.svg)](https://www.npmjs.com/package/sylas-react-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 

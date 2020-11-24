@@ -8,7 +8,8 @@ import { TabContext, Tabs } from './context'
 
 const styles = (theme: Theme) =>
 	createStyles({
-		tabs: {
+		tabs: {},
+		bordered: {
 			border: '1px solid #dadce0',
 			borderRadius: 4
 		},
@@ -109,10 +110,19 @@ interface TabsProps extends WithStyles<typeof styles>, React.HTMLAttributes<HTML
 	className?: string
 	color?: ColorType
 	activeKey?: string
+	bordered?: boolean
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
-	const { classes, children, className, color = 'primary', activeKey = '', ...rest } = props
+	const {
+		classes,
+		children,
+		className,
+		color = 'primary',
+		bordered = true,
+		activeKey = '',
+		...rest
+	} = props
 
 	const [selected, setSelected] = useInternalState<string>(activeKey)
 	const [tabs, setTabs] = React.useState<Tabs>({})
@@ -133,7 +143,14 @@ const Tabs: React.FC<TabsProps> = (props) => {
 		})
 	}, [])
 
-	const tabsCls = clsx(classes.tabs, className)
+	const tabsCls = clsx(
+		classes.tabs,
+		{
+			[classes.bordered]: bordered
+		},
+		className
+	)
+
 	return (
 		<div className={tabsCls} {...rest}>
 			<ul className={classes.header}>

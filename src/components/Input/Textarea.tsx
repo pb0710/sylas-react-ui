@@ -7,6 +7,7 @@ import { capitalize } from '../../utils'
 
 const textareaCommon = {
 	maxWidth: '100%',
+	minWidth: 240,
 	minHeight: 40,
 	width: '100%',
 	height: 72,

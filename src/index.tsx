@@ -16,6 +16,8 @@ export { default as Paper } from './components/paper'
 
 export { default as GroundGlass } from './components/groundGlass'
 
+export { default as AspectRatio } from './components/aspectRatio'
+
 export { default as Popup } from './components/popup'
 
 export { default as Progress } from './components/progress'

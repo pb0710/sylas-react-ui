@@ -27,7 +27,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true // docs:https://github.com/facebook/create-react-app/issues/9429
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"

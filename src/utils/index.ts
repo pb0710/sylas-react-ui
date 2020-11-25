@@ -21,11 +21,33 @@ export const judgeElementContains = <T extends EventTarget & HTMLElement>(
 	targetElement: T
 ): boolean => targetElement === element || element.contains(targetElement)
 
+/**
+ * 延迟
+ * @param timeout 延时时间
+ */
 export function delay(timeout: number): Promise<number> {
 	return new Promise((res) => {
 		setTimeout(() => {
 			res(timeout)
 		}, timeout)
+	})
+}
+
+/**
+ * 读取二进制文件为base64
+ * @param file 二进制
+ */
+export function readFile(file: File): Promise<string | ArrayBuffer | null> {
+	return new Promise((resolve, reject) => {
+		const fileReader = new FileReader()
+		fileReader.readAsDataURL(file)
+		fileReader.onload = () => {
+			const base64 = fileReader.result
+			resolve(base64)
+		}
+		fileReader.onerror = (err) => {
+			reject(err)
+		}
 	})
 }
 

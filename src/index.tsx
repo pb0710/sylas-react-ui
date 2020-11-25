@@ -37,3 +37,5 @@ export { default as Radio } from './components/radio'
 export { default as Menu } from './components/menu'
 
 export { default as Tabs } from './components/tabs'
+
+export { default as Uploader } from './components/uploader'

@@ -1,5 +1,15 @@
 import * as React from 'react'
-import { Form, Input, Switch, Select, Button, CheckBox, Radio, Collapse } from 'sylas-react-ui'
+import {
+	Form,
+	Input,
+	Switch,
+	Select,
+	Button,
+	CheckBox,
+	Radio,
+	Collapse,
+	Uploader
+} from 'sylas-react-ui'
 import { ThemeContext } from '../App'
 import { useVisible } from '../hooks'
 
@@ -21,6 +31,14 @@ export default function FormExample() {
 	const handleToggle = () => {
 		setCheck((oldCheck) => !oldCheck)
 	}
+	const getFileUrl = async (data) => {
+		// do some async request and fetch file url.
+		// example:
+		// const res = await fakeApi(data)
+		// return res.url
+		return 'https://iph.href.lu/200x200?fg=666666&bg=cccccc'
+	}
+
 	return (
 		<>
 			<Button color={color} light onClick={toggle}>
@@ -42,6 +60,9 @@ export default function FormExample() {
 						onFail={handleFail}
 						onValuesChange={handleValuesChange}
 					>
+						<Form.Item name="avatar" initialValue="">
+							<Uploader action={getFileUrl} />
+						</Form.Item>
 						<Form.Item
 							name="username"
 							initialValue="i am a user"

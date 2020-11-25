@@ -5,7 +5,7 @@ import * as React from 'react'
  * @param {boolean} disabled 是否禁用
  */
 export function useRipple(
-	disabled = false
+	disabled: boolean = false
 ): [
 	React.MutableRefObject<any>,
 	(
@@ -20,7 +20,6 @@ export function useRipple(
 	const rippleRef = React.useRef(Object.create(null))
 
 	const handleStart = React.useCallback((event: React.MouseEvent<HTMLElement>): void => {
-		event.stopPropagation()
 		return rippleRef.current?.start?.(event)
 	}, [])
 

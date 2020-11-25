@@ -19,7 +19,6 @@ export const Form: React.FC<FormProps> = (props) => {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
 		event.preventDefault()
-		event.stopPropagation()
 		formInstance.submit()
 	}
 

@@ -125,7 +125,6 @@ const Radio: React.FC<RadioProps> = (props) => {
 	const handleClick = React.useCallback(
 		(event: React.MouseEvent<HTMLInputElement>): void => {
 			event.preventDefault()
-			event.stopPropagation()
 			if (chosen !== value) {
 				onCustomChange?.(value)
 				setChecked((oldChecked) => !oldChecked)

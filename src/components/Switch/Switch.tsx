@@ -127,7 +127,6 @@ const Switch: React.FC<SwitchProps> = (props) => {
 
 	const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
 		event.preventDefault()
-		event.stopPropagation()
 		onClick?.(event)
 		onValueChange?.(!checked)
 		setChecked((oldChecked) => !oldChecked)

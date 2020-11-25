@@ -1,42 +1,53 @@
 import * as React from 'react'
+import { useBoolean } from '../../utils/hooks'
 
 export function usePopup(
-	blurNotHidden = false
-): {
-	visible: boolean
-	show(event?: React.MouseEvent<HTMLElement>): void
-	hide(): void
-	ref: React.RefObject<HTMLElement>
-} {
-	const [visible, setVisible] = React.useState(false)
-	const ref = React.useRef<HTMLElement>(null)
+	initial: boolean = false
+): [
+	boolean,
+	React.MutableRefObject<unknown>,
+	{
+		show: () => void
+		hide: () => void
+		toggle: () => void
+	}
+] {
+	const [visible, { setTrue, setFalse, toggle: setToggle }] = useBoolean(initial)
+	const popupRef = React.useRef(Object.create(null))
 
-	const blurCauseHide = React.useCallback(
-		(event: React.MouseEvent<HTMLElement> | MouseEvent): void => {
-			if (blurNotHidden) return
-			const targetContained =
-				event.target instanceof HTMLElement && ref.current?.contains(event?.target)
-			if (targetContained) return
-			setVisible(false)
+	const hidePopup = React.useCallback(
+		(event: MouseEvent): void => {
+			const elem = event.target
+			const contained = popupRef.current?.contains(elem)
+			if (!contained) {
+				setFalse()
+			}
 		},
-		[blurNotHidden]
+		[setFalse]
 	)
 
-	const hide = (): void => {
-		setVisible(false)
-	}
+	const show = React.useCallback((): void => {
+		setTrue()
+	}, [setTrue])
 
-	const show = (event?: React.MouseEvent<HTMLElement>): void => {
-		event?.nativeEvent?.stopImmediatePropagation()
-		setVisible(true)
-	}
+	const toggle = React.useCallback((): void => {
+		setToggle()
+	}, [setToggle])
+
+	const hide = React.useCallback((): void => {
+		setFalse()
+	}, [setFalse])
 
 	React.useEffect(() => {
-		document.addEventListener('click', blurCauseHide)
-		return () => {
-			document.removeEventListener('click', blurCauseHide)
+		const root = document.querySelector('#root')
+		if (root && visible) {
+			root.removeEventListener('click', hidePopup)
+			root.addEventListener('click', hidePopup)
 		}
-	}, [blurCauseHide])
+		return () => {
+			document.querySelector('#root')?.removeEventListener('click', hidePopup)
+		}
+	}, [hidePopup, visible])
 
-	return { visible, show, hide, ref }
+	return [visible, popupRef, { show, hide, toggle }]
 }

@@ -28,7 +28,12 @@ export default function FormExample() {
 			</Button>
 			<Collapse in={visible}>
 				<div style={{ width: 400, padding: 16 }}>
-					<CheckBox style={{ marginBottom: 16 }} color={color} onValueChange={handleToggle}>
+					<CheckBox
+						style={{ marginBottom: 16 }}
+						color={color}
+						value={check}
+						onValueChange={handleToggle}
+					>
 						Password confirm verify is necessary?
 					</CheckBox>
 					<Form

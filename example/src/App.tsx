@@ -13,10 +13,11 @@ export const ThemeContext = React.createContext<any>('primary')
 
 function App() {
 	const [theme, setTheme] = React.useState<any>('primary')
+
 	return (
 		<>
 			<ThemeContext.Provider value={theme}>
-				<Progress percent={33} fixedTop />
+				<Progress color={theme} percent={33} fixedTop />
 				<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
 					<h1 style={{ margin: '40px 0' }}>Example</h1>
 					<Divider />
@@ -27,17 +28,17 @@ function App() {
 						<Select.Option value="error">Error</Select.Option>
 					</Select>
 					<Divider />
-					<TabsExample />
-					<Divider />
 					<FormExample />
 					<Divider />
 					<MenuExample />
 					<Divider />
+					<PopupExample />
+					<Divider />
+					<TabsExample />
+					<Divider />
 					<ButtonExample />
 					<Divider />
 					<LoadingExample />
-					<Divider />
-					<PopupExample />
 					<Divider />
 					<ListExample />
 					<Divider />

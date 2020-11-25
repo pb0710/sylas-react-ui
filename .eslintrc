@@ -1,8 +1,8 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "prettier",
-    "react-hooks"
+    "react-hooks",
+    "prettier"
   ],
   "extends": [
     "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
@@ -24,7 +24,7 @@
   },
   "settings": {
     "react": {
-      "version": "16"
+      // "version": "17"
     }
   },
   "rules": {

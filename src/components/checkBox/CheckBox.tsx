@@ -128,7 +128,6 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
 
 	const onCustomClick = (event: React.MouseEvent<HTMLInputElement>): void => {
 		event.preventDefault()
-		event.stopPropagation()
 		onClick?.(event)
 		onValueChange?.(!checked)
 		name && onCheckedChange?.({ name, value: !checked })

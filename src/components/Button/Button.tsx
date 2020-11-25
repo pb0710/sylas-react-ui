@@ -73,14 +73,14 @@ const styles = (theme: Theme) =>
 		},
 		btnLightSuccess: {
 			background: '#f4f4f5',
-			color: theme.palette.success.bright,
+			color: theme.palette.success.main,
 			'&:hover': {
 				background: '#e8e8e8'
 			}
 		},
 		btnWarning: {
 			boxShadow: '0 1px 3px rgba(26,26,26,.1)',
-			background: theme.palette.warning.bright,
+			background: theme.palette.warning.main,
 			color: theme.palette.warning.text,
 			'&:hover': {
 				background: theme.palette.warning.dim
@@ -88,14 +88,14 @@ const styles = (theme: Theme) =>
 		},
 		btnLightWarning: {
 			background: '#f4f4f5',
-			color: theme.palette.warning.bright,
+			color: theme.palette.warning.main,
 			'&:hover': {
 				background: '#e8e8e8'
 			}
 		},
 		btnError: {
 			boxShadow: '0 1px 3px rgba(26,26,26,.1)',
-			background: theme.palette.error.bright,
+			background: theme.palette.error.main,
 			color: theme.palette.error.text,
 			'&:hover': {
 				background: theme.palette.error.dim
@@ -103,7 +103,7 @@ const styles = (theme: Theme) =>
 		},
 		btnLightError: {
 			background: '#f4f4f5',
-			color: theme.palette.error.bright,
+			color: theme.palette.error.main,
 			'&:hover': {
 				background: '#e8e8e8'
 			}

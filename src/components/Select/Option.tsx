@@ -54,9 +54,7 @@ export interface Chosen {
 	description: React.ReactNode
 }
 
-interface OptionProps
-	extends React.OptionHTMLAttributes<HTMLOptionElement>,
-		WithStyles<typeof styles> {
+interface OptionProps extends React.HTMLAttributes<HTMLDivElement>, WithStyles<typeof styles> {
 	className?: string
 	color?: ColorType
 	value: string
@@ -77,7 +75,7 @@ const Option: React.FC<OptionProps> = (props) => {
 	} = props
 
 	const handleSelect = React.useCallback(
-		(event: React.MouseEvent<HTMLOptionElement>): void => {
+		(event: React.MouseEvent<HTMLDivElement>): void => {
 			event.preventDefault()
 			onChoose?.({
 				value,
@@ -98,9 +96,9 @@ const Option: React.FC<OptionProps> = (props) => {
 	)
 
 	return (
-		<option className={optionCls} onClick={handleSelect} value={value} {...restProps}>
+		<div className={optionCls} onClick={handleSelect} {...restProps}>
 			{children}
-		</option>
+		</div>
 	)
 }
 

@@ -103,7 +103,7 @@ export interface InputProps
 	onValueChange?(value: string): void
 }
 
-const Input: React.FC<InputProps> = (props) => {
+const Input = React.forwardRef<any, InputProps>((props, ref) => {
 	const {
 		classes,
 		className,
@@ -129,6 +129,7 @@ const Input: React.FC<InputProps> = (props) => {
 		<div className={classes.wrapper}>
 			{focus && <span className={classes[`label${capitalize(color)}`]}>{placeholder}</span>}
 			<input
+				ref={ref}
 				className={inputCls}
 				value={inputValue}
 				onChange={handleInput}
@@ -139,7 +140,8 @@ const Input: React.FC<InputProps> = (props) => {
 			/>
 		</div>
 	)
-}
+})
 
 export const InternalInput = React.memo(withStyles(styles, { name: 'Input' })(Input))
+Input.displayName = 'Input'
 InternalInput.displayName = 'Input'

@@ -203,4 +203,5 @@ const Button = React.forwardRef<any, ButtonProps>((props, ref) => {
 })
 
 export const InternalButton = React.memo(withStyles(styles, { name: 'Button' })(Button))
+Button.displayName = 'Button'
 InternalButton.displayName = 'Button'

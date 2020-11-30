@@ -102,7 +102,7 @@ export interface TextareaProps
 	onValueChange?(value: string): void
 }
 
-const Textarea: React.FC<TextareaProps> = (props) => {
+const Textarea = React.forwardRef<any, TextareaProps>((props) => {
 	const {
 		classes,
 		className,
@@ -138,7 +138,8 @@ const Textarea: React.FC<TextareaProps> = (props) => {
 			/>
 		</div>
 	)
-}
+})
 
 export const InternalTextarea = React.memo(withStyles(styles, { name: 'Textarea' })(Textarea))
+Textarea.displayName = 'Textarea'
 InternalTextarea.displayName = 'Textarea'

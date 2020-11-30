@@ -69,4 +69,5 @@ const IconButton = React.forwardRef<any, IconButtonProps>((props, ref) => {
 })
 
 export const InternalIconButton = React.memo(withStyles(styles, { name: 'IconButton' })(IconButton))
+IconButton.displayName = 'IconButton'
 InternalIconButton.displayName = 'IconButton'

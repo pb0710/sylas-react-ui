@@ -18,4 +18,5 @@ const Popup: React.ForwardRefRenderFunction<unknown, PopupProps> = (props, ref) 
 }
 
 export const InternalPopup = React.memo(React.forwardRef<unknown, PopupProps>(Popup))
+Popup.displayName = 'Popup'
 InternalPopup.displayName = 'Popup'

@@ -102,7 +102,7 @@ export interface TextareaProps
 	onValueChange?(value: string): void
 }
 
-const Textarea = React.forwardRef<any, TextareaProps>((props) => {
+const Textarea = React.forwardRef<any, TextareaProps>((props, ref) => {
 	const {
 		classes,
 		className,
@@ -128,6 +128,7 @@ const Textarea = React.forwardRef<any, TextareaProps>((props) => {
 		<div className={classes.wrapper}>
 			{focus && <span className={classes[`label${capitalize(color)}`]}>{placeholder}</span>}
 			<textarea
+				ref={ref}
 				className={TextareaCls}
 				value={TextareaValue}
 				onChange={handleTextarea}

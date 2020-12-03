@@ -1,0 +1,38 @@
+.markdown_wrapper p,
+.markdown_wrapper ul > li,
+.markdown_wrapper ol > li {
+	line-height: 2em;
+}
+
+.markdown_wrapper a {
+	color: #409eff;
+}
+
+.markdown_wrapper a:hover {
+	text-decoration: underline;
+}
+
+.markdown_wrapper .code_wrapper {
+	display: block;
+	overflow-x: auto;
+	padding: 1em;
+	border-radius: 6px;
+	background: #f8f8f8;
+}
+
+.markdown_wrapper .code_wrapper code {
+	font-size: 13px;
+	font-family: 'SF Mono';
+	line-height: 1.75em;
+}
+
+.markdown_wrapper .pic {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.markdown_wrapper .pic > img {
+	max-width: 80%;
+	max-height: 500px;
+}

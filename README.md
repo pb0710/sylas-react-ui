@@ -18,6 +18,10 @@ or use yarn
 yarn add sylas-react-ui
 ```
 
+## Demo
+
+See: https://pb0710.github.io/sylas-react-ui/
+
 ## Usage
 
 Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.

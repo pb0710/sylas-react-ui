@@ -20,6 +20,8 @@ yarn add sylas-react-ui
 
 ## Usage
 
+Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.
+
 At first, add JSSBaseline to wrap your root App component up.
 JSSBaseline is required, it had provided default styles, themes, and jss inject first -- it is necessary for customize className overwirte.
 

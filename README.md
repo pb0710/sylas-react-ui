@@ -37,12 +37,12 @@ import App from './App'
 import { JSSBaseline } from 'sylas-react-ui'
 
 ReactDOM.render(
-	<React.StrictMode>
-		<JSSBaseline>
-			<App />
-		</JSSBaseline>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <JSSBaseline>
+      <App />
+    </JSSBaseline>
+  </React.StrictMode>,
+  document.getElementById('root')
 )
 ```
 
@@ -53,10 +53,10 @@ being used to function component（recommended)
 ```tsx
 import React, { Component } from 'react'
 
-import { MyComponent } from 'sylas-react-ui'
+import { Button } from 'sylas-react-ui'
 
 function Example() {
-	return <MyComponent />
+  return <Button>Click here</Button>
 }
 ```
 
@@ -65,12 +65,12 @@ or class component
 ```tsx
 import React, { Component } from 'react'
 
-import { MyComponent } from 'sylas-react-ui'
+import { Button } from 'sylas-react-ui'
 
 class Example extends Component {
-	render() {
-		return <MyComponent />
-	}
+  render() {
+    return <Button>Click here</Button>
+  }
 }
 ```
 

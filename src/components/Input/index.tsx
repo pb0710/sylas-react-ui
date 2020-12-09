@@ -3,7 +3,7 @@ import { InternalTextarea } from './Textarea'
 
 type InternalInputType = typeof InternalInput
 interface InputType extends InternalInputType {
-	Textarea: typeof InternalTextarea
+  Textarea: typeof InternalTextarea
 }
 
 const Input = InternalInput as InputType

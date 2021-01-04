@@ -1313,7 +1313,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@material-ui/styles@^4.11.1":
+"@material-ui/styles@^4.11.2":
   version "4.11.2"
   resolved "https://registry.npm.taobao.org/@material-ui/styles/download/@material-ui/styles-4.11.2.tgz#e70558be3f41719e8c0d63c7a3c9ae163fdc84cb"
   integrity sha1-5wVYvj9BcZ6MDWPHo8muFj/chMs=
@@ -5468,10 +5468,10 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npm.taobao.org/hex-color-regex/download/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha1-TAb8y0YC/iYCs8k9+C1+fb8aio4=
 
-highlight.js@^10.1.1, highlight.js@~10.4.0:
-  version "10.4.0"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.4.0.tgz#ef3ce475e5dfa7a48484260b49ea242ddab823a0"
-  integrity sha1-7zzkdeXfp6SEhCYLSeokLdq4I6A=
+highlight.js@^10.4.1, highlight.js@~10.5.0:
+  version "10.5.0"
+  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.5.0.tgz#3f09fede6a865757378f2d9ebdcbc15ba268f98f"
+  integrity sha1-Pwn+3mqGV1c3jy2evcvBW6Jo+Y8=
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -7079,10 +7079,10 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
-  integrity sha1-Ib2Wg5NUQS8j16EDQOXqxu5FXXg=
+lodash-es@^4.17.20:
+  version "4.17.20"
+  resolved "https://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.20.tgz?cache=0&sync_timestamp=1608444826214&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash-es%2Fdownload%2Flodash-es-4.17.20.tgz#29f6332eefc60e849f869c264bc71126ad61e8f7"
+  integrity sha1-KfYzLu/GDoSfhpwmS8cRJq1h6Pc=
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
@@ -7143,13 +7143,13 @@ lower-case@^2.0.1:
   dependencies:
     tslib "^1.10.0"
 
-lowlight@^1.14.0:
-  version "1.17.0"
-  resolved "https://registry.npm.taobao.org/lowlight/download/lowlight-1.17.0.tgz?cache=0&sync_timestamp=1605775661899&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flowlight%2Fdownload%2Flowlight-1.17.0.tgz#a1143b2fba8239df8cd5893f9fe97aaf8465af4a"
-  integrity sha1-oRQ7L7qCOd+M1Yk/n+l6r4Rlr0o=
+lowlight@^1.17.0:
+  version "1.18.0"
+  resolved "https://registry.npm.taobao.org/lowlight/download/lowlight-1.18.0.tgz#cfff11cfb125ca66f1c12cb43d27fff68cbeafa9"
+  integrity sha1-z/8Rz7ElymbxwSy0PSf/9oy+r6k=
   dependencies:
     fault "^1.0.0"
-    highlight.js "~10.4.0"
+    highlight.js "~10.5.0"
 
 lru-cache@^5.1.1:
   version "5.1.1"
@@ -9251,14 +9251,14 @@ react-refresh@^0.8.3:
   version "0.0.0"
   uid ""
 
-react-syntax-highlighter@^15.3.1:
-  version "15.3.1"
-  resolved "https://registry.npm.taobao.org/react-syntax-highlighter/download/react-syntax-highlighter-15.3.1.tgz#ba16ae8705f191956b73d0e11ae938fd255f2579"
-  integrity sha1-uhauhwXxkZVrc9DhGuk4/SVfJXk=
+react-syntax-highlighter@^15.4.3:
+  version "15.4.3"
+  resolved "https://registry.npm.taobao.org/react-syntax-highlighter/download/react-syntax-highlighter-15.4.3.tgz?cache=0&sync_timestamp=1607657937130&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-syntax-highlighter%2Fdownload%2Freact-syntax-highlighter-15.4.3.tgz#fffe3286677ac470b963b364916d16374996f3a6"
+  integrity sha1-//4yhmd6xHC5Y7NkkW0WN0mW86Y=
   dependencies:
     "@babel/runtime" "^7.3.1"
-    highlight.js "^10.1.1"
-    lowlight "^1.14.0"
+    highlight.js "^10.4.1"
+    lowlight "^1.17.0"
     prismjs "^1.22.0"
     refractor "^3.2.0"
 
@@ -9771,10 +9771,10 @@ sass-loader@8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sass@^1.29.0:
-  version "1.29.0"
-  resolved "https://registry.npm.taobao.org/sass/download/sass-1.29.0.tgz?cache=0&sync_timestamp=1604536466387&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsass%2Fdownload%2Fsass-1.29.0.tgz#ec4e1842c146d8ea9258c28c141b8c2b7c6ab7f1"
-  integrity sha1-7E4YQsFG2OqSWMKMFBuMK3xqt/E=
+sass@^1.32.0:
+  version "1.32.0"
+  resolved "https://registry.npm.taobao.org/sass/download/sass-1.32.0.tgz#10101a026c13080b14e2b374d4e15ee24400a4d3"
+  integrity sha1-EBAaAmwTCAsU4rN01OFe4kQApNM=
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 

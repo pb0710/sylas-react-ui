@@ -1,26 +1,23 @@
 # sylas-react-ui
 
-> A Light React UI components libary base on typescript,function component and hooks api
+> A Light React UI components libary use typescript,function component and hooks api.
 
 [![NPM](https://img.shields.io/npm/v/sylas-react-ui.svg)](https://www.npmjs.com/package/sylas-react-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> ⚠️ This package is in the early stage，So use in production environment is not for now。
+> ⚠️ This package is mainly for personal use. and it is in the early stage，So use in production environment is not for now。
 
 ## Install
 
-```bash
+```shell
+# npm
 npm install --save sylas-react-ui
-```
-
-or use yarn
-
-```bash
+# or use yarn
 yarn add sylas-react-ui
 ```
 
-## Demo
+## Example
 
-See: https://pb0710.github.io/sylas-react-ui/
+**See: [https://pb0710.github.io/sylas-react-ui/](https://pb0710.github.io/sylas-react-ui/)**
 
 ## Usage
 
@@ -48,7 +45,7 @@ ReactDOM.render(
 
 then, you can import some Components from sylas-react-ui
 
-being used to function component（recommended)
+being used to function component（React > v16.8)
 
 ```tsx
 import React, { Component } from 'react'
@@ -57,20 +54,6 @@ import { Button } from 'sylas-react-ui'
 
 function Example() {
   return <Button>Click here</Button>
-}
-```
-
-or class component
-
-```tsx
-import React, { Component } from 'react'
-
-import { Button } from 'sylas-react-ui'
-
-class Example extends Component {
-  render() {
-    return <Button>Click here</Button>
-  }
 }
 ```
 
@@ -117,11 +100,13 @@ Currently recommended to view the source code
 ### hooks api
 
 - Form.useForm
+- Popup.usePopup
 - TouchRipple.useRipple
 
-## Github repositories and document(Detailed introduction in future)
+## Github repositories and document
 
 [https://github.com/pb0710/sylas-react-ui](https://github.com/pb0710/sylas-react-ui)
+[https://www.npmjs.com/package/sylas-react-ui](https://www.npmjs.com/package/sylas-react-ui)
 
 ## License
 

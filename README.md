@@ -1,23 +1,30 @@
 # sylas-react-ui
 
+[简体中文](./README_zh.md) / [English](./README.md)
+
+## Introduce
+
 > A Light React UI components libary use typescript,function component and hooks api.
 
 [![NPM](https://img.shields.io/npm/v/sylas-react-ui.svg)](https://www.npmjs.com/package/sylas-react-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> ⚠️ This package is mainly for personal use. and it is in the early stage，So use in production environment is not for now。
+> ⚠️ This package is mainly for personal use. and it is in the early stage，So use in production environment is not for now.
 
 ## Install
 
 ```shell
 # npm
 npm install --save sylas-react-ui
+```
+
+```shell
 # or use yarn
 yarn add sylas-react-ui
 ```
 
 ## Example
 
-**See: [https://pb0710.github.io/sylas-react-ui/](https://pb0710.github.io/sylas-react-ui/)**
+**See GitPage: [https://pb0710.github.io/sylas-react-ui/](https://pb0710.github.io/sylas-react-ui/)**
 
 ## Usage
 
@@ -45,8 +52,6 @@ ReactDOM.render(
 
 then, you can import some Components from sylas-react-ui
 
-being used to function component（React > v16.8)
-
 ```tsx
 import React, { Component } from 'react'
 
@@ -67,6 +72,7 @@ function Example() {
 - Form
 - Form.Item
 - Input
+- Input.Textarea
 - Input.Group
 - Select
 - Select.Option
@@ -99,14 +105,16 @@ Currently recommended to view the source code
 
 ### hooks api
 
+being used to function component and hooks（React > v16.8)
+
 - Form.useForm
 - Popup.usePopup
 - TouchRipple.useRipple
 
 ## Github repositories and document
 
-[https://github.com/pb0710/sylas-react-ui](https://github.com/pb0710/sylas-react-ui)
-[https://www.npmjs.com/package/sylas-react-ui](https://www.npmjs.com/package/sylas-react-ui)
+- github: [https://github.com/pb0710/sylas-react-ui](https://github.com/pb0710/sylas-react-ui)
+- npm: [https://www.npmjs.com/package/sylas-react-ui](https://www.npmjs.com/package/sylas-react-ui)
 
 ## License
 

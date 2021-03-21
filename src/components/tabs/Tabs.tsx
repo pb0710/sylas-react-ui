@@ -190,7 +190,9 @@ const Tabs: React.FC<TabsProps> = (props) => {
             transform: `translateX(-${(100 / tabsCount) * currentIndex}%)`
           }}
         >
-          <TabContext.Provider value={{ updateTabs, removeTabs }}>{children}</TabContext.Provider>
+          <TabContext.Provider value={{ selected, updateTabs, removeTabs }}>
+            {children}
+          </TabContext.Provider>
         </ul>
       </div>
     </div>

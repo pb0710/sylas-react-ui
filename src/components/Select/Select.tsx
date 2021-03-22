@@ -126,9 +126,9 @@ const Select: React.FC<SelectProps> = (props) => {
 
   return (
     <div className={classes.wrapper}>
-      <label className={selectCls} {...rest}>
+      <label className={selectCls} onFocus={handleFocus} onBlur={handleBlur} {...rest}>
         <span title={picking}>{name}</span>
-        <input onFocus={handleFocus} onBlur={handleBlur} />
+        <input />
         <CaretDownFilled className={classes.icon} />
       </label>
       <TransitionGroup component={null}>
